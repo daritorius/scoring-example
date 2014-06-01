@@ -1,1 +1,23 @@
-django==1.6.2
+## main
+django==1.6.5
+South==0.8.4
+MySQL-python==1.2.5
+
+## celery
+django-celery==3.0.17
+kombu==2.5.10
+celery==3.0.19
+django-celery-transactions==0.1.3
+django-kombu==0.9.4
+
+## cache redis
+django-redis==3.6.2
+
+## cache memcache
+#python-memcached==1.53
+
+## assets
+django-assets==0.8
+
+## nginx runcfgi
+flup==1.0.2
