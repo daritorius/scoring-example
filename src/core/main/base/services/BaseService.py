@@ -12,7 +12,7 @@ class BaseService(object):
     model_instance = None
     cache_service = CacheService()
     allowed_cache_services = [
-        '',
+        'CountryService',
     ]
 
     def get_by_id(self, obj_id):

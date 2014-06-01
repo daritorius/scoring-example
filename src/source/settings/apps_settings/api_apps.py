@@ -3,7 +3,7 @@ from django.utils.translation import ugettext as _
 from .. import main_settings as settings
 
 apps = [
-    'web.scoring.main',
+    'api',
 ]
 
 for app_name in apps:
