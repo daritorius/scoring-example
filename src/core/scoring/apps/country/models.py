@@ -21,7 +21,7 @@ class Country(models.Model):
         if self.code:
             self.code = self.code.lower()
         if not self.key:
-            self.key = ''.join(random.choice(string.lowercase + string.digits) for i in range(17))
+            self.key = ''.join(random.choice(string.ascii_letters + string.digits) for i in range(27))
         from core.scoring.apps.country.services.CountryService import CountryService
         service = CountryService()
         service.cache_service.delete_pattern(u'%s*' % service.__class__.__name__)
