@@ -3,4 +3,6 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class LocalScoringActions(object):
-    pass
+
+    def generate_score(self):
+        pass
