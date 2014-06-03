@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-from operator import itemgetter
+from django.utils.translation import ugettext as _
 from core.scoring.apps.local.actions.modules.BaseScoringModule import BaseScoringModule
 from core.scoring.apps.local.scoring_cards.placement_scoring_card import PLACEMENT_TYPE_SCORING_CARD, \
     PLACEMENT_INCOME_SCORING_CARD
-from django.utils.translation import ugettext as _
 
 
 class PlacementScoringModule(BaseScoringModule):
@@ -14,11 +13,11 @@ class PlacementScoringModule(BaseScoringModule):
     min_income_score = -300
     max_income_score = 300
     max_income_amount = 80000.0
+    min_clean_income_score = -300
 
     def calculate_score(self, data):
         placement_type_score = self.calculate_type_score(data)
         placement_income_score = self.calculate_income_score(data)
-        print placement_income_score
         total_score = placement_type_score + placement_income_score
         return total_score
 
@@ -40,3 +39,6 @@ class PlacementScoringModule(BaseScoringModule):
                         score = PLACEMENT_INCOME_SCORING_CARD[item]
                         break
         return score
+
+    def calculate_clean_income(self, data):
+        pass
