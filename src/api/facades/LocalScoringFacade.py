@@ -8,7 +8,7 @@ from core.scoring.apps.local.plain_models import ProfilePainModel, ProfilePasspo
 from django.utils.translation import ugettext_lazy as _
 
 
-class LocalScoringFacade(BaseScoringFacade, BaseFacade):
+class LocalScoringFacade(BaseScoringFacade):
     local_scoring_actions = LocalScoringActions()
 
     def process_request(self, data):

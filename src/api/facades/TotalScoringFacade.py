@@ -6,7 +6,7 @@ from core.scoring.apps.country.services.CountryService import CountryService
 from django.utils.translation import ugettext_lazy as _
 
 
-class TotalScoringFacade(BaseScoringFacade, BaseFacade):
+class TotalScoringFacade(BaseScoringFacade):
 
     def process_request(self, data):
         self.check_mandatory_parameters(data)
