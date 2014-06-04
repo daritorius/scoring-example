@@ -5,7 +5,7 @@ from django.utils.translation import ugettext as _
 
 class BaseScoringModule(object):
     __metaclass__ = Singleton
-    card = None
+    cards = None
 
     def calculate_score(self, data):
         raise NotImplementedError

@@ -18,6 +18,7 @@ class ProfilePainModel(BasePlainModel):
         'profile_additional_income',
         'profile_charges',
         'profile_assets',
+        'profile_addresses_similar',
     ]
 
 
