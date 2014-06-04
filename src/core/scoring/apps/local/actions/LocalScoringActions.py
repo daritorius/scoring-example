@@ -22,4 +22,7 @@ class LocalScoringActions(BaseScoringAction):
         personal_score = self.personal_scoring_module.calculate_score(data)
         print 'Personal score: %s' % personal_score
         print '--------------------'
+        total_score = age_score + placement_score + personal_score
+        print 'Total score: %s' % total_score
+        print '--------------------'
         return 'A'
