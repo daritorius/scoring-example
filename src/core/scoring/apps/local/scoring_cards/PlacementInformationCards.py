@@ -12,6 +12,8 @@ class PlacementInformationCards(BaseScoringCards):
     min_clean_income_score = -300
     max_clean_income_score = -300
     max_clean_income_amount = 10000.0
+    max_employ_score = 300
+    min_employ_score = -300
 
     def get_placement_type_card(self):
         """

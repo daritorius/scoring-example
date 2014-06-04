@@ -5,6 +5,8 @@ from django.utils.translation import ugettext_lazy as _
 
 class ProfilePainModel(BasePlainModel):
     fields = [
+        'country',
+        'key',
         'profile_third_name',
         'profile_birthday',
         'profile_gender',

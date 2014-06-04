@@ -43,15 +43,15 @@ class PersonalScoringModule(BaseScoringModule):
         score = self.cards.min_address_city_score
         if hasattr(data.profile_official_address, 'official_city'):
             if getattr(data.profile_official_address, 'official_city') \
-                    in self.city_card.get_millions_city_by_country(data.get('code')):
+                    in self.city_card.get_millions_city_by_country(getattr(data, 'country')):
                 score = self.cards.max_address_city_score
         return score
 
     def calculate_real_address_score(self, data):
         score = self.cards.min_address_city_score
         if hasattr(data.profile_real_address, 'real_city'):
-            if getattr(data.profile_official_address, 'real_city') \
-                    in self.city_card.get_millions_city_by_country(data.get('code')):
+            if getattr(data.profile_real_address, 'real_city') \
+                    in self.city_card.get_millions_city_by_country(getattr(data, 'country')):
                 score = self.cards.max_address_city_score
         return score
 

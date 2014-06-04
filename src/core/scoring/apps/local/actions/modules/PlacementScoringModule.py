@@ -10,10 +10,18 @@ class PlacementScoringModule(BaseScoringModule):
 
     def calculate_score(self, data):
         placement_type_score = self.calculate_type_score(data)
+        print 'placement type score: %s' % placement_type_score
         placement_income_score = self.calculate_income_score(data)
+        print 'placement income score: %s' % placement_income_score
         placement_clean_income = self.calculate_clean_income(data)
+        print 'placement clean income: %s' % placement_clean_income
         total_score = placement_type_score + placement_income_score + placement_clean_income
+        employment_score = self.calculate_score_for_employment_user(data)
         return total_score
+
+    def calculate_score_for_employment_user(self, data):
+        if hasattr(data.profile_placement_information, 'placement_type'):
+            pass
 
     def calculate_type_score(self, data):
         score = self.cards.min_type_score
@@ -26,6 +34,8 @@ class PlacementScoringModule(BaseScoringModule):
         income = 0
         if hasattr(data.profile_placement_information, 'placement_income'):
             income = float(data.profile_placement_information.placement_income[0])
+        if hasattr(data.profile_placement_information, 'placement_additional_income'):
+            income += getattr(data.profile_placement_information, 'placement_additional_income')
         if income >= self.cards.max_income_amount:
             score = self.cards.max_income_score
         else:
@@ -41,6 +51,8 @@ class PlacementScoringModule(BaseScoringModule):
         charges = income = 0
         if hasattr(data.profile_placement_information, 'placement_income'):
             income = float(data.profile_placement_information.placement_income[0])
+        if hasattr(data.profile_placement_information, 'placement_additional_income'):
+            income += getattr(data.profile_placement_information, 'placement_additional_income')
         for item in ChargesPlainModel.fields:
             if hasattr(data.profile_charges, item):
                 charges += float(getattr(data.profile_charges, item))
