@@ -4,7 +4,7 @@ from core.main.base.facades.BaseFacade import BaseFacade
 from core.scoring.apps.local.actions.LocalScoringActions import LocalScoringActions
 from core.scoring.apps.local.plain_models import ProfilePainModel, ProfilePassportPlainModel, \
     OfficialAddressPlainModel, RealAddressPlainModel, PersonalInformationPlainModel, PlacementPlainModel, \
-    AdditionalIncomePlainModel, ChargesPlainModel, AssetsPlainModel
+    AdditionalIncomePlainModel, ChargesPlainModel, AssetsPlainModel, CreditChargesPlainModel
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -25,6 +25,7 @@ class LocalScoringFacade(BaseScoringFacade):
         placement_profile_data = PlacementPlainModel(**data)
         additional_income_data = AdditionalIncomePlainModel(**data)
         charges_profile_data = ChargesPlainModel(**data)
+        credir_charges_profile_data = CreditChargesPlainModel(**data)
         assets_profile_data = AssetsPlainModel(**data)
         profile_data = ProfilePainModel(
             profile_passport_information=profile_passport_data,
@@ -34,6 +35,7 @@ class LocalScoringFacade(BaseScoringFacade):
             profile_placement_information=placement_profile_data,
             profile_additional_income=additional_income_data,
             profile_charges=charges_profile_data,
+            profile_credit_charges=credir_charges_profile_data,
             profile_assets=assets_profile_data,
             **data)
         return profile_data

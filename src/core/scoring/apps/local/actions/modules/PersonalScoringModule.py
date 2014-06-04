@@ -30,19 +30,19 @@ class PersonalScoringModule(BaseScoringModule):
     def calculate_education_score(self, data):
         score = self.cards.min_score
         if hasattr(data.profile_personal_information, 'personal_education'):
-            score = self.cards.get_education_card()[str(data.profile_personal_information.personal_education)]
+            score = self.cards.get_education_card()[str(data.profile_personal_information.personal_education[0])]
         return score
 
     def calculate_marital_status_score(self, data):
         score = self.cards.min_score
-        if hasattr(data.profile_personal_information, 'personal_education'):
-            score = self.cards.get_education_card()[str(data.profile_personal_information.personal_education)]
+        if hasattr(data.profile_personal_information, 'personal_marital_status'):
+            score = self.cards.get_education_card()[str(data.profile_personal_information.personal_marital_status[0])]
         return score
 
     def calculate_official_address_score(self, data):
         score = self.cards.min_address_city_score
         if hasattr(data.profile_official_address, 'official_city'):
-            if getattr(data.profile_official_address, 'official_city') \
+            if getattr(data.profile_official_address, 'official_city')[0].lower() \
                     in self.city_card.get_millions_city_by_country(getattr(data, 'country')):
                 score = self.cards.max_address_city_score
         return score
@@ -50,7 +50,7 @@ class PersonalScoringModule(BaseScoringModule):
     def calculate_real_address_score(self, data):
         score = self.cards.min_address_city_score
         if hasattr(data.profile_real_address, 'real_city'):
-            if getattr(data.profile_real_address, 'real_city') \
+            if getattr(data.profile_real_address, 'real_city')[0].lower() \
                     in self.city_card.get_millions_city_by_country(getattr(data, 'country')):
                 score = self.cards.max_address_city_score
         return score
@@ -58,5 +58,5 @@ class PersonalScoringModule(BaseScoringModule):
     def calculate_identity_real_official_address(self, data):
         score = self.cards.min_identity_address_score
         if hasattr(data, 'profile_addresses_similar'):
-            score = self.cards.get_identity_addresses_card()[getattr(data, 'profile_addresses_similar')]
+            score = self.cards.get_identity_addresses_card()[getattr(data, 'profile_addresses_similar')[0]]
         return score

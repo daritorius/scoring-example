@@ -12,6 +12,7 @@ class LocalScoringActions(BaseScoringAction):
     personal_scoring_module = PersonalScoringModule()
 
     def generate_score(self, data):
+        print '--------------------'
         age_score = self.age_scoring_module.calculate_score(data)
         print 'Age score: %s' % age_score
         print '--------------------'

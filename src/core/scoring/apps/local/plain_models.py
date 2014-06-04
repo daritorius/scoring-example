@@ -19,6 +19,7 @@ class ProfilePainModel(BasePlainModel):
         'profile_placement_information',
         'profile_additional_income',
         'profile_charges',
+        'profile_credit_charges',
         'profile_assets',
         'profile_addresses_similar',
     ]
@@ -100,6 +101,12 @@ class ChargesPlainModel(BasePlainModel):
         'charges_utilities',
         'charges_rent',
         'charges_alimony',
+        'charges_monthly_payment',
+    ]
+
+
+class CreditChargesPlainModel(BasePlainModel):
+    fields = [
         'charges_outstanding_loans ',
         'charges_finance_organisation',
         'charges_purpose_credit',

@@ -59,3 +59,4 @@ class PersonalInformationCards(BaseScoringCards):
             'yes': 300,
             'no': 0
         }
+        return card
