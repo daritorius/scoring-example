@@ -16,7 +16,6 @@ class PersonalInformationCards(BaseScoringCards):
     def get_education_card(self):
         """
             EDUCATION TYPES:
-
             HIGH_EDUCATION = 0
             MIDDLE_EDUCATION = 1
             MIDDLE_TECH_EDUCATION = 2
@@ -39,7 +38,6 @@ class PersonalInformationCards(BaseScoringCards):
     def get_marital_status_card(self):
         """
             MARITAL STATUSES:
-
             FALSE_MARITAL_STATUS = 0
             TRUE_MARITAL_STATUS = 1
             WIDOW_MARITAL_STATUS = 2
