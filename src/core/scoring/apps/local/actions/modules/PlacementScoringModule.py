@@ -14,7 +14,7 @@ class PlacementScoringModule(BaseScoringModule):
         placement_income_score = self.calculate_income_score(data)
         print 'placement income score: %s' % placement_income_score
         placement_clean_income = self.calculate_clean_income(data)
-        print 'placement clean income: %s' % placement_clean_income
+        print 'placement clean income score: %s' % placement_clean_income
         total_score = placement_type_score + placement_income_score + placement_clean_income
         employment_score = self.calculate_score_for_employment_user(data)
         return total_score
