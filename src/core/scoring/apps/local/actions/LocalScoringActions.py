@@ -26,6 +26,7 @@ class LocalScoringActions(BaseScoringAction):
         print '--------------------'
         total_score = age_score + placement_score + personal_score
         print 'Total score: %s' % total_score
+        print 'Total rating: "%s"' % self.calculate_rating(total_score)
         print '--------------------'
         return {'rating': self.calculate_rating(total_score), 'score': total_score}
 
