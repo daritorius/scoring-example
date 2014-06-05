@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
+from django.utils.translation import ugettext as _
 from core.scoring.apps.local.plain_models import ChargesPlainModel
 from core.scoring.apps.local.scoring_cards.PlacementInformationCards import PlacementInformationCards
-from django.utils.translation import ugettext as _
 from core.scoring.apps.local.actions.modules.BaseScoringModule import BaseScoringModule
 
 
