@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
+from django.utils.translation import ugettext_lazy as _
 from core.scoring.apps.local.actions.BaseScoringActions import BaseScoringAction
 from core.scoring.apps.local.actions.modules.AgeScoringModule import AgeScoringModule
 from core.scoring.apps.local.actions.modules.PersonalScoringModule import PersonalScoringModule
 from core.scoring.apps.local.actions.modules.PlacementScoringModule import PlacementScoringModule
-from django.utils.translation import ugettext_lazy as _
 
 
 class LocalScoringActions(BaseScoringAction):
