@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 import datetime
+import random
+import string
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
@@ -23,7 +25,7 @@ class BaseScoring(models.Model):
         (GRADE_G, 'G'),
     )
 
-    user_number = models.CharField(db_index=True, max_length=255, blank=True, null=True)
+    user_number = models.CharField(db_index=True, unique=True, max_length=255, blank=True, null=True)
     country = models.ForeignKey('country.Country', blank=True, null=True)
     rating = models.CharField(choices=GRADES, default=GRADE_G, max_length=255, blank=True, null=True)
     databases_check = models.BooleanField(default=False)
@@ -38,6 +40,16 @@ class BaseScoring(models.Model):
 
     def __unicode__(self):
         return u'%s' % self.id
+
+    def save(self, *args, **kwargs):
+        self.code = self.code.lower()
+        self.title = self.title.lower()
+        if not self.key:
+            self.key = ''.join(random.choice(string.ascii_letters + string.digits) for i in range(27))
+        from core.scoring.services.BaseScoringService import BaseScoringService
+        service = BaseScoringService()
+        service.cache_service.delete_pattern(u'%s*' % service.__class__.__name__)
+        return super(self.__class__, self).save(*args, **kwargs)
 
     class Meta:
         db_table = 'base_scoring'
