@@ -13,6 +13,7 @@ class BaseService(object):
     cache_service = CacheService()
     allowed_cache_services = [
         'CountryService',
+        'ScoringService',
     ]
 
     def get_by_id(self, obj_id):

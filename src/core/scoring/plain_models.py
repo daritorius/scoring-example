@@ -3,5 +3,5 @@ from core.main.base.BasePlainModel import BasePlainModel
 from django.utils.translation import ugettext_lazy as _
 
 
-class BaseScoringPlainModel(BasePlainModel):
-    fields = ['user_number', 'country', 'rating']
+class ScoringPlainModel(BasePlainModel):
+    fields = ['user_number', 'country', 'rating', 'local_score']

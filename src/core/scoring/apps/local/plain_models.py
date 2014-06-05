@@ -7,6 +7,7 @@ class ProfilePainModel(BasePlainModel):
     fields = [
         'country',
         'key',
+        'user_key',
         'profile_third_name',
         'profile_birthday',
         'profile_gender',

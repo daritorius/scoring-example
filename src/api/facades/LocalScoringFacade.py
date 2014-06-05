@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from api.facades.BaseScoringFacade import BaseScoringFacade
-from core.main.base.facades.BaseFacade import BaseFacade
-from core.scoring.apps.local.actions.LocalScoringActions import LocalScoringActions
+from core.scoring.actions.ScoringActions import ScoringActions
 from core.scoring.apps.local.plain_models import ProfilePainModel, ProfilePassportPlainModel, \
     OfficialAddressPlainModel, RealAddressPlainModel, PersonalInformationPlainModel, PlacementPlainModel, \
     AdditionalIncomePlainModel, ChargesPlainModel, AssetsPlainModel, CreditChargesPlainModel
@@ -9,12 +8,12 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class LocalScoringFacade(BaseScoringFacade):
-    local_scoring_actions = LocalScoringActions()
+    scoring_actions = ScoringActions()
 
     def process_request(self, data):
         self.check_mandatory_parameters(data)
         user_data = self.generate_user_data(data)
-        scoring = self.local_scoring_actions.generate_score(user_data)
+        scoring = self.scoring_actions.calculate_scoring(user_data)
         return scoring
 
     def generate_user_data(self, data):

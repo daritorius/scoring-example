@@ -6,7 +6,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 
-class BaseScoring(models.Model):
+class Scoring(models.Model):
     GRADE_A = 'A'
     GRADE_B = 'B'
     GRADE_C = 'C'
@@ -42,12 +42,10 @@ class BaseScoring(models.Model):
         return u'%s' % self.id
 
     def save(self, *args, **kwargs):
-        self.code = self.code.lower()
-        self.title = self.title.lower()
-        if not self.key:
-            self.key = ''.join(random.choice(string.ascii_letters + string.digits) for i in range(27))
-        from core.scoring.services.BaseScoringService import BaseScoringService
-        service = BaseScoringService()
+        if not self.user_number:
+            self.user_number = ''.join(random.choice(string.ascii_letters + string.digits) for i in range(27))
+        from core.scoring.services.ScoringService import ScoringService
+        service = ScoringService()
         service.cache_service.delete_pattern(u'%s*' % service.__class__.__name__)
         return super(self.__class__, self).save(*args, **kwargs)
 
