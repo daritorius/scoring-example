@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from core.scoring.scoring_cards.MainLocalScoringCard import MainLocalScoringCard
 from django.utils.translation import ugettext_lazy as _
 from core.scoring.apps.local.actions.BaseScoringActions import BaseScoringAction
 from core.scoring.apps.local.actions.modules.AgeScoringModule import AgeScoringModule
@@ -7,6 +8,7 @@ from core.scoring.apps.local.actions.modules.PlacementScoringModule import Place
 
 
 class LocalScoringActions(BaseScoringAction):
+    main_local_scoring_card = MainLocalScoringCard()
     age_scoring_module = AgeScoringModule()
     placement_scoring_module = PlacementScoringModule()
     personal_scoring_module = PersonalScoringModule()
@@ -25,4 +27,13 @@ class LocalScoringActions(BaseScoringAction):
         total_score = age_score + placement_score + personal_score
         print 'Total score: %s' % total_score
         print '--------------------'
-        return 'A'
+        return {'rating': self.calculate_rating(total_score), 'score': total_score}
+
+    def calculate_rating(self, total_score):
+        rating = 'G'
+        for item in sorted(self.main_local_scoring_card.get_card(),
+                           key=lambda key: self.main_local_scoring_card.get_card()[key]):
+            if total_score < float(self.main_local_scoring_card.get_card()[item]):
+                rating = item
+                break
+        return rating
