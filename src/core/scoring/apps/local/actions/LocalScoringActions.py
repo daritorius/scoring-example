@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from core.scoring.apps.local.actions.modules.AssetScoringModule import AssetScoringModule
 from core.scoring.scoring_cards.MainLocalScoringCard import MainLocalScoringCard
 from django.utils.translation import ugettext_lazy as _
 from core.scoring.apps.local.actions.BaseScoringActions import BaseScoringAction
@@ -12,6 +13,7 @@ class LocalScoringActions(BaseScoringAction):
     age_scoring_module = AgeScoringModule()
     placement_scoring_module = PlacementScoringModule()
     personal_scoring_module = PersonalScoringModule()
+    asset_scoring_module = AssetScoringModule()
 
     def generate_score(self, data):
         print '--------------------'
@@ -24,7 +26,10 @@ class LocalScoringActions(BaseScoringAction):
         personal_score = self.personal_scoring_module.calculate_score(data)
         print 'Personal score: %s' % personal_score
         print '--------------------'
-        total_score = age_score + placement_score + personal_score
+        assets_score = self.asset_scoring_module.calculate_score(data)
+        print 'Assets score: %s' % assets_score
+        print '--------------------'
+        total_score = age_score + placement_score + personal_score + assets_score
         print 'Total score: %s' % total_score
         print 'Total rating: "%s"' % self.calculate_rating(total_score)
         print '--------------------'
