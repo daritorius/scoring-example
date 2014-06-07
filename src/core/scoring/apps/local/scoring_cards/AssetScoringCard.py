@@ -9,6 +9,10 @@ class AssetScoringCard(BaseScoringCards):
     max_house_area = 300
     max_car_lifetime_years = 10
     max_car_mileage = 100000
+    max_deposit_amount = 10000
+    max_deposit_monthly_percents = 2000
+    max_deposit_maturity_months = 13
+    max_other_assets_price = 10000
 
     """
         REPAIR_STATE = 0
