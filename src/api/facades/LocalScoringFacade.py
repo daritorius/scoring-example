@@ -24,7 +24,7 @@ class LocalScoringFacade(BaseScoringFacade):
         placement_profile_data = PlacementPlainModel(**data)
         additional_income_data = AdditionalIncomePlainModel(**data)
         charges_profile_data = ChargesPlainModel(**data)
-        credir_charges_profile_data = CreditChargesPlainModel(**data)
+        credit_charges_profile_data = CreditChargesPlainModel(**data)
         assets_profile_data = AssetsPlainModel(**data)
         profile_data = ProfilePainModel(
             profile_passport_information=profile_passport_data,
@@ -34,7 +34,7 @@ class LocalScoringFacade(BaseScoringFacade):
             profile_placement_information=placement_profile_data,
             profile_additional_income=additional_income_data,
             profile_charges=charges_profile_data,
-            profile_credit_charges=credir_charges_profile_data,
+            profile_credit_charges=credit_charges_profile_data,
             profile_assets=assets_profile_data,
             **data)
         return profile_data

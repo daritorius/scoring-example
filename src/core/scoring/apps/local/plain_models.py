@@ -108,7 +108,7 @@ class ChargesPlainModel(BasePlainModel):
 
 class CreditChargesPlainModel(BasePlainModel):
     fields = [
-        'charges_outstanding_loans ',
+        'charges_outstanding_loans',
         'charges_finance_organisation',
         'charges_purpose_credit',
         'charges_currency_credit',

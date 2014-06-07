@@ -23,8 +23,8 @@ class AssetScoringCard(BaseScoringCards):
 
     def get_available_assets_card(self):
         card = {
-            'yes': 300,
-            'no': -300,
+            '1': 300,
+            '0': -300,
         }
         return card
 
