@@ -20,14 +20,11 @@ class PersonalScoringModule(BaseScoringModule):
         print 'real address score: %s' % real_address_score
         identity_addresses_score = self.calculate_identity_real_official_address(data)
         print 'identity addresses score: %s' % identity_addresses_score
-        dependents_score = self._calculate_dependents_score(data)
-        print 'dependents score: %s' % dependents_score
         total_score = education_score + \
                       marital_status_score + \
                       official_address_score + \
                       real_address_score + \
-                      identity_addresses_score + \
-                      dependents_score
+                      identity_addresses_score
         return total_score
 
     def calculate_education_score(self, data):
@@ -62,11 +59,4 @@ class PersonalScoringModule(BaseScoringModule):
         score = self.cards.min_identity_address_score
         if hasattr(data, 'profile_addresses_similar'):
             score = self.cards.get_identity_addresses_card()[getattr(data, 'profile_addresses_similar')[0]]
-        return score
-
-    def _calculate_dependents_score(self, data):
-        score = self.cards.min_score
-        if hasattr(data.profile_personal_information, 'personal_dependents'):
-            score = self.cards.get_count_dependents_card()[getattr(
-                data.profile_personal_information, 'personal_dependents')[0]]
         return score

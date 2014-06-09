@@ -58,24 +58,3 @@ class PersonalInformationCards(BaseScoringCards):
             'no': 0
         }
         return card
-
-    def get_count_dependents_card(self):
-
-        """
-            NO_DEPENDENTS = 0
-            ONE_DEPENDENT = 1
-            TWO_DEPENDENTS = 2
-            THREE_DEPENDENTS = 3
-            FOUR_DEPENDENTS = 4
-            MORE_THAN_4_DEPENDENTS = 5
-        """
-
-        card = {
-            '0': 300,
-            '1': 0,
-            '2': -100,
-            '3': -200,
-            '4': -300,
-            '5': -300,
-        }
-        return card

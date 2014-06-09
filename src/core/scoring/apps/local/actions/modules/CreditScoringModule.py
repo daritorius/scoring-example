@@ -21,6 +21,8 @@ class CreditScoringModule(BaseScoringModule):
         print 'monthly payment score: %s' % monthly_payment_score
         debt_burden_score = self._calculate_debt_burden_score(data)
         print 'debt burden score: %s' % debt_burden_score
+        dependents_score = self._calculate_dependents_score(data)
+        print 'dependents score: %s' % dependents_score
         total_score = outstanding_loan_score + \
                       amount_loan_score + \
                       repayment_percent_score + \
@@ -113,4 +115,11 @@ class CreditScoringModule(BaseScoringModule):
                     if debt_burden < float(item):
                         score = self.cards.get_debt_burden_card()[item]
                         break
+        return score
+
+    def _calculate_dependents_score(self, data):
+        score = self.cards.min_score
+        if hasattr(data.profile_personal_information, 'personal_dependents'):
+            score = self.cards.get_count_dependents_card()[getattr(
+                data.profile_personal_information, 'personal_dependents')[0]]
         return score
