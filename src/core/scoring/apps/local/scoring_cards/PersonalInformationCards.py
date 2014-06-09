@@ -54,7 +54,7 @@ class PersonalInformationCards(BaseScoringCards):
 
     def get_identity_addresses_card(self):
         card = {
-            'yes': 300,
-            'no': 0
+            '1': 300,
+            '0': 0
         }
         return card
