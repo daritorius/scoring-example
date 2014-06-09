@@ -3,6 +3,7 @@ import datetime
 from core.scoring.apps.local.actions.modules.BaseScoringModule import BaseScoringModule
 from core.scoring.apps.local.scoring_cards.AssetScoringCard import AssetScoringCard
 from django.utils.translation import ugettext_lazy as _
+from source.settings.apps_settings import BASE_DATE_FORMAT
 
 
 class AssetScoringModule(BaseScoringModule):
@@ -31,7 +32,7 @@ class AssetScoringModule(BaseScoringModule):
     def calculate_other_assets_price_score(self, data):
         score = self.cards.min_assets_score
         if hasattr(data.profile_assets, 'assets_other_assets_price'):
-            price = int(getattr(data.profile_assets, 'assets_other_assets_price')[0])
+            price = int(float(getattr(data.profile_assets, 'assets_other_assets_price')[0]))
             if price >= self.cards.max_other_assets_price:
                 score = self.cards.max_score
             else:
@@ -157,7 +158,7 @@ class AssetScoringModule(BaseScoringModule):
     def _calculate_deposits_amount_score(self, data):
         score = self.cards.min_assets_score
         if hasattr(data.profile_assets, 'assets_deposits_amount'):
-            amount = int(getattr(data.profile_assets, 'assets_deposits_amount')[0])
+            amount = int(float(getattr(data.profile_assets, 'assets_deposits_amount')[0]))
             if amount >= self.cards.max_deposit_amount:
                 score = self.cards.max_score
             else:
@@ -171,7 +172,7 @@ class AssetScoringModule(BaseScoringModule):
     def _calculate_deposits_monthly_percents_score(self, data):
         score = self.cards.min_assets_score
         if hasattr(data.profile_assets, 'assets_deposits_monthly_percents'):
-            percents = int(getattr(data.profile_assets, 'assets_deposits_monthly_percents')[0])
+            percents = int(float(getattr(data.profile_assets, 'assets_deposits_monthly_percents')[0]))
             if percents >= self.cards.max_deposit_monthly_percents:
                 score = self.cards.max_score
             else:
@@ -186,7 +187,7 @@ class AssetScoringModule(BaseScoringModule):
         score = self.cards.min_assets_score
         if hasattr(data.profile_assets, 'assets_deposits_maturity_date'):
             maturity_date = datetime.datetime.strptime(
-                getattr(data.profile_assets, 'assets_deposits_maturity_date')[0], "%Y-%m-%d")
+                getattr(data.profile_assets, 'assets_deposits_maturity_date')[0], BASE_DATE_FORMAT)
             current_date = datetime.datetime.now()
             days = abs(maturity_date - current_date).days
             months = int(days / 30)

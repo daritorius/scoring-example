@@ -44,7 +44,9 @@ class LocalScoringActions(BaseScoringAction):
         rating = 'G'
         for item in sorted(self.main_local_scoring_card.get_card(),
                            key=lambda key: self.main_local_scoring_card.get_card()[key]):
-            if total_score < float(self.main_local_scoring_card.get_card()[item]):
+            if total_score >= self.main_local_scoring_card.max_score:
+                rating = self.main_local_scoring_card.max_rate
+            if total_score < int(self.main_local_scoring_card.get_card()[item]):
                 rating = item
                 break
         return rating

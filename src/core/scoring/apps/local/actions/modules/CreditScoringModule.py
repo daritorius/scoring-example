@@ -3,6 +3,7 @@ import datetime
 from core.scoring.apps.local.actions.modules.BaseScoringModule import BaseScoringModule
 from core.scoring.apps.local.scoring_cards.CreditScoringCard import CreditScoringCard
 from django.utils.translation import ugettext_lazy as _
+from source.settings.apps_settings import BASE_DATE_FORMAT
 
 
 class CreditScoringModule(BaseScoringModule):
@@ -41,7 +42,7 @@ class CreditScoringModule(BaseScoringModule):
     def _calculate_amount_credit_score(self, data):
         score = self.cards.min_score
         if hasattr(data.profile_credit_charges, 'charges_initial_amount'):
-            amount = int(getattr(data.profile_credit_charges, 'charges_initial_amount')[0])
+            amount = int(float(getattr(data.profile_credit_charges, 'charges_initial_amount')[0]))
             if amount >= self.cards.max_credit_amount:
                 score = self.cards.min_score
             else:
@@ -73,7 +74,7 @@ class CreditScoringModule(BaseScoringModule):
         score = self.cards.min_score
         if hasattr(data.profile_credit_charges, 'charges_maturity_date'):
             maturity_date = datetime.datetime.strptime(
-                getattr(data.profile_credit_charges, 'charges_maturity_date')[0], "%Y-%m-%d")
+                getattr(data.profile_credit_charges, 'charges_maturity_date')[0], BASE_DATE_FORMAT)
             current_date = datetime.datetime.now()
             days = abs(maturity_date - current_date).days
             if days >= self.cards.max_maturity_days:
@@ -89,7 +90,7 @@ class CreditScoringModule(BaseScoringModule):
     def _calculate_monthly_payment_score(self, data):
         score = self.cards.min_score
         if hasattr(data.profile_credit_charges, 'charges_monthly_payment'):
-            payment = int(getattr(data.profile_credit_charges, 'charges_monthly_payment')[0])
+            payment = int(float(getattr(data.profile_credit_charges, 'charges_monthly_payment')[0]))
             if payment >= self.cards.max_monthly_payment:
                 score = self.cards.min_score
             else:

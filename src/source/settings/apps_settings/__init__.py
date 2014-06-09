@@ -11,3 +11,4 @@ from cache import *
 from celery import *
 from databases import *
 from webassets import *
+from default import *

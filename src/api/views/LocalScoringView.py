@@ -11,4 +11,4 @@ class LocalScoringView(View):
 
     def get(self, request, *args, **kwargs):
         result = self.local_scoring_facade.process_request(request.GET)
-        return http.HttpResponse(json.dumps({'score': result}), content_type='application/json')
+        return http.HttpResponse(json.dumps(result), content_type='application/json')
