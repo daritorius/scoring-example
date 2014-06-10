@@ -2,11 +2,13 @@
 import datetime
 import random
 import string
+from core.main.base.BaseModel import BaseModel
+from core.scoring.apps.local.models import LocalScoring
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 
-class Scoring(models.Model):
+class Scoring(BaseModel):
     GRADE_A = 'A'
     GRADE_B = 'B'
     GRADE_C = 'C'
@@ -29,14 +31,11 @@ class Scoring(models.Model):
     country = models.ForeignKey('country.Country', blank=True, null=True)
     rating = models.CharField(choices=GRADES, default=GRADE_G, max_length=255, blank=True, null=True)
     databases_check = models.BooleanField(default=False)
-    local_score = models.IntegerField(max_length=255, blank=True, null=True)
+    local_score = models.ForeignKey(LocalScoring, max_length=255, blank=True, null=True)
     history_score = models.IntegerField(max_length=255, blank=True, null=True)
     social_score = models.IntegerField(max_length=255, blank=True, null=True)
     recommendation_score = models.IntegerField(max_length=255, blank=True, null=True)
     psyho_score = models.IntegerField(max_length=255, blank=True, null=True)
-    date_create = models.DateTimeField(default=datetime.datetime.now, auto_now_add=True)
-    date_update = models.DateTimeField(default=datetime.datetime.now, auto_now=True)
-    is_deleted = models.BooleanField(default=False)
 
     def __unicode__(self):
         return u'%s' % self.id

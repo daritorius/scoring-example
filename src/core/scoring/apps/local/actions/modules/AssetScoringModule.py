@@ -14,6 +14,10 @@ class AssetScoringModule(BaseScoringModule):
     def calculate_score(self, data):
         available_assets_score = self.calculate_available_assets_score(data)
         print 'available assets score: %s' % available_assets_score
+        flat_score = self.calculate_flat_score(data)
+        print 'flat score: %s' % flat_score
+        house_score = self.calculate_house_score(data)
+        print 'house score: %s' % house_score
         car_score = self.calculate_car_score(data)
         print 'car score: %s' % car_score
         deposit_score = self.calculate_deposit_score(data)

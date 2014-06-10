@@ -144,3 +144,84 @@ class AssetsPlainModel(BasePlainModel):
         'assets_other_assets_title',
         'assets_other_assets_price',
     ]
+
+
+# # ------------------- Models part
+
+
+class LocalScoringPlainModel(BasePlainModel):
+    fields = [
+        'age_score',
+        'placement_score',
+        'personal_score',
+        'assets_score',
+        'loan_score',
+        'total_score',
+    ]
+
+
+class LocalAgeScorePlainModel(BasePlainModel):
+    fields = [
+        'score',
+    ]
+
+
+class LocalPlacementScoringPlainModel(BasePlainModel):
+    fields = [
+        'placement_type_score',
+        'placement_income_score',
+        'placement_clean_income',
+        'work_score',
+        'term_score',
+        'wage_score',
+        'category_position_score',
+        'tax_score',
+        'count_employees_score',
+        'total_score',
+    ]
+
+
+class LocalPersonalScoringPlainModel(BasePlainModel):
+    fields = [
+        'education_score',
+        'marital_status_score',
+        'official_address_score',
+        'real_address_score',
+        'identity_addresses_score',
+        'total_score',
+    ]
+
+
+class LocalAssetsScoringPlainModel(BasePlainModel):
+    fields = [
+        'available_assets_score',
+        'flat_score',
+        'flat_area_score',
+        'flat_status_score',
+        'house_score',
+        'house_area_score',
+        'house_status_score',
+        'car_score',
+        'car_status_score',
+        'car_lifetime_score',
+        'car_mileage_car_score',
+        'deposit_score',
+        'deposit_amount_score',
+        'deposit_percents_score',
+        'deposit_maturity_date_score',
+        'other_assets_score',
+        'total_score',
+    ]
+
+
+class LocalLoanScoringPlainModel(BasePlainModel):
+    fields = [
+        'outstanding_loan_score',
+        'amount_loan_score',
+        'repayment_percent_score',
+        'days_to_repayment_score',
+        'monthly_payment_score',
+        'debt_burden_score',
+        'dependents_score',
+        'total_score',
+    ]
