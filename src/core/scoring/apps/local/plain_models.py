@@ -146,7 +146,7 @@ class AssetsPlainModel(BasePlainModel):
     ]
 
 
-# # ------------------- Models part
+## ------------------- Models part -----------------------------------
 
 
 class LocalScoringPlainModel(BasePlainModel):
