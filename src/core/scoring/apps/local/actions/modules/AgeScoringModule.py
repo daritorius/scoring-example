@@ -3,6 +3,7 @@ import datetime
 from core.scoring.apps.local.actions.modules.BaseScoringModule import BaseScoringModule
 from core.scoring.apps.local.scoring_cards.AgeScoringCard import AgeScoringCard
 from django.utils.translation import ugettext as _
+from source.settings.apps_settings import BASE_DATE_FORMAT
 
 
 class AgeScoringModule(BaseScoringModule):
@@ -17,7 +18,7 @@ class AgeScoringModule(BaseScoringModule):
         return score
 
     def calculate_age(self, data):
-        birthday = datetime.datetime.strptime(data.profile_birthday[0], "%d-%m-%Y")
+        birthday = datetime.datetime.strptime(data.profile_birthday[0], BASE_DATE_FORMAT)
         if birthday.month > datetime.date.today().month:
             age = datetime.date.today().year - birthday.year - self.cards.year_correction
         elif birthday.month == datetime.date.today().month:
