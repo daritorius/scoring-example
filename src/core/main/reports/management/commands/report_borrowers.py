@@ -184,27 +184,30 @@ class Command(BaseCommand):
         ws.write(0, 12, u'текущая оценочная стоимость активов')
         ws.write(0, 13, u'Баллы по секции')
 
+        for number, item in enumerate(scorings, start=1):
+            print number, item
+
         # for number, user in enumerate(users, start=1):
         #         ws.write(number, 0, number)
         #         ws.write(number, 1, u'%s' % profile.get_gender())
         #         ws.write(number, 2, u'%s' % profile.citizenship.title if profile.citizenship else '')
 
-        print u'Сохраняем отчет'
-        file_name = '/report_borrowers_%s.xls' % date.today()
-        path_to_file = self.path_to_report + file_name
-        wb.save(path_to_file)
-
-        print u'Отправляем письма с отчетом'
-        ## send email to managers
-        from_email = DEFAULT_FROM_EMAIL
-        subject = u"[simzirok.com] Отчет о заемщиках в системе"
-        body = u"Добрый день! \n Отчет во вложении"
-
-        receivers = REPORTS_MANAGER
-        print u'Получатели: %s' % receivers
-        print u'DEBUG: %s' % DEBUG
-        msg = EmailMessage(subject, body, from_email, receivers)
-        msg.attach_file(path_to_file, 'application/xls')
-        msg.content_subtype = "html"
-        msg.send()
-        print u'Сообщение отправлено'
+        # print u'Сохраняем отчет'
+        # file_name = '/report_borrowers_%s.xls' % date.today()
+        # path_to_file = self.path_to_report + file_name
+        # wb.save(path_to_file)
+        #
+        # print u'Отправляем письма с отчетом'
+        # ## send email to managers
+        # from_email = DEFAULT_FROM_EMAIL
+        # subject = u"[simzirok.com] Отчет о заемщиках в системе"
+        # body = u"Добрый день! \n Отчет во вложении"
+        #
+        # receivers = REPORTS_MANAGER
+        # print u'Получатели: %s' % receivers
+        # print u'DEBUG: %s' % DEBUG
+        # msg = EmailMessage(subject, body, from_email, receivers)
+        # msg.attach_file(path_to_file, 'application/xls')
+        # msg.content_subtype = "html"
+        # msg.send()
+        # print u'Сообщение отправлено'
