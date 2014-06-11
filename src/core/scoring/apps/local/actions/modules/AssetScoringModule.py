@@ -47,15 +47,18 @@ class AssetScoringModule(BaseScoringModule):
     def calculate_other_assets_price_score(self, data):
         score = self.cards.min_assets_score
         if hasattr(data.profile_assets, 'assets_other_assets_price'):
-            price = int(float(getattr(data.profile_assets, 'assets_other_assets_price')[0]))
-            if price >= self.cards.max_other_assets_price:
-                score = self.cards.max_score
-            else:
-                for item in sorted(self.cards.get_other_assets_price_card(),
-                                   key=lambda key: self.cards.get_other_assets_price_card()[key]):
-                    if price < float(item):
-                        score = self.cards.get_other_assets_price_card()[item]
-                        break
+            try:
+                price = int(float(getattr(data.profile_assets, 'assets_other_assets_price')[0]))
+                if price >= self.cards.max_other_assets_price:
+                    score = self.cards.max_score
+                else:
+                    for item in sorted(self.cards.get_other_assets_price_card(),
+                                       key=lambda key: self.cards.get_other_assets_price_card()[key]):
+                        if price < float(item):
+                            score = self.cards.get_other_assets_price_card()[item]
+                            break
+            except Exception:
+                score = self.cards.min_assets_score
         return score
 
     def calculate_flat_score(self, data):
@@ -71,15 +74,18 @@ class AssetScoringModule(BaseScoringModule):
     def _calculate_flat_area_score(self, data):
         score = self.cards.min_assets_score
         if hasattr(data.profile_assets, 'assets_flat_area'):
-            flat_area = getattr(data.profile_assets, 'assets_flat_area')[0]
-            if flat_area >= self.cards.max_flat_area:
-                score = self.cards.max_score
-            else:
-                for item in sorted(self.cards.get_flat_area_card(),
-                                   key=lambda key: self.cards.get_flat_area_card()[key], reverse=True):
-                    if flat_area < float(item):
-                        score = self.cards.get_flat_area_card()[item]
-                        break
+            try:
+                flat_area = getattr(data.profile_assets, 'assets_flat_area')[0]
+                if flat_area >= self.cards.max_flat_area:
+                    score = self.cards.max_score
+                else:
+                    for item in sorted(self.cards.get_flat_area_card(),
+                                       key=lambda key: self.cards.get_flat_area_card()[key], reverse=True):
+                        if flat_area < float(item):
+                            score = self.cards.get_flat_area_card()[item]
+                            break
+            except Exception:
+                score = self.cards.min_assets_score
         return score
 
     def _calculate_flat_status_score(self, data):
@@ -104,15 +110,18 @@ class AssetScoringModule(BaseScoringModule):
     def _calculate_house_area_score(self, data):
         score = self.cards.min_assets_score
         if hasattr(data.profile_assets, 'assets_house_area'):
-            house_area = getattr(data.profile_assets, 'assets_house_area')[0]
-            if house_area >= self.cards.max_house_area:
-                score = self.cards.max_score
-            else:
-                for item in sorted(self.cards.get_house_area_card(),
-                                   key=lambda key: self.cards.get_house_area_card()[key], reverse=True):
-                    if house_area < float(item):
-                        score = self.cards.get_house_area_card()[item]
-                        break
+            try:
+                house_area = getattr(data.profile_assets, 'assets_house_area')[0]
+                if house_area >= self.cards.max_house_area:
+                    score = self.cards.max_score
+                else:
+                    for item in sorted(self.cards.get_house_area_card(),
+                                       key=lambda key: self.cards.get_house_area_card()[key], reverse=True):
+                        if house_area < float(item):
+                            score = self.cards.get_house_area_card()[item]
+                            break
+            except Exception:
+                score = self.cards.min_assets_score
         return score
 
     def _calculate_house_status_score(self, data):
@@ -146,31 +155,37 @@ class AssetScoringModule(BaseScoringModule):
     def _calculate_car_year_manufacture_score(self, data):
         score = self.cards.min_assets_score
         if hasattr(data.profile_assets, 'assets_car_year_manufacture'):
-            car_year = int(getattr(data.profile_assets, 'assets_car_year_manufacture')[0])
-            current_year = datetime.datetime.today().year
-            year = abs(current_year - car_year)
-            if year >= self.cards.max_car_lifetime_years:
+            try:
+                car_year = int(getattr(data.profile_assets, 'assets_car_year_manufacture')[0])
+                current_year = datetime.datetime.today().year
+                year = abs(current_year - car_year)
+                if year >= self.cards.max_car_lifetime_years:
+                    score = self.cards.min_assets_score
+                else:
+                    for item in sorted(self.cards.get_car_lifetime_card(),
+                                       key=lambda key: self.cards.get_car_lifetime_card()[key], reverse=True):
+                        if int(year) < int(item):
+                            score = self.cards.get_car_lifetime_card()[item]
+                            break
+            except Exception:
                 score = self.cards.min_assets_score
-            else:
-                for item in sorted(self.cards.get_car_lifetime_card(),
-                                   key=lambda key: self.cards.get_car_lifetime_card()[key], reverse=True):
-                    if int(year) < int(item):
-                        score = self.cards.get_car_lifetime_card()[item]
-                        break
         return score
 
     def _calculate_car_mileage_score(self, data):
         score = self.cards.min_assets_score
         if hasattr(data.profile_assets, 'assets_car_mileage'):
-            mileage = int(getattr(data.profile_assets, 'assets_car_mileage')[0])
-            if int(mileage) >= self.cards.max_car_mileage:
+            try:
+                mileage = int(getattr(data.profile_assets, 'assets_car_mileage')[0])
+                if int(mileage) >= self.cards.max_car_mileage:
+                    score = self.cards.min_assets_score
+                else:
+                    for item in sorted(self.cards.get_car_mileage_card(),
+                                       key=lambda key: self.cards.get_car_mileage_card()[key], reverse=True):
+                        if int(mileage) < int(item):
+                            score = self.cards.get_car_mileage_card()[item]
+                            break
+            except Exception:
                 score = self.cards.min_assets_score
-            else:
-                for item in sorted(self.cards.get_car_mileage_card(),
-                                   key=lambda key: self.cards.get_car_mileage_card()[key], reverse=True):
-                    if int(mileage) < int(item):
-                        score = self.cards.get_car_mileage_card()[item]
-                        break
         return score
 
     def calculate_deposit_score(self, data):
@@ -192,45 +207,54 @@ class AssetScoringModule(BaseScoringModule):
     def _calculate_deposits_amount_score(self, data):
         score = self.cards.min_assets_score
         if hasattr(data.profile_assets, 'assets_deposits_amount'):
-            amount = int(float(getattr(data.profile_assets, 'assets_deposits_amount')[0]))
-            if amount >= self.cards.max_deposit_amount:
-                score = self.cards.max_score
-            else:
-                for item in sorted(self.cards.get_deposit_amount_card(),
-                                   key=lambda key: self.cards.get_deposit_amount_card()[key]):
-                    if int(amount) < int(item):
-                        score = self.cards.get_deposit_amount_card()[item]
-                        break
+            try:
+                amount = int(float(getattr(data.profile_assets, 'assets_deposits_amount')[0]))
+                if amount >= self.cards.max_deposit_amount:
+                    score = self.cards.max_score
+                else:
+                    for item in sorted(self.cards.get_deposit_amount_card(),
+                                       key=lambda key: self.cards.get_deposit_amount_card()[key]):
+                        if int(amount) < int(item):
+                            score = self.cards.get_deposit_amount_card()[item]
+                            break
+            except Exception:
+                score = self.cards.min_assets_score
         return score
 
     def _calculate_deposits_monthly_percents_score(self, data):
         score = self.cards.min_assets_score
         if hasattr(data.profile_assets, 'assets_deposits_monthly_percents'):
-            percents = int(float(getattr(data.profile_assets, 'assets_deposits_monthly_percents')[0]))
-            if percents >= self.cards.max_deposit_monthly_percents:
-                score = self.cards.max_score
-            else:
-                for item in sorted(self.cards.get_deposit_monthly_percents_card(),
-                                   key=lambda key: self.cards.get_deposit_monthly_percents_card()[key]):
-                    if int(percents) < int(item):
-                        score = self.cards.get_deposit_monthly_percents_card()[item]
-                        break
+            try:
+                percents = int(float(getattr(data.profile_assets, 'assets_deposits_monthly_percents')[0]))
+                if percents >= self.cards.max_deposit_monthly_percents:
+                    score = self.cards.max_score
+                else:
+                    for item in sorted(self.cards.get_deposit_monthly_percents_card(),
+                                       key=lambda key: self.cards.get_deposit_monthly_percents_card()[key]):
+                        if int(percents) < int(item):
+                            score = self.cards.get_deposit_monthly_percents_card()[item]
+                            break
+            except Exception:
+                score = self.cards.min_assets_score
         return score
 
     def _calculate_deposits_maturity_date_score(self, data):
         score = self.cards.min_assets_score
         if hasattr(data.profile_assets, 'assets_deposits_maturity_date'):
-            maturity_date = datetime.datetime.strptime(
-                getattr(data.profile_assets, 'assets_deposits_maturity_date')[0], BASE_DATE_FORMAT)
-            current_date = datetime.datetime.now()
-            days = abs(maturity_date - current_date).days
-            months = int(days / 30)
-            if months >= self.cards.max_deposit_maturity_months:
-                score = self.cards.max_score
-            else:
-                for item in sorted(self.cards.get_deposit_maturity_date_card(),
-                                   key=lambda key: self.cards.get_deposit_maturity_date_card()[key]):
-                    if int(months) < int(item):
-                        score = self.cards.get_deposit_maturity_date_card()[item]
-                        break
+            try:
+                maturity_date = datetime.datetime.strptime(
+                    getattr(data.profile_assets, 'assets_deposits_maturity_date')[0], BASE_DATE_FORMAT)
+                current_date = datetime.datetime.now()
+                days = abs(maturity_date - current_date).days
+                months = int(days / 30)
+                if months >= self.cards.max_deposit_maturity_months:
+                    score = self.cards.max_score
+                else:
+                    for item in sorted(self.cards.get_deposit_maturity_date_card(),
+                                       key=lambda key: self.cards.get_deposit_maturity_date_card()[key]):
+                        if int(months) < int(item):
+                            score = self.cards.get_deposit_maturity_date_card()[item]
+                            break
+            except Exception:
+                score = self.cards.min_assets_score
         return score
