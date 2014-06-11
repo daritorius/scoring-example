@@ -191,7 +191,7 @@ class PlacementScoringModule(BaseScoringModule):
             income += getattr(data.profile_placement_information, 'placement_additional_income')[0]
         for item in ChargesPlainModel.fields:
             if hasattr(data.profile_charges, item):
-                charges += float(getattr(data.profile_charges, item)[0])
+                charges += float(getattr(data.profile_charges, item)[0]) if getattr(data.profile_charges, item) else 0
         clean_income = income - charges
         if clean_income >= self.cards.max_clean_income_amount:
             score = self.cards.max_clean_income_score
