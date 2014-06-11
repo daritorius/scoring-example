@@ -289,8 +289,10 @@ class Command(BaseCommand):
             ws.write(number, 63, user_data.get('charges_monthly_payment', u'Не указано'))
             ws.write(number, 64, item.local_score.loan_score.monthly_payment_score)
 
-            payment = float(user_data.get('charges_monthly_payment', u'Не указано'))
-            income = float(user_data.get('placement_income', u'Не указано'))
+            payment = float(user_data.get('charges_monthly_payment', u'Не указано')) if \
+                user_data.get('charges_monthly_payment') else 0
+            income = float(user_data.get('placement_income', u'Не указано')) if \
+                user_data.get('placement_income') else 0
             debt_burden = payment / income
             ws.write(number, 66, debt_burden)
             ws.write(number, 67, item.local_score.loan_score.debt_burden_score)
