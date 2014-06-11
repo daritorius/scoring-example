@@ -150,6 +150,9 @@ class CreditScoringModule(BaseScoringModule):
     def _calculate_dependents_score(self, data):
         score = self.cards.min_score
         if hasattr(data.profile_personal_information, 'personal_dependents'):
-            score = self.cards.get_count_dependents_card()[getattr(
-                data.profile_personal_information, 'personal_dependents')[0]]
+            try:
+                score = self.cards.get_count_dependents_card()[getattr(
+                    data.profile_personal_information, 'personal_dependents')[0]]
+            except Exception:
+                score = self.cards.min_score
         return score
