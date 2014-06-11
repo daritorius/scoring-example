@@ -157,12 +157,13 @@ class LocalScoringPlainModel(BasePlainModel):
         'assets_score',
         'loan_score',
         'total_score',
+        'rating',
     ]
 
 
 class LocalAgeScorePlainModel(BasePlainModel):
     fields = [
-        'score',
+        'total_score',
     ]
 
 

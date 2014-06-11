@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
+from core.scoring.apps.local.plain_models import LocalPersonalScoringPlainModel
 from core.scoring.apps.local.scoring_cards.CountryMillionCityCards import CountryMillionCityCards
 from core.scoring.apps.local.scoring_cards.PersonalInformationCards import PersonalInformationCards
+from core.scoring.apps.local.services.LocalPersonalScoringService import LocalPersonalScoringService
 from django.utils.translation import ugettext as _
 from core.scoring.apps.local.actions.modules.BaseScoringModule import BaseScoringModule
 
@@ -8,6 +10,7 @@ from core.scoring.apps.local.actions.modules.BaseScoringModule import BaseScorin
 class PersonalScoringModule(BaseScoringModule):
     cards = PersonalInformationCards()
     city_card = CountryMillionCityCards()
+    personal_service = LocalPersonalScoringService()
 
     def calculate_score(self, data):
         education_score = self.calculate_education_score(data)
@@ -25,7 +28,16 @@ class PersonalScoringModule(BaseScoringModule):
                       official_address_score + \
                       real_address_score + \
                       identity_addresses_score
-        return total_score
+        data = LocalPersonalScoringPlainModel(
+            education_score=education_score,
+            marital_status_score=marital_status_score,
+            official_address_score=official_address_score,
+            real_address_score=real_address_score,
+            identity_addresses_score=identity_addresses_score,
+            total_score=total_score,
+        )
+        personal_data = self.personal_service.create(data)
+        return personal_data
 
     def calculate_education_score(self, data):
         score = self.cards.min_score

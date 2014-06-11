@@ -1,13 +1,16 @@
 # -*- coding: utf-8 -*-
 import datetime
 from core.scoring.apps.local.actions.modules.BaseScoringModule import BaseScoringModule
+from core.scoring.apps.local.plain_models import LocalLoanScoringPlainModel
 from core.scoring.apps.local.scoring_cards.CreditScoringCard import CreditScoringCard
+from core.scoring.apps.local.services.LocalLoanScoringService import LocalLoanScoringService
 from django.utils.translation import ugettext_lazy as _
 from source.settings.apps_settings import BASE_DATE_FORMAT
 
 
 class CreditScoringModule(BaseScoringModule):
     cards = CreditScoringCard()
+    loan_service = LocalLoanScoringService()
 
     def calculate_score(self, data):
         outstanding_loan_score = self._calculate_outstanding_credit_score(data)
@@ -30,7 +33,18 @@ class CreditScoringModule(BaseScoringModule):
                       days_to_repayment_score + \
                       monthly_payment_score + \
                       debt_burden_score
-        return total_score
+        data = LocalLoanScoringPlainModel(
+            outstanding_loan_score=outstanding_loan_score,
+            amount_loan_score=amount_loan_score,
+            repayment_percent_score=repayment_percent_score,
+            days_to_repayment_score=days_to_repayment_score,
+            monthly_payment_score=monthly_payment_score,
+            debt_burden_score=debt_burden_score,
+            dependents_score=dependents_score,
+            total_score=total_score,
+        )
+        loan_data = self.loan_service.create(data)
+        return loan_data
 
     def _calculate_outstanding_credit_score(self, data):
         score = self.cards.min_score

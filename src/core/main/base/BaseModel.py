@@ -8,3 +8,6 @@ class BaseModel(models.Model):
     date_create = models.DateTimeField(default=datetime.datetime.now, auto_now_add=True)
     date_update = models.DateTimeField(default=datetime.datetime.now, auto_now=True)
     is_deleted = models.BooleanField(default=False)
+
+    class Meta:
+        abstract = True

@@ -1,31 +1,42 @@
 # -*- coding: utf-8 -*-
 import datetime
 from core.scoring.apps.local.actions.modules.BaseScoringModule import BaseScoringModule
+from core.scoring.apps.local.plain_models import LocalAssetsScoringPlainModel
 from core.scoring.apps.local.scoring_cards.AssetScoringCard import AssetScoringCard
+from core.scoring.apps.local.services.LocalAssetsScoringService import LocalAssetsScoringService
 from django.utils.translation import ugettext_lazy as _
 from source.settings.apps_settings import BASE_DATE_FORMAT
 
 
 class AssetScoringModule(BaseScoringModule):
     cards = AssetScoringCard()
-
-    # 'assets_other_assets_price',
+    assets_service = LocalAssetsScoringService()
 
     def calculate_score(self, data):
         available_assets_score = self.calculate_available_assets_score(data)
         print 'available assets score: %s' % available_assets_score
-        flat_score = self.calculate_flat_score(data)
-        print 'flat score: %s' % flat_score
-        house_score = self.calculate_house_score(data)
-        print 'house score: %s' % house_score
-        car_score = self.calculate_car_score(data)
-        print 'car score: %s' % car_score
-        deposit_score = self.calculate_deposit_score(data)
-        print 'deposit score: %s' % car_score
+        flat_data = self.calculate_flat_score(data)
+        print 'flat score: %s' % flat_data.flat_score
+        house_data = self.calculate_house_score(data)
+        print 'house score: %s' % house_data.house_score
+        car_data = self.calculate_car_score(data)
+        print 'car score: %s' % car_data.car_score
+        deposit_data = self.calculate_deposit_score(data)
+        print 'deposit score: %s' % deposit_data.deposit_score
         other_assets_score = self.calculate_other_assets_price_score(data)
-        print 'deposit score: %s' % other_assets_score
-        total_assets_score = available_assets_score + car_score + deposit_score + other_assets_score
-        return total_assets_score
+        print 'other assets score: %s' % other_assets_score
+        total_assets_score = available_assets_score + flat_data.flat_score + house_data.house_score + \
+                             car_data.car_score + deposit_data.deposit_score + other_assets_score
+        assets_generated_data = dict(flat_data.__dict__.items() + house_data.__dict__.items() +
+                                     car_data.__dict__.items() + deposit_data.__dict__.items())
+        data = LocalAssetsScoringPlainModel(
+            available_assets_score=available_assets_score,
+            other_assets_score=other_assets_score,
+            total_score=total_assets_score,
+            **assets_generated_data
+        )
+        assets_data = self.assets_service.create(data)
+        return assets_data
 
     def calculate_available_assets_score(self, data):
         score = self.cards.min_score
@@ -53,7 +64,9 @@ class AssetScoringModule(BaseScoringModule):
         status_score = self._calculate_flat_status_score(data)
         'flat status score: %s' % status_score
         total_score = area_score + status_score
-        return total_score
+        data = LocalAssetsScoringPlainModel(flat_score=total_score, flat_area_score=area_score,
+                                            flat_status_score=status_score, )
+        return data
 
     def _calculate_flat_area_score(self, data):
         score = self.cards.min_assets_score
@@ -81,7 +94,12 @@ class AssetScoringModule(BaseScoringModule):
         status_score = self._calculate_house_status_score(data)
         'house status score: %s' % status_score
         total_score = area_score + status_score
-        return total_score
+        data = LocalAssetsScoringPlainModel(
+            house_score=total_score,
+            house_area_score=area_score,
+            house_status_score=status_score,
+        )
+        return data
 
     def _calculate_house_area_score(self, data):
         score = self.cards.min_assets_score
@@ -111,7 +129,13 @@ class AssetScoringModule(BaseScoringModule):
         mileage_car_score = self._calculate_car_mileage_score(data)
         print 'car mileage score: %s' % mileage_car_score
         total_score = status_score + lifetime_score + mileage_car_score
-        return total_score
+        data = LocalAssetsScoringPlainModel(
+            car_score=total_score,
+            car_status_score=status_score,
+            car_lifetime_score=lifetime_score,
+            car_mileage_car_score=mileage_car_score,
+        )
+        return data
 
     def _calculate_car_status_score(self, data):
         score = self.cards.min_assets_score
@@ -157,7 +181,13 @@ class AssetScoringModule(BaseScoringModule):
         deposit_maturity_date_score = self._calculate_deposits_maturity_date_score(data)
         print 'deposit maturity date score: %s' % deposit_maturity_date_score
         total_score = deposit_amount_score + deposit_percents_score + deposit_maturity_date_score
-        return total_score
+        data = LocalAssetsScoringPlainModel(
+            deposit_score=total_score,
+            deposit_amount_score=deposit_amount_score,
+            deposit_percents_score=deposit_percents_score,
+            deposit_maturity_date_score=deposit_maturity_date_score,
+        )
+        return data
 
     def _calculate_deposits_amount_score(self, data):
         score = self.cards.min_assets_score

@@ -11,6 +11,7 @@ class LocalScoring(BaseModel):
     assets_score = models.ForeignKey('LocalAssetsScoring', blank=True, null=True)
     loan_score = models.ForeignKey('LocalLoanScoring', blank=True, null=True)
     total_score = models.IntegerField(default=0, max_length=255)
+    rating = models.CharField(max_length=255, blank=True, null=True)
 
     def __unicode__(self):
         return u'%s' % self.id
@@ -28,7 +29,7 @@ class LocalScoring(BaseModel):
 
 
 class LocalAgeScore(BaseModel):
-    score = models.IntegerField(default=0, max_length=255)
+    total_score = models.IntegerField(default=0, max_length=255)
 
     def __unicode__(self):
         return u'%s' % self.id
