@@ -168,11 +168,17 @@ class PlacementScoringModule(BaseScoringModule):
         score = self.cards.min_income_score
         income = 0
         if hasattr(data.profile_placement_information, 'placement_income'):
-            income = float(data.profile_placement_information.placement_income[0]) if \
-                getattr(data.profile_placement_information, 'placement_income') else 0
+            try:
+                income = float(data.profile_placement_information.placement_income[0]) if \
+                    getattr(data.profile_placement_information, 'placement_income') else 0
+            except Exception:
+                income = 0
         if hasattr(data.profile_placement_information, 'placement_additional_income'):
-            income += float(getattr(data.profile_placement_information, 'placement_additional_income')[0]) if \
-                getattr(data.profile_placement_information, 'placement_additional_income') else 0
+            try:
+                income += float(getattr(data.profile_placement_information, 'placement_additional_income')[0]) if \
+                    getattr(data.profile_placement_information, 'placement_additional_income') else 0
+            except Exception:
+                income = 0
         if income >= self.cards.max_income_amount:
             score = self.cards.max_income_score
         else:
@@ -188,14 +194,24 @@ class PlacementScoringModule(BaseScoringModule):
         score = self.cards.min_clean_income_score
         charges = income = 0
         if hasattr(data.profile_placement_information, 'placement_income'):
-            income = float(data.profile_placement_information.placement_income[0]) if \
-                getattr(data.profile_placement_information, 'placement_income') else 0
+            try:
+                income = float(data.profile_placement_information.placement_income[0]) if \
+                    getattr(data.profile_placement_information, 'placement_income') else 0
+            except Exception:
+                income = 0
         if hasattr(data.profile_placement_information, 'placement_additional_income'):
-            income += float(getattr(data.profile_placement_information, 'placement_additional_income')[0]) if \
-                getattr(data.profile_placement_information, 'placement_additional_income') else 0
+            try:
+                income += float(getattr(data.profile_placement_information, 'placement_additional_income')[0]) if \
+                    getattr(data.profile_placement_information, 'placement_additional_income') else 0
+            except Exception:
+                income = 0
         for item in ChargesPlainModel.fields:
             if hasattr(data.profile_charges, item):
-                charges += float(getattr(data.profile_charges, item)[0]) if getattr(data.profile_charges, item) else 0
+                try:
+                    charges += float(getattr(data.profile_charges, item)[0]) if \
+                        getattr(data.profile_charges, item) else 0
+                except Exception:
+                    continue
         clean_income = income - charges
         if clean_income >= self.cards.max_clean_income_amount:
             score = self.cards.max_clean_income_score
