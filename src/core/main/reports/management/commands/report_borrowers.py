@@ -357,22 +357,22 @@ class Command(BaseCommand):
             ws.write(number, 113, item.date_create.strftime(BASE_DATE_FORMAT))
             ws.write(number, 114, item.local_score.total_score)
 
-        # print u'Сохраняем отчет'
-        # file_name = '/report_scoring_%s.xls' % datetime.date.today()
-        # path_to_file = self.path_to_report + file_name
-        # wb.save(path_to_file)
-        #
-        # print u'Отправляем письма с отчетом'
-        # ## send email to managers
-        # from_email = DEFAULT_FROM_EMAIL
-        # subject = u"[simzirok.com] Отчет о заемщиках в системе"
-        # body = u"Добрый день! \n Отчет во вложении"
-        #
-        # receivers = REPORTS_MANAGER
-        # print u'Получатели: %s' % receivers
-        # print u'DEBUG: %s' % DEBUG
-        # msg = EmailMessage(subject, body, from_email, receivers)
-        # msg.attach_file(path_to_file, 'application/xls')
-        # msg.content_subtype = "html"
-        # msg.send()
-        # print u'Сообщение отправлено'
+        print u'Сохраняем отчет'
+        file_name = '/report_scoring_%s.xls' % datetime.date.today()
+        path_to_file = self.path_to_report + file_name
+        wb.save(path_to_file)
+
+        print u'Отправляем письма с отчетом'
+        ## send email to managers
+        from_email = DEFAULT_FROM_EMAIL
+        subject = u"[simzirok.com] Отчет о заемщиках в системе"
+        body = u"Добрый день! \n Отчет во вложении"
+
+        receivers = REPORTS_MANAGER
+        print u'Получатели: %s' % receivers
+        print u'DEBUG: %s' % DEBUG
+        msg = EmailMessage(subject, body, from_email, receivers)
+        msg.attach_file(path_to_file, 'application/xls')
+        msg.content_subtype = "html"
+        msg.send()
+        print u'Сообщение отправлено'
