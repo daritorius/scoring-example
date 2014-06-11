@@ -247,10 +247,13 @@ class Command(BaseCommand):
             ws.write(number, 37, u'Не учитывается')
 
             if int(user_data.get('placement_type', None)) == placement_card.TYPE_WAGE_EARNER:
-                wage_total = float(user_data.get('placement_income', u'Не указано') if
-                                 user_data.get('placement_income') != '' else 0) + \
-                             float(user_data.get('placement_additional_income', u'Не указано') if
-                                 user_data.get('placement_additional_income') != '' else 0)
+                try:
+                    wage_total = float(user_data.get('placement_income', u'Не указано') if
+                                     user_data.get('placement_income') != '' else 0) + \
+                                 float(user_data.get('placement_additional_income', u'Не указано') if
+                                     user_data.get('placement_additional_income') != '' else 0)
+                except Exception:
+                    wage_total = 0
                 ws.write(number, 30, wage_total)
                 ws.write(number, 31, item.local_score.placement_score.wage_score)
 
@@ -269,8 +272,11 @@ class Command(BaseCommand):
                 ws.write(number, 45, user_data.get('placement_organisation_count_employees', u'Не указано'))
                 ws.write(number, 46, item.local_score.placement_score.count_employees_score)
 
-                ws.write(number, 48, user_data.get('placement_income', u'Не указано') + ' + ' +
-                         user_data.get('placement_additional_income', u'Не указано'))
+                try:
+                    ws.write(number, 48, user_data.get('placement_income', u'Не указано') + ' + ' +
+                             user_data.get('placement_additional_income', u'Не указано'))
+                except Exception:
+                    ws.write(number, 48, '0')
                 ws.write(number, 49, item.local_score.placement_score.placement_income_score)
 
             ws.write(number, 51, user_data.get('charges_outstanding_loans', u'Не указано'))
