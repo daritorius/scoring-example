@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from api.facades.BaseScoringFacade import BaseScoringFacade
+from api.forms.LocalScoringForm import LocalScoringForm
 from core.scoring.actions.ScoringActions import ScoringActions
 from core.scoring.apps.local.plain_models import ProfilePainModel, ProfilePassportPlainModel, \
     OfficialAddressPlainModel, RealAddressPlainModel, PersonalInformationPlainModel, PlacementPlainModel, \
@@ -12,9 +13,14 @@ class LocalScoringFacade(BaseScoringFacade):
 
     def process_request(self, data):
         self.check_mandatory_parameters(data)
-        user_data = self.generate_user_data(data)
-        scoring = self.scoring_actions.calculate_scoring(user_data)
-        return scoring
+
+        form = LocalScoringForm(data)
+        if form.is_valid():
+            user_data = self.generate_user_data(data)
+            scoring = self.scoring_actions.calculate_scoring(user_data, form.cleaned_data)
+            return scoring
+        else:
+            return {'error': u'wrong parameters'}
 
     def generate_user_data(self, data):
         profile_passport_data = ProfilePassportPlainModel(**data)

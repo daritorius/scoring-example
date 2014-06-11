@@ -5,11 +5,12 @@ from .. import main_settings as settings
 apps = [
     'core.users.user',
     'core.users.profile',
+    'core.users.customers',
 
     ## scoring apps
     'core.scoring.apps.country',
-    'core.scoring',
     'core.scoring.apps.local',
+    'core.scoring',
 ]
 
 for app_name in apps:

@@ -30,12 +30,13 @@ class Scoring(BaseModel):
     user_number = models.CharField(db_index=True, unique=True, max_length=255, blank=True, null=True)
     country = models.ForeignKey('country.Country', blank=True, null=True)
     rating = models.CharField(choices=GRADES, default=GRADE_G, max_length=255, blank=True, null=True)
-    databases_check = models.BooleanField(default=False)
     local_score = models.ForeignKey(LocalScoring, max_length=255, blank=True, null=True)
-    history_score = models.IntegerField(max_length=255, blank=True, null=True)
-    social_score = models.IntegerField(max_length=255, blank=True, null=True)
-    recommendation_score = models.IntegerField(max_length=255, blank=True, null=True)
-    psyho_score = models.IntegerField(max_length=255, blank=True, null=True)
+    user_data = models.TextField(max_length=65535, blank=True, null=True)
+    # databases_check = models.BooleanField(default=False)
+    # history_score = models.IntegerField(max_length=255, blank=True, null=True)
+    # social_score = models.IntegerField(max_length=255, blank=True, null=True)
+    # recommendation_score = models.IntegerField(max_length=255, blank=True, null=True)
+    # psyho_score = models.IntegerField(max_length=255, blank=True, null=True)
 
     def __unicode__(self):
         return u'%s' % self.id
