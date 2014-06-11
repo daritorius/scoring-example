@@ -23,7 +23,6 @@ class PlacementScoringModule(BaseScoringModule):
                       placement_income_score.placement_income_score + \
                       placement_clean_income.placement_clean_income + \
                       work_score.work_score
-
         placement_data = dict(placement_type_score.__dict__.items() + placement_income_score.__dict__.items() +
                               placement_clean_income.__dict__.items() + work_score.__dict__.items())
         data = LocalPlacementScoringPlainModel(total_score=total_score, **placement_data)

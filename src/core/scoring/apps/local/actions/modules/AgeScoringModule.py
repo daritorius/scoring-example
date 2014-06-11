@@ -24,6 +24,9 @@ class AgeScoringModule(BaseScoringModule):
 
     def calculate_age(self, data):
         birthday = datetime.datetime.strptime(data.profile_birthday[0], BASE_DATE_FORMAT)
+        return self._get_age(birthday)
+
+    def _get_age(self, birthday):
         if birthday.month > datetime.date.today().month:
             age = datetime.date.today().year - birthday.year - self.cards.year_correction
         elif birthday.month == datetime.date.today().month:

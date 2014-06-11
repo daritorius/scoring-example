@@ -13,6 +13,16 @@ class PlacementInformationCards(BaseScoringCards):
     TYPE_WAGE_EARNER = 5
     TYPE_PRIVATE_ENTREPRENEUR = 6
 
+    PLACEMENT_TYPES = {
+        str(TYPE_UNEMPLOYED): u'Безработный',
+        str(TYPE_HOUSEWIFE): u'Домохозяйка',
+        str(TYPE_STUDENT): u'Студент',
+        str(TYPE_PENSIONER): u'Пенсионер',
+        str(TYPE_SOLDIER): u'Военнослужащий',
+        str(TYPE_WAGE_EARNER): u'Служащий',
+        str(TYPE_PRIVATE_ENTREPRENEUR): u'Частный предприниматель',
+    }
+
     min_type_score = -100
     min_income_score = -300
     max_income_score = 300
@@ -28,6 +38,18 @@ class PlacementInformationCards(BaseScoringCards):
     min_wage_amount = 1200
     max_pe_tax_amount = 20000
     max_pe_employees_count = 10
+
+    CATEGORY_SENIOR_MANAGER = 0
+    CATEGORY_MIDDLE_MANAGER = 1
+    CATEGORY_SPECIALIST = 2
+    CATEGORY_JUNIOR_SPECIALIST = 3
+
+    POSITION_CATEGORIES = {
+        str(CATEGORY_SENIOR_MANAGER): u'Senior Manager',
+        str(CATEGORY_MIDDLE_MANAGER): u'Middle Manager',
+        str(CATEGORY_SPECIALIST): u'Specialist',
+        str(CATEGORY_JUNIOR_SPECIALIST): u'Junior Specialist',
+    }
 
     def get_placement_type_card(self):
         """

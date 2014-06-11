@@ -1,11 +1,16 @@
-#-*- coding: utf-8 -*-
+# -*- coding: utf-8 -*-
+import datetime
+from core.scoring.apps.local.actions.modules.AgeScoringModule import AgeScoringModule
+from core.scoring.apps.local.plain_models import OfficialAddressPlainModel, RealAddressPlainModel
+from core.scoring.apps.local.scoring_cards.PersonalInformationCards import PersonalInformationCards
+from core.scoring.apps.local.scoring_cards.PlacementInformationCards import PlacementInformationCards
 from django.utils.translation import ugettext as _
 from core.scoring.services.ScoringService import ScoringService
 from django.conf.global_settings import DEBUG, DEFAULT_FROM_EMAIL
 import os
-from source.settings.apps_settings import REPORTS_MANAGER
+from source.settings.apps_settings import REPORTS_MANAGER, BASE_DATE_FORMAT
 import xlwt
-from datetime import date
+import json
 from django.core.mail import EmailMessage
 from django.core.management import BaseCommand
 
@@ -13,6 +18,7 @@ from django.core.management import BaseCommand
 class Command(BaseCommand):
     path_to_report = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../reports/'))
     scoring_service = ScoringService()
+    age_module = AgeScoringModule()
 
     def handle(self, *args, **options):
         print u'Получаем список элементов'
@@ -34,10 +40,10 @@ class Command(BaseCommand):
         for number in range(1, 51):
             ws.col(number).width = 10000
 
-        ws.write(0, 0, u'№')
-        ws.write(0, 1, u'A1')
-        ws.write(0, 2, u'Дата рождения')
-        ws.write(0, 3, u'Возраст')
+        ws.write(0, 1, u'№')
+        ws.write(0, 2, u'A1')
+        ws.write(0, 3, u'Дата рождения')
+        # ws.write(0, 3, u'Возраст')
         ws.write(0, 4, u'Баллы по секции')
 
         ws.write(0, 5, u'A2')
@@ -184,32 +190,174 @@ class Command(BaseCommand):
         ws.write(0, 111, u'текущая оценочная стоимость активов')
         ws.write(0, 112, u'Баллы по секции')
 
-        ws.write(0, 113, u'Итоговый бал')
+        ws.write(0, 113, u'Дата расчета')
+        ws.write(0, 114, u'Итоговый бал')
 
         for number, item in enumerate(scorings, start=1):
-            print number, item
+            user_data = json.loads(item.user_data)
+            # for key, value in user_data.iteritems():
+            #     if 'real' in key:
+            #         print u'key: %s | value: %s' % (key, value)
+            ws.write(number, 1, number)
 
-        # for number, user in enumerate(users, start=1):
-        #         ws.write(number, 0, number)
-        #         ws.write(number, 1, u'%s' % profile.get_gender())
-        #         ws.write(number, 2, u'%s' % profile.citizenship.title if profile.citizenship else '')
+            ws.write(number, 3, user_data.get('profile_birthday', u'Не указано'))
+            ws.write(number, 4, item.local_score.age_score.total_score)
 
-        # print u'Сохраняем отчет'
-        # file_name = '/report_borrowers_%s.xls' % date.today()
-        # path_to_file = self.path_to_report + file_name
-        # wb.save(path_to_file)
-        #
-        # print u'Отправляем письма с отчетом'
-        # ## send email to managers
-        # from_email = DEFAULT_FROM_EMAIL
-        # subject = u"[simzirok.com] Отчет о заемщиках в системе"
-        # body = u"Добрый день! \n Отчет во вложении"
-        #
-        # receivers = REPORTS_MANAGER
-        # print u'Получатели: %s' % receivers
-        # print u'DEBUG: %s' % DEBUG
-        # msg = EmailMessage(subject, body, from_email, receivers)
-        # msg.attach_file(path_to_file, 'application/xls')
-        # msg.content_subtype = "html"
-        # msg.send()
-        # print u'Сообщение отправлено'
+            personal_card = PersonalInformationCards()
+            education = personal_card.EDUCATION_TYPES[user_data.get('personal_education')] if \
+                user_data.get('personal_education') != '' else _(u'Не указано')
+            ws.write(number, 6, education)
+            ws.write(number, 7, item.local_score.personal_score.education_score)
+
+            marital_status = personal_card.MARITAL_STATUSES[user_data.get('personal_marital_status')] if \
+                user_data.get('personal_marital_status') != '' else _(u'Не указано')
+            ws.write(number, 9, marital_status)
+            ws.write(number, 10, item.local_score.personal_score.marital_status_score)
+
+            dependents = user_data.get('personal_dependents') if user_data.get('personal_dependents') != '' \
+                else _(u'Не указано')
+            ws.write(number, 12, dependents)
+            ws.write(number, 13, item.local_score.loan_score.dependents_score)
+
+            ws.write(number, 15, user_data.get('official_city'))
+            ws.write(number, 16, item.local_score.personal_score.official_address_score)
+
+            ws.write(number, 18, user_data.get('real_city'))
+            ws.write(number, 19, item.local_score.personal_score.real_address_score)
+
+            similar = user_data.get('profile_addresses_similar') if user_data.get('profile_addresses_similar') != '' \
+                else _(u'Не указано')
+            if similar != '':
+                similar = _(u'да') if int(similar) else _(u'нет')
+            ws.write(number, 21, similar)
+            ws.write(number, 22, item.local_score.personal_score.identity_addresses_score)
+
+            placement_card = PlacementInformationCards()
+            placement_type = placement_card.PLACEMENT_TYPES[user_data.get('placement_type')] if \
+                user_data.get('placement_type') != '' else _(u'Не указано')
+            ws.write(number, 24, placement_type)
+            ws.write(number, 25, item.local_score.placement_score.placement_type_score)
+
+            placement_term = user_data.get('placement_term') if user_data.get('placement_term') != '' \
+                else _(u'Не указано')
+            ws.write(number, 27, placement_term)
+            ws.write(number, 28, item.local_score.placement_score.term_score)
+
+            ws.write(number, 36, u'Не учитывается')
+            ws.write(number, 37, u'Не учитывается')
+
+            if int(user_data.get('placement_type', None)) == placement_card.TYPE_WAGE_EARNER:
+                wage_total = float(user_data.get('placement_income', u'Не указано') if
+                                 user_data.get('placement_income') != '' else 0) + \
+                             float(user_data.get('placement_additional_income', u'Не указано') if
+                                 user_data.get('placement_additional_income') != '' else 0)
+                ws.write(number, 30, wage_total)
+                ws.write(number, 31, item.local_score.placement_score.wage_score)
+
+                position = placement_card.POSITION_CATEGORIES[user_data.get(
+                    'placement_category_position', u'Не указано')] if \
+                    user_data.get('placement_category_position', None) else _(u'Не указано')
+                ws.write(number, 33, position)
+                ws.write(number, 34, item.local_score.placement_score.category_position_score)
+            else:
+                ws.write(number, 39, user_data.get('placement_term', u'Не указано'))
+                ws.write(number, 40, item.local_score.placement_score.term_score)
+
+                ws.write(number, 42, user_data.get('placement_tax_quarter', u'Не указано'))
+                ws.write(number, 43, item.local_score.placement_score.tax_score)
+
+                ws.write(number, 45, user_data.get('placement_organisation_count_employees', u'Не указано'))
+                ws.write(number, 46, item.local_score.placement_score.count_employees_score)
+
+                ws.write(number, 48, user_data.get('placement_income', u'Не указано') + ' + ' +
+                         user_data.get('placement_additional_income', u'Не указано'))
+                ws.write(number, 49, item.local_score.placement_score.placement_income_score)
+
+            ws.write(number, 51, user_data.get('charges_outstanding_loans', u'Не указано'))
+            ws.write(number, 52, item.local_score.loan_score.outstanding_loan_score)
+
+            ws.write(number, 54, user_data.get('charges_initial_amount', u'Не указано'))
+            ws.write(number, 55, item.local_score.loan_score.amount_loan_score)
+
+            ws.write(number, 57, user_data.get('charges_initial_amount', u'Не указано') + '/' +
+                     user_data.get('charges_current_amount', u'Не указано'))
+            ws.write(number, 58, item.local_score.loan_score.repayment_percent_score)
+
+            ws.write(number, 60, user_data.get('charges_maturity_date', u'Не указано'))
+            ws.write(number, 61, item.local_score.loan_score.days_to_repayment_score)
+
+            ws.write(number, 63, user_data.get('charges_monthly_payment', u'Не указано'))
+            ws.write(number, 64, item.local_score.loan_score.monthly_payment_score)
+
+            payment = float(user_data.get('charges_monthly_payment', u'Не указано'))
+            income = float(user_data.get('placement_income', u'Не указано'))
+            debt_burden = payment / income
+            ws.write(number, 66, debt_burden)
+            ws.write(number, 67, item.local_score.loan_score.debt_burden_score)
+
+            ws.write(number, 70, item.local_score.placement_score.placement_clean_income)
+
+            ws.write(number, 72, user_data.get('assets_available_assets', u'Не указано'))
+            ws.write(number, 73, item.local_score.assets_score.available_assets_score)
+
+            ws.write(number, 75, user_data.get('assets_flat_area', u'Не указано'))
+            ws.write(number, 76, item.local_score.assets_score.flat_area_score)
+
+            ws.write(number, 78, user_data.get('assets_flat_state', u'Не указано'))
+            ws.write(number, 79, item.local_score.assets_score.flat_status_score)
+
+            ws.write(number, 81, u'Не учитывается')
+            ws.write(number, 82, u'Не учитывается')
+
+            ws.write(number, 84, user_data.get('assets_house_area', u'Не указано'))
+            ws.write(number, 85, item.local_score.assets_score.house_area_score)
+
+            ws.write(number, 87, user_data.get('assets_house_state', u'Не указано'))
+            ws.write(number, 88, item.local_score.assets_score.house_status_score)
+
+            ws.write(number, 90, u'Не учитывается')
+            ws.write(number, 91, u'Не учитывается')
+
+            ws.write(number, 93, user_data.get('assets_car_year_manufacture', u'Не указано'))
+            ws.write(number, 94, item.local_score.assets_score.car_lifetime_score)
+
+            ws.write(number, 96, user_data.get('assets_car_mileage', u'Не указано'))
+            ws.write(number, 97, item.local_score.assets_score.car_mileage_car_score)
+
+            ws.write(number, 99, user_data.get('assets_car_state', u'Не указано'))
+            ws.write(number, 100, item.local_score.assets_score.car_status_score)
+
+            ws.write(number, 102, user_data.get('assets_deposits_maturity_date', u'Не указано'))
+            ws.write(number, 103, item.local_score.assets_score.deposit_maturity_date_score)
+
+            ws.write(number, 105, user_data.get('assets_deposits_amount', u'Не указано'))
+            ws.write(number, 106, item.local_score.assets_score.deposit_amount_score)
+
+            ws.write(number, 108, user_data.get('assets_deposits_monthly_percents', u'Не указано'))
+            ws.write(number, 109, item.local_score.assets_score.deposit_percents_score)
+
+            ws.write(number, 111, user_data.get('assets_other_assets_price', u'Не указано'))
+            ws.write(number, 112, item.local_score.assets_score.other_assets_score)
+
+            ws.write(number, 113, item.date_create.strftime(BASE_DATE_FORMAT))
+            ws.write(number, 114, item.local_score.total_score)
+
+        print u'Сохраняем отчет'
+        file_name = '/report_scoring_%s.xls' % datetime.date.today()
+        path_to_file = self.path_to_report + file_name
+        wb.save(path_to_file)
+
+        print u'Отправляем письма с отчетом'
+        ## send email to managers
+        from_email = DEFAULT_FROM_EMAIL
+        subject = u"[simzirok.com] Отчет о заемщиках в системе"
+        body = u"Добрый день! \n Отчет во вложении"
+
+        receivers = REPORTS_MANAGER
+        print u'Получатели: %s' % receivers
+        print u'DEBUG: %s' % DEBUG
+        msg = EmailMessage(subject, body, from_email, receivers)
+        msg.attach_file(path_to_file, 'application/xls')
+        msg.content_subtype = "html"
+        msg.send()
+        print u'Сообщение отправлено'

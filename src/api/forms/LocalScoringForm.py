@@ -21,6 +21,7 @@ class LocalScoringForm(forms.Form):
                  AdditionalIncomePlainModel.fields + \
                  ChargesPlainModel.fields + \
                  CreditChargesPlainModel.fields + \
-                 AssetsPlainModel.fields
+                 AssetsPlainModel.fields + \
+                 ['country', 'profile_birthday', 'key', 'user_key', 'profile_addresses_similar']
         for field in fields:
             self.fields[field] = forms.CharField(max_length=255, required=False)
