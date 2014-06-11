@@ -300,7 +300,7 @@ class Command(BaseCommand):
                 debt_burden = payment / income
             except Exception:
                 income = 0
-                debt_burden = payment / income
+                debt_burden = 0
             ws.write(number, 66, debt_burden)
             ws.write(number, 67, item.local_score.loan_score.debt_burden_score)
 
