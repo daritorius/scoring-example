@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from api.exceptions import ApiExceptions
 from api.facades.BaseScoringFacade import BaseScoringFacade
 from api.forms.LocalScoringForm import LocalScoringForm
 from core.scoring.actions.ScoringActions import ScoringActions
@@ -20,7 +21,7 @@ class LocalScoringFacade(BaseScoringFacade):
             scoring = self.scoring_actions.calculate_scoring(user_data, form.cleaned_data)
             return scoring
         else:
-            return {'error': u'wrong parameters'}
+            raise ApiExceptions(u'Wrong request')
 
     def generate_user_data(self, data):
         profile_passport_data = ProfilePassportPlainModel(**data)

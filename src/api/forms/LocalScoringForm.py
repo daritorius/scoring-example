@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
-from core.scoring.apps.local.plain_models import ProfilePainModel, ProfilePassportPlainModel, \
+from core.scoring.apps.local.plain_models import ProfilePassportPlainModel, \
     OfficialAddressPlainModel, RealAddressPlainModel, PersonalInformationPlainModel, \
     PlacementPlainModel, AdditionalIncomePlainModel, ChargesPlainModel, CreditChargesPlainModel, AssetsPlainModel
 from django import forms
 from django.utils.translation import ugettext as _
+
+
+class CheckUserKeyForm(forms.Form):
+    user_key = forms.CharField(max_length=255, required=False)
 
 
 class LocalScoringForm(forms.Form):
