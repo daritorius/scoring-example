@@ -48,7 +48,15 @@ class PersonalScoringModule(BaseScoringModule):
     def calculate_marital_status_score(self, data):
         score = self.cards.min_score
         if hasattr(data.profile_personal_information, 'personal_marital_status'):
-            score = self.cards.get_marital_status_card()[str(data.profile_personal_information.personal_marital_status)]
+            from core.scoring.apps.local.actions.modules.AgeScoringModule import AgeScoringModule
+            age_module = AgeScoringModule()
+            age = age_module.calculate_age(data)
+            if self.cards.min_normal_marital_age <= age < self.cards.max_normal_marital_age:
+                score = self.cards.get_marital_status_normal_card()[str(
+                    data.profile_personal_information.personal_marital_status)]
+            else:
+                score = self.cards.get_marital_status_bad_card()[str(
+                    data.profile_personal_information.personal_marital_status)]
         return score
 
     def calculate_official_address_score(self, data):

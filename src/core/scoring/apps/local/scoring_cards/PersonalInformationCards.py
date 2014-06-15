@@ -13,6 +13,9 @@ class PersonalInformationCards(BaseScoringCards):
     min_identity_address_score = 0
     max_identity_address_score = 300
 
+    min_normal_marital_age = 30
+    max_normal_marital_age = 65
+
     HIGH_EDUCATION = 0
     MIDDLE_EDUCATION = 1
     MIDDLE_TECH_EDUCATION = 2
@@ -44,17 +47,6 @@ class PersonalInformationCards(BaseScoringCards):
     }
 
     def get_education_card(self):
-        """
-            EDUCATION TYPES:
-            HIGH_EDUCATION = 0
-            MIDDLE_EDUCATION = 1
-            MIDDLE_TECH_EDUCATION = 2
-            NOT_FINISHED_HIGH_EDUCATION = 3
-            TWO_OR_MORE_HIGH_EDUCATION = 4
-            DEGREE_EDUCATION = 4
-            NOT_FINISHED_MIDDLE_EDUCATION = 5
-        """
-
         card = {
             '5': -300,
             '1': -200,
@@ -65,18 +57,19 @@ class PersonalInformationCards(BaseScoringCards):
         }
         return card
 
-    def get_marital_status_card(self):
-        """
-            MARITAL STATUSES:
-            FALSE_MARITAL_STATUS = 0
-            TRUE_MARITAL_STATUS = 1
-            WIDOW_MARITAL_STATUS = 2
-            DIVORCED_MARITAL_STATUS = 3
-        """
-
+    def get_marital_status_normal_card(self):
         card = {
             '1': 300,
             '0': -100,
+            '3': -300,
+            '2': 0
+        }
+        return card
+
+    def get_marital_status_bad_card(self):
+        card = {
+            '1': 300,
+            '0': 0,
             '3': -300,
             '2': 0
         }

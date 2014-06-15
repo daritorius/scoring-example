@@ -246,7 +246,7 @@ class Command(BaseCommand):
             ws.write(number, 37, u'Не учитывается')
 
             if int(user_data.get('placement_type', None)) == placement_card.TYPE_WAGE_EARNER:
-                wage_total = str(user_data.get('placement_income', 0)) + '/' + \
+                wage_total = str(user_data.get('placement_income', 0)) + ' + ' + \
                              str(user_data.get('placement_additional_income', 0))
                 ws.write(number, 30, wage_total)
                 ws.write(number, 31, item.local_score.placement_score.wage_score)
@@ -254,7 +254,7 @@ class Command(BaseCommand):
                 position = placement_card.POSITION_CATEGORIES[str(user_data.get('placement_category_position', 0))]
                 ws.write(number, 33, position)
                 ws.write(number, 34, item.local_score.placement_score.category_position_score)
-            else:
+            elif int(user_data.get('placement_type', None)) == placement_card.TYPE_PRIVATE_ENTREPRENEUR:
                 ws.write(number, 39, user_data.get('placement_term', u'Не указано'))
                 ws.write(number, 40, item.local_score.placement_score.term_score)
 
@@ -350,7 +350,7 @@ class Command(BaseCommand):
         wb.save(path_to_file)
 
         print u'Отправляем письма с отчетом'
-        ## send email to managers
+        # # send email to managers
         from_email = DEFAULT_FROM_EMAIL
         subject = u"[simzirok.com] Отчет о заемщиках в системе"
         body = u"Добрый день! \n Отчет во вложении"
