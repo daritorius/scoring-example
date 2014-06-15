@@ -12,7 +12,14 @@ class BaseService(object):
     model_instance = None
     cache_service = CacheService()
     allowed_cache_services = [
-        '',
+        'CountryService',
+        'ScoringService',
+        'LocalAgeScoreService',
+        'LocalAssetsScoringService',
+        'LocalLoanScoringService',
+        'LocalPersonalScoringService',
+        'LocalPlacementScoringService',
+        'LocalScoringService',
     ]
 
     def get_by_id(self, obj_id):

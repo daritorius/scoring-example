@@ -21,3 +21,6 @@ django-assets==0.8
 
 ## nginx runcfgi
 flup==1.0.2
+
+## xlwt for reports
+xlwt==0.7.5
