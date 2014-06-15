@@ -1,6 +1,58 @@
 # -*- coding: utf-8 -*-
 from core.main.base.BasePlainModel import BasePlainModel
+from core.main.base.facades.BaseFacade import Singleton
 from django.utils.translation import ugettext_lazy as _
+
+
+class IntegerFieldsPlainModel(BasePlainModel):
+    __metaclass__ = Singleton
+    fields = [
+        'profile_addresses_similar',
+        'passport_number',
+        'passport_pdn',
+        'personal_education',
+        'personal_marital_status',
+        'personal_cohabitants',
+        'personal_dependents',
+        'placement_type',
+        'placement_organisation_count_employees',
+        'placement_category_position',
+        'placement_pdn_organisation',
+        'placement_term',
+        'charges_outstanding_loans',
+        'assets_available_assets',
+        'assets_flat_area',
+        'assets_flat_state',
+        'assets_house_area',
+        'assets_house_state',
+        'assets_car_year_manufacture',
+        'assets_car_mileage',
+        'assets_car_state',
+    ]
+
+
+class FloatFieldsPlainModel(BasePlainModel):
+    __metaclass__ = Singleton
+    fields = [
+        'placement_income',
+        'placement_tax_quarter',
+        'placement_additional_income',
+        'placement_charges',
+        'additional_income_amount',
+        'charges_food',
+        'charges_health',
+        'charges_clothes',
+        'charges_utilities',
+        'charges_rent',
+        'charges_alimony',
+        'charges_monthly_payment',
+        'charges_initial_amount',
+        'charges_current_amount',
+        'charges_monthly_payment',
+        'assets_deposits_amount',
+        'assets_deposits_monthly_percents',
+        'assets_other_assets_price',
+    ]
 
 
 class ProfilePainModel(BasePlainModel):

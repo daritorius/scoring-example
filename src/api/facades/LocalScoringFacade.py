@@ -17,11 +17,11 @@ class LocalScoringFacade(BaseScoringFacade):
 
         form = LocalScoringForm(data)
         if form.is_valid():
-            user_data = self.generate_user_data(data)
+            user_data = self.generate_user_data(self.clean_data(form.cleaned_data))
             scoring = self.scoring_actions.calculate_scoring(user_data, form.cleaned_data)
             return scoring
         else:
-            raise ApiExceptions(u'Wrong request')
+            raise ApiExceptions(u'Wrong request: %s' % form.errors.as_text)
 
     def generate_user_data(self, data):
         profile_passport_data = ProfilePassportPlainModel(**data)
@@ -45,3 +45,12 @@ class LocalScoringFacade(BaseScoringFacade):
             profile_assets=assets_profile_data,
             **data)
         return profile_data
+
+    def clean_data(self, data):
+        del_keys = []
+        for key, value in data.iteritems():
+            if data[key] is None or data[key] == '':
+                del_keys.append(key)
+        for key in del_keys:
+            del data[key]
+        return data

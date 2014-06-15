@@ -30,24 +30,18 @@ class PlacementScoringModule(BaseScoringModule):
         return placement_data
 
     def calculate_work_scores(self, data):
-        # score = self.cards.min_score
         work_data = LocalPlacementScoringPlainModel()
         if hasattr(data.profile_placement_information, 'placement_type'):
-            if int(getattr(data.profile_placement_information, 'placement_type')[0]) == \
-                self.cards.TYPE_PRIVATE_ENTREPRENEUR:
-                # score = self.calculate_score_for_pe(data)
+            if int(getattr(data.profile_placement_information, 'placement_type')) == \
+                    self.cards.TYPE_PRIVATE_ENTREPRENEUR:
                 work_data = self.calculate_score_for_pe(data)
-            if int(getattr(data.profile_placement_information, 'placement_type')[0]) == \
-                self.cards.TYPE_WAGE_EARNER:
-                # score = self.calculate_score_for_employment_user(data)
+            if int(getattr(data.profile_placement_information, 'placement_type')) == \
+                    self.cards.TYPE_WAGE_EARNER:
                 work_data = self.calculate_score_for_employment_user(data)
         score = 0
         for field in LocalPlacementScoringPlainModel.fields:
             if hasattr(work_data, field):
-                try:
-                    score += int(getattr(work_data, field))
-                except Exception:
-                    continue
+                score += int(getattr(work_data, field))
         score = self.cards.min_score if not score else score
         data = LocalPlacementScoringPlainModel(work_score=score, **work_data.__dict__)
         return data
@@ -59,7 +53,6 @@ class PlacementScoringModule(BaseScoringModule):
         print 'pe tax score: %s' % tax_score
         count_score = self.calculate_pe_count_employees_score(data)
         print 'pe count employees score: %s' % count_score
-        # score = term_score + tax_score
         data = LocalPlacementScoringPlainModel(tax_score=tax_score, count_employees_score=count_score,
                                                term_score=term_score)
         return data
@@ -67,52 +60,43 @@ class PlacementScoringModule(BaseScoringModule):
     def calculate_pe_term_score(self, data):
         score = self.cards.min_employ_score
         if hasattr(data.profile_placement_information, 'placement_term'):
-            try:
-                term = int(getattr(data.profile_placement_information, 'placement_term')[0])
-                if term >= self.cards.max_employ_term:
-                    score = self.cards.max_employ_score
-                else:
-                    for item in sorted(self.cards.get_pe_term_card(),
-                                       key=lambda key: self.cards.get_pe_term_card()[key]):
-                        if term <= int(item):
-                            score = self.cards.get_pe_term_card()[item]
-                            break
-            except Exception:
-                score = self.cards.min_employ_score
+            term = int(getattr(data.profile_placement_information, 'placement_term'))
+            if term >= self.cards.max_employ_term:
+                score = self.cards.max_employ_score
+            else:
+                for item in sorted(self.cards.get_pe_term_card(),
+                                   key=lambda key: self.cards.get_pe_term_card()[key]):
+                    if term <= int(item):
+                        score = self.cards.get_pe_term_card()[item]
+                        break
         return score
 
     def calculate_pe_tax_score(self, data):
         score = self.cards.min_score
         if hasattr(data.profile_placement_information, 'placement_organisation_count_employees'):
-            try:
-                count = int(getattr(data.profile_placement_information, 'placement_organisation_count_employees')[0])
-                if count >= self.cards.max_pe_employees_count:
-                    score = self.cards.max_score
-                else:
-                    for item in sorted(self.cards.get_pe_count_employments_card(),
-                                       key=lambda key: self.cards.get_pe_count_employments_card()[key]):
-                        if count <= int(item):
-                            score = self.cards.get_pe_count_employments_card()[item]
-                            break
-            except Exception:
-                score = self.cards.min_score
+            count = int(getattr(data.profile_placement_information, 'placement_organisation_count_employees'))
+            if count >= self.cards.max_pe_employees_count:
+                score = self.cards.max_score
+            else:
+                for item in sorted(self.cards.get_pe_count_employments_card(),
+                                   key=lambda key: self.cards.get_pe_count_employments_card()[key]):
+                    if count <= int(item):
+                        score = self.cards.get_pe_count_employments_card()[item]
+                        break
         return score
 
     def calculate_pe_count_employees_score(self, data):
         score = self.cards.min_score
         if hasattr(data.profile_placement_information, 'placement_tax_quarter'):
-            try:
-                tax = int(getattr(data.profile_placement_information, 'placement_tax_quarter')[0])
-                if tax >= self.cards.max_pe_tax_amount:
-                    score = self.cards.max_score
-                else:
-                    for item in sorted(self.cards.get_pe_tax_card(),
-                                       key=lambda key: self.cards.get_pe_tax_card()[key]):
-                        if tax <= int(item):
-                            score = self.cards.get_pe_tax_card()[item]
-                            break
-            except Exception:
-                score = self.cards.min_score
+            tax = int(getattr(data.profile_placement_information, 'placement_tax_quarter'))
+            if tax >= self.cards.max_pe_tax_amount:
+                score = self.cards.max_score
+            else:
+                for item in sorted(self.cards.get_pe_tax_card(),
+                                   key=lambda key: self.cards.get_pe_tax_card()[key]):
+                    if tax <= int(item):
+                        score = self.cards.get_pe_tax_card()[item]
+                        break
         return score
 
     def calculate_score_for_employment_user(self, data):
@@ -122,72 +106,56 @@ class PlacementScoringModule(BaseScoringModule):
         print 'employment wage score: %s' % wage_score
         category_position_score = self.calculate_category_position(data)
         print 'category position score: %s' % category_position_score
-        # score = term_score + wage_score + category_position_score
         data = LocalPlacementScoringPlainModel(term_score=term_score, wage_score=wage_score,
-                                               category_position_score=category_position_score,)
+                                               category_position_score=category_position_score, )
         return data
 
     def calculate_employment_term_score(self, data):
         score = self.cards.min_employ_score
         if hasattr(data.profile_placement_information, 'placement_term'):
-            try:
-                term = int(getattr(data.profile_placement_information, 'placement_term')[0])
-                if term >= self.cards.max_employ_term:
-                    score = self.cards.max_employ_score
-                else:
-                    for item in sorted(self.cards.get_wage_earner_term_card(),
-                                       key=lambda key: self.cards.get_wage_earner_term_card()[key]):
-                        if term <= int(item):
-                            score = self.cards.get_wage_earner_term_card()[item]
-                            break
-            except Exception:
-                score = self.cards.min_employ_score
+            term = int(getattr(data.profile_placement_information, 'placement_term'))
+            if term >= self.cards.max_employ_term:
+                score = self.cards.max_employ_score
+            else:
+                for item in sorted(self.cards.get_wage_earner_term_card(),
+                                   key=lambda key: self.cards.get_wage_earner_term_card()[key]):
+                    if term <= int(item):
+                        score = self.cards.get_wage_earner_term_card()[item]
+                        break
         return score
 
     def calculate_category_position(self, data):
         score = self.cards.min_score
         if hasattr(data.profile_placement_information, 'placement_category_position'):
-            try:
-                category_position = int(getattr(data.profile_placement_information, 'placement_category_position')[0])
-                for item in sorted(self.cards.get_wage_earner_term_card(),
-                                   key=lambda key: self.cards.get_wage_earner_term_card()[key]):
-                    if category_position == int(item):
-                        score = self.cards.get_wage_earner_category_postition_card()[item]
-                        break
-            except Exception:
-                score = self.cards.min_score
+            category_position = int(getattr(data.profile_placement_information, 'placement_category_position'))
+            for item in sorted(self.cards.get_wage_earner_term_card(),
+                               key=lambda key: self.cards.get_wage_earner_term_card()[key]):
+                if category_position == int(item):
+                    score = self.cards.get_wage_earner_category_postition_card()[item]
+                    break
         return score
 
     def calculate_employment_wage_score(self, data):
         score = self.cards.min_income_score
         income = 0
         if hasattr(data.profile_placement_information, 'placement_income'):
-            try:
-                income = float(data.profile_placement_information.placement_income[0])
-            except Exception:
-                income = 0
+            income = float(data.profile_placement_information.placement_income)
         if hasattr(data.profile_placement_information, 'placement_additional_income'):
-            try:
-                income += float(getattr(data.profile_placement_information, 'placement_additional_income')[0])
-            except Exception:
-                income += 0
+            income += float(getattr(data.profile_placement_information, 'placement_additional_income'))
         if income >= self.cards.max_income_amount:
             score = self.cards.max_income_score
         else:
-            try:
-                for item in sorted(self.cards.get_wage_earner_amount_card(),
-                                   key=lambda key: self.cards.get_wage_earner_amount_card()[key]):
-                    if income < float(item):
-                        score = self.cards.get_wage_earner_amount_card()[item]
-                        break
-            except Exception:
-                score = self.cards.min_income_score
+            for item in sorted(self.cards.get_wage_earner_amount_card(),
+                               key=lambda key: self.cards.get_wage_earner_amount_card()[key]):
+                if income < float(item):
+                    score = self.cards.get_wage_earner_amount_card()[item]
+                    break
         return score
 
     def calculate_type_score(self, data):
         score = self.cards.min_type_score
         if hasattr(data.profile_placement_information, 'placement_type'):
-            score = self.cards.get_placement_type_card()[str(data.profile_placement_information.placement_type[0])]
+            score = self.cards.get_placement_type_card()[str(data.profile_placement_information.placement_type)]
         data = LocalPlacementScoringPlainModel(placement_type_score=score)
         return data
 
@@ -195,17 +163,11 @@ class PlacementScoringModule(BaseScoringModule):
         score = self.cards.min_income_score
         income = 0
         if hasattr(data.profile_placement_information, 'placement_income'):
-            try:
-                income = float(data.profile_placement_information.placement_income[0]) if \
-                    getattr(data.profile_placement_information, 'placement_income') else 0
-            except Exception:
-                income = 0
+            income = float(data.profile_placement_information.placement_income) if \
+                getattr(data.profile_placement_information, 'placement_income') else 0
         if hasattr(data.profile_placement_information, 'placement_additional_income'):
-            try:
-                income += float(getattr(data.profile_placement_information, 'placement_additional_income')[0]) if \
-                    getattr(data.profile_placement_information, 'placement_additional_income') else 0
-            except Exception:
-                income = 0
+            income += float(getattr(data.profile_placement_information, 'placement_additional_income')) if \
+                getattr(data.profile_placement_information, 'placement_additional_income') else 0
         if income >= self.cards.max_income_amount:
             score = self.cards.max_income_score
         else:
@@ -221,24 +183,15 @@ class PlacementScoringModule(BaseScoringModule):
         score = self.cards.min_clean_income_score
         charges = income = 0
         if hasattr(data.profile_placement_information, 'placement_income'):
-            try:
-                income = float(data.profile_placement_information.placement_income[0]) if \
-                    getattr(data.profile_placement_information, 'placement_income') else 0
-            except Exception:
-                income = 0
+            income = float(data.profile_placement_information.placement_income) if \
+                getattr(data.profile_placement_information, 'placement_income') else 0
         if hasattr(data.profile_placement_information, 'placement_additional_income'):
-            try:
-                income += float(getattr(data.profile_placement_information, 'placement_additional_income')[0]) if \
-                    getattr(data.profile_placement_information, 'placement_additional_income') else 0
-            except Exception:
-                income = 0
+            income += float(getattr(data.profile_placement_information, 'placement_additional_income')) if \
+                getattr(data.profile_placement_information, 'placement_additional_income') else 0
         for item in ChargesPlainModel.fields:
             if hasattr(data.profile_charges, item):
-                try:
-                    charges += float(getattr(data.profile_charges, item)[0]) if \
-                        getattr(data.profile_charges, item) else 0
-                except Exception:
-                    continue
+                charges += float(getattr(data.profile_charges, item)) if \
+                    getattr(data.profile_charges, item) else 0
         clean_income = income - charges
         if clean_income >= self.cards.max_clean_income_amount:
             score = self.cards.max_clean_income_score

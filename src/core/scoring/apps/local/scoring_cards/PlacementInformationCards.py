@@ -52,16 +52,6 @@ class PlacementInformationCards(BaseScoringCards):
     }
 
     def get_placement_type_card(self):
-        """
-            PLACEMENT_TYPE:
-            TYPE_UNEMPLOYED = 0
-            TYPE_HOUSEWIFE = 1
-            TYPE_STUDENT = 2
-            TYPE_PENSIONER = 3
-            TYPE_SOLDIER = 4
-            TYPE_WAGE_EARNER = 5
-            TYPE_PRIVATE_ENTREPRENEUR = 6
-        """
         card = {
             '0': 0,
             '1': -100,

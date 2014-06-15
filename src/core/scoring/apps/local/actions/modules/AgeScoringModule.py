@@ -23,7 +23,7 @@ class AgeScoringModule(BaseScoringModule):
         return age_data
 
     def calculate_age(self, data):
-        birthday = datetime.datetime.strptime(data.profile_birthday[0], BASE_DATE_FORMAT)
+        birthday = datetime.datetime.strptime(data.profile_birthday, BASE_DATE_FORMAT)
         return self._get_age(birthday)
 
     def _get_age(self, birthday):

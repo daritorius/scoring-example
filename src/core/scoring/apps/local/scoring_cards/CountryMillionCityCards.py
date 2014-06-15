@@ -12,7 +12,7 @@ class CountryMillionCityCards(BaseScoringCards):
         cities = {
             'ua': self.__get_ua_cities(),
         }
-        return cities[country_code[0]]
+        return cities[country_code]
 
     def __get_ua_cities(self):
         return [u'kiev', u'odessa', u'kharkov', u'киев', u'одесса', u'харьков']

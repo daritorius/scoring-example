@@ -15,16 +15,16 @@ class ScoringActions(BaseScoringAction):
 
     def calculate_scoring(self, data, cleaned_data):
         if hasattr(data, 'user_key'):
-            scoring = self.scoring_service.get_item(user_number=getattr(data, 'user_key')[0])
+            scoring = self.scoring_service.get_item(user_number=getattr(data, 'user_key'))
             if not scoring:
                 local_scoring = self._calculate_local_scoring(data)
-                save_data = ScoringPlainModel(country=self.country_service.get_item(code=getattr(data, 'country')[0]),
+                save_data = ScoringPlainModel(country=self.country_service.get_item(code=getattr(data, 'country')),
                                               rating=local_scoring.rating, local_score=local_scoring,
                                               user_data=json.dumps(cleaned_data))
                 scoring = self.scoring_service.create(save_data)
         else:
             local_scoring = self._calculate_local_scoring(data)
-            save_data = ScoringPlainModel(country=self.country_service.get_item(code=getattr(data, 'country')[0]),
+            save_data = ScoringPlainModel(country=self.country_service.get_item(code=getattr(data, 'country')),
                                           rating=local_scoring.rating, local_score=local_scoring,
                                           user_data=json.dumps(cleaned_data))
             scoring = self.scoring_service.create(save_data)
