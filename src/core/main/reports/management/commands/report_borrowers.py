@@ -192,6 +192,7 @@ class Command(BaseCommand):
 
         ws.write(0, 113, u'Дата расчета')
         ws.write(0, 114, u'Итоговый бал')
+        ws.write(0, 115, u'Рейтинг')
 
         for number, item in enumerate(scorings, start=1):
             user_data = json.loads(item.user_data)
@@ -341,6 +342,7 @@ class Command(BaseCommand):
 
             ws.write(number, 113, item.date_create.strftime(BASE_DATE_FORMAT))
             ws.write(number, 114, item.local_score.total_score)
+            ws.write(number, 115, item.local_score.rating)
 
         print u'Сохраняем отчет'
         file_name = '/report_scoring_%s.xls' % datetime.date.today()
