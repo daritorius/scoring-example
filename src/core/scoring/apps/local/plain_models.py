@@ -21,12 +21,9 @@ class IntegerFieldsPlainModel(BasePlainModel):
         'placement_term',
         'charges_outstanding_loans',
         'assets_available_assets',
-        'assets_flat_area',
         'assets_flat_state',
-        'assets_house_area',
         'assets_house_state',
         'assets_car_year_manufacture',
-        'assets_car_mileage',
         'assets_car_state',
     ]
 
@@ -34,6 +31,9 @@ class IntegerFieldsPlainModel(BasePlainModel):
 class FloatFieldsPlainModel(BasePlainModel):
     __metaclass__ = Singleton
     fields = [
+        'assets_car_mileage',
+        'assets_flat_area',
+        'assets_house_area',
         'placement_income',
         'placement_tax_quarter',
         'placement_additional_income',
