@@ -22,7 +22,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         print u'Получаем список элементов'
-        scorings = self.scoring_service.get_all()
+        scorings = self.scoring_service.get_all()[:20]
 
         print u'Генерируем отчет'
         font1 = xlwt.Font()
@@ -40,10 +40,10 @@ class Command(BaseCommand):
         for number in range(1, 51):
             ws.col(number).width = 10000
 
-        ws.write(0, 1, u'№')
-        ws.write(0, 2, u'A1')
-        ws.write(0, 3, u'Дата рождения')
-        # ws.write(0, 3, u'Возраст')
+        ws.write(0, 0, u'№')
+        ws.write(0, 1, u'A1')
+        ws.write(0, 2, u'Дата рождения')
+        ws.write(0, 3, u'Возраст')
         ws.write(0, 4, u'Баллы по секции')
 
         ws.write(0, 5, u'A2')
@@ -195,27 +195,27 @@ class Command(BaseCommand):
 
         for number, item in enumerate(scorings, start=1):
             user_data = json.loads(item.user_data)
-            # for key, value in user_data.iteritems():
-            #     if 'real' in key:
-            #         print u'key: %s | value: %s' % (key, value)
-            ws.write(number, 1, number)
+            ws.write(number, 0, number)
 
-            ws.write(number, 3, user_data.get('profile_birthday', u'Не указано'))
+            ws.write(number, 2, user_data.get('profile_birthday', u'Не указано'))
+            age = self.age_module._get_age(
+                datetime.datetime.strptime(user_data.get('profile_birthday'), BASE_DATE_FORMAT).date()) if \
+                user_data.get('profile_birthday') else _(u'Не указано')
+            ws.write(number, 3, age)
             ws.write(number, 4, item.local_score.age_score.total_score)
 
             personal_card = PersonalInformationCards()
-            education = personal_card.EDUCATION_TYPES[user_data.get('personal_education')] if \
+            education = personal_card.EDUCATION_TYPES[str(user_data.get('personal_education'))] if \
                 user_data.get('personal_education') != '' else _(u'Не указано')
             ws.write(number, 6, education)
             ws.write(number, 7, item.local_score.personal_score.education_score)
 
-            marital_status = personal_card.MARITAL_STATUSES[user_data.get('personal_marital_status')] if \
+            marital_status = personal_card.MARITAL_STATUSES[str(user_data.get('personal_marital_status'))] if \
                 user_data.get('personal_marital_status') != '' else _(u'Не указано')
             ws.write(number, 9, marital_status)
             ws.write(number, 10, item.local_score.personal_score.marital_status_score)
 
-            dependents = user_data.get('personal_dependents') if user_data.get('personal_dependents') != '' \
-                else _(u'Не указано')
+            dependents = user_data.get('personal_dependents', _(u'Не указано'))
             ws.write(number, 12, dependents)
             ws.write(number, 13, item.local_score.loan_score.dependents_score)
 
@@ -225,21 +225,19 @@ class Command(BaseCommand):
             ws.write(number, 18, user_data.get('real_city'))
             ws.write(number, 19, item.local_score.personal_score.real_address_score)
 
-            similar = user_data.get('profile_addresses_similar') if user_data.get('profile_addresses_similar') != '' \
-                else _(u'Не указано')
+            similar = user_data.get('profile_addresses_similar', _(u'Не указано'))
             if similar != '':
                 similar = _(u'да') if int(similar) else _(u'нет')
             ws.write(number, 21, similar)
             ws.write(number, 22, item.local_score.personal_score.identity_addresses_score)
 
             placement_card = PlacementInformationCards()
-            placement_type = placement_card.PLACEMENT_TYPES[user_data.get('placement_type')] if \
+            placement_type = placement_card.PLACEMENT_TYPES[str(user_data.get('placement_type'))] if \
                 user_data.get('placement_type') != '' else _(u'Не указано')
             ws.write(number, 24, placement_type)
             ws.write(number, 25, item.local_score.placement_score.placement_type_score)
 
-            placement_term = user_data.get('placement_term') if user_data.get('placement_term') != '' \
-                else _(u'Не указано')
+            placement_term = user_data.get('placement_term', _(u'Не указано'))
             ws.write(number, 27, placement_term)
             ws.write(number, 28, item.local_score.placement_score.term_score)
 
@@ -247,19 +245,12 @@ class Command(BaseCommand):
             ws.write(number, 37, u'Не учитывается')
 
             if int(user_data.get('placement_type', None)) == placement_card.TYPE_WAGE_EARNER:
-                try:
-                    wage_total = float(user_data.get('placement_income', u'Не указано') if
-                                     user_data.get('placement_income') != '' else 0) + \
-                                 float(user_data.get('placement_additional_income', u'Не указано') if
-                                     user_data.get('placement_additional_income') != '' else 0)
-                except Exception:
-                    wage_total = 0
+                wage_total = str(user_data.get('placement_income', 0)) + '/' + \
+                             str(user_data.get('placement_additional_income', 0))
                 ws.write(number, 30, wage_total)
                 ws.write(number, 31, item.local_score.placement_score.wage_score)
 
-                position = placement_card.POSITION_CATEGORIES[user_data.get(
-                    'placement_category_position', u'Не указано')] if \
-                    user_data.get('placement_category_position', None) else _(u'Не указано')
+                position = placement_card.POSITION_CATEGORIES[str(user_data.get('placement_category_position', 0))]
                 ws.write(number, 33, position)
                 ws.write(number, 34, item.local_score.placement_score.category_position_score)
             else:
@@ -272,21 +263,21 @@ class Command(BaseCommand):
                 ws.write(number, 45, user_data.get('placement_organisation_count_employees', u'Не указано'))
                 ws.write(number, 46, item.local_score.placement_score.count_employees_score)
 
-                try:
-                    ws.write(number, 48, user_data.get('placement_income', u'Не указано') + ' + ' +
-                             user_data.get('placement_additional_income', u'Не указано'))
-                except Exception:
-                    ws.write(number, 48, '0')
+                ws.write(number, 48, str(user_data.get('placement_income', 0)) + ' + ' + \
+                         str(user_data.get('placement_additional_income', 0)))
                 ws.write(number, 49, item.local_score.placement_score.placement_income_score)
 
-            ws.write(number, 51, user_data.get('charges_outstanding_loans', u'Не указано'))
+            outstanding_loans = user_data.get('charges_outstanding_loans', '')
+            if outstanding_loans != '':
+                outstanding_loans = _(u'да') if int(outstanding_loans) else _(u'нет')
+            ws.write(number, 51, outstanding_loans)
             ws.write(number, 52, item.local_score.loan_score.outstanding_loan_score)
 
             ws.write(number, 54, user_data.get('charges_initial_amount', u'Не указано'))
             ws.write(number, 55, item.local_score.loan_score.amount_loan_score)
 
-            ws.write(number, 57, user_data.get('charges_initial_amount', u'Не указано') + '/' +
-                     user_data.get('charges_current_amount', u'Не указано'))
+            ws.write(number, 57, str(user_data.get('charges_initial_amount', 0)) + '/' +
+                     str(user_data.get('charges_current_amount', 0)))
             ws.write(number, 58, item.local_score.loan_score.repayment_percent_score)
 
             ws.write(number, 60, user_data.get('charges_maturity_date', u'Не указано'))
@@ -295,18 +286,12 @@ class Command(BaseCommand):
             ws.write(number, 63, user_data.get('charges_monthly_payment', u'Не указано'))
             ws.write(number, 64, item.local_score.loan_score.monthly_payment_score)
 
+            payment = float(user_data.get('charges_monthly_payment', 0))
+            income = float(user_data.get('placement_income', 0))
             try:
-                payment = float(user_data.get('charges_monthly_payment', u'Не указано')) if \
-                    user_data.get('charges_monthly_payment') else 0
-            except Exception:
-                payment = 0
-            try:
-                income = float(user_data.get('placement_income', u'Не указано')) if \
-                    user_data.get('placement_income') else 0
                 debt_burden = payment / income
-            except Exception:
-                income = 0
-                debt_burden = 0
+            except ZeroDivisionError:
+                debt_burden = 1
             ws.write(number, 66, debt_burden)
             ws.write(number, 67, item.local_score.loan_score.debt_burden_score)
 

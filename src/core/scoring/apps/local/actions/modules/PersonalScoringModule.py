@@ -48,7 +48,7 @@ class PersonalScoringModule(BaseScoringModule):
     def calculate_marital_status_score(self, data):
         score = self.cards.min_score
         if hasattr(data.profile_personal_information, 'personal_marital_status'):
-            score = self.cards.get_education_card()[str(data.profile_personal_information.personal_marital_status)]
+            score = self.cards.get_marital_status_card()[str(data.profile_personal_information.personal_marital_status)]
         return score
 
     def calculate_official_address_score(self, data):

@@ -71,7 +71,7 @@ class PlacementScoringModule(BaseScoringModule):
                         break
         return score
 
-    def calculate_pe_tax_score(self, data):
+    def calculate_pe_count_employees_score(self, data):
         score = self.cards.min_score
         if hasattr(data.profile_placement_information, 'placement_organisation_count_employees'):
             count = int(getattr(data.profile_placement_information, 'placement_organisation_count_employees'))
@@ -85,7 +85,7 @@ class PlacementScoringModule(BaseScoringModule):
                         break
         return score
 
-    def calculate_pe_count_employees_score(self, data):
+    def calculate_pe_tax_score(self, data):
         score = self.cards.min_score
         if hasattr(data.profile_placement_information, 'placement_tax_quarter'):
             tax = int(getattr(data.profile_placement_information, 'placement_tax_quarter'))
@@ -107,7 +107,7 @@ class PlacementScoringModule(BaseScoringModule):
         category_position_score = self.calculate_category_position(data)
         print 'category position score: %s' % category_position_score
         data = LocalPlacementScoringPlainModel(term_score=term_score, wage_score=wage_score,
-                                               category_position_score=category_position_score, )
+                                               category_position_score=category_position_score,)
         return data
 
     def calculate_employment_term_score(self, data):
@@ -128,8 +128,8 @@ class PlacementScoringModule(BaseScoringModule):
         score = self.cards.min_score
         if hasattr(data.profile_placement_information, 'placement_category_position'):
             category_position = int(getattr(data.profile_placement_information, 'placement_category_position'))
-            for item in sorted(self.cards.get_wage_earner_term_card(),
-                               key=lambda key: self.cards.get_wage_earner_term_card()[key]):
+            for item in sorted(self.cards.get_wage_earner_category_postition_card(),
+                               key=lambda key: self.cards.get_wage_earner_category_postition_card()[key]):
                 if category_position == int(item):
                     score = self.cards.get_wage_earner_category_postition_card()[item]
                     break

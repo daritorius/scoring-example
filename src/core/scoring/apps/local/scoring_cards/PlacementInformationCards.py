@@ -53,7 +53,7 @@ class PlacementInformationCards(BaseScoringCards):
 
     def get_placement_type_card(self):
         card = {
-            '0': 0,
+            '0': -300,
             '1': -100,
             '2': -100,
             '3': 100,
