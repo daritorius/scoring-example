@@ -73,7 +73,10 @@ class CreditScoringModule(BaseScoringModule):
                 hasattr(data.profile_credit_charges, 'charges_current_amount'):
             purpose_amount = float(getattr(data.profile_credit_charges, 'charges_initial_amount'))
             current_amount = float(getattr(data.profile_credit_charges, 'charges_current_amount'))
-            repayment_percent = 100 - ((current_amount / purpose_amount) * 100)
+            try:
+                repayment_percent = 100 - ((current_amount / purpose_amount) * 100)
+            except ZeroDivisionError:
+                repayment_percent = 0
             if repayment_percent >= self.cards.max_repayment_percent:
                 score = self.cards.max_score
             else:
