@@ -22,7 +22,7 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         print u'Получаем список элементов'
-        scorings = self.scoring_service.get_all()[:20]
+        scorings = self.scoring_service.get_all()
 
         print u'Генерируем отчет'
         font1 = xlwt.Font()
