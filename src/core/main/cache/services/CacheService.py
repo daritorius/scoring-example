@@ -27,18 +27,13 @@ class CacheService(object):
         return item
 
     def total_cache_clear(self):
-        if self.backend == 'memcache':
-            self.cache_backend.clear()
+        self.cache_backend.clear()
 
     def delete_cache(self, name):
-        if self.backend == 'memcache':
-            self.cache_backend.delete(self.clean_name(name))
-        else:
-            self.cache_backend.delete_pattern(self.clean_name(name))
+        self.cache_backend.delete_pattern(self.clean_name(name))
 
     def delete_pattern(self, name):
-        if self.backend == 'default':
-            self.cache_backend.delete_pattern(name)
+        self.cache_backend.delete_pattern(name)
 
     def update_cache(self, name, item):
         if not self.get_cache(self.clean_name(name)):

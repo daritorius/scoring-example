@@ -13,6 +13,10 @@ apps = [
     'core.scoring.apps.local',
     'core.scoring',
 
+    ## scoring cards apps
+    'core.scoring.apps.local.scoring_cards.age_cards',
+    'core.scoring.apps.local.scoring_cards.assets_cards',
+
     ## report apps
     'core.main.reports'
 ]

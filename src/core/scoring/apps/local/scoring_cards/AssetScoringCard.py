@@ -14,12 +14,17 @@ class AssetScoringCard(BaseScoringCards):
     max_deposit_maturity_months = 13
     max_other_assets_price = 10000
 
-    """
-        REPAIR_STATE = 0
-        NORMAL_STATE = 1
-        GOOD_STATE = 2
-        BEST_STATE = 3
-    """
+    REPAIR_STATE = 0
+    NORMAL_STATE = 1
+    GOOD_STATE = 2
+    BEST_STATE = 3
+
+    STATES = (
+        (REPAIR_STATE, _(u'Надо ремонтировать')),
+        (NORMAL_STATE, _(u'Ну такое')),
+        (GOOD_STATE, _(u'Вроде все нормик')),
+        (BEST_STATE, _(u'Бест оф зи бест')),
+    )
 
     def get_available_assets_card(self):
         card = {

@@ -8,7 +8,6 @@ from django.conf import settings
 
 class BaseService(object):
     __metaclass__ = Singleton
-
     model_instance = None
     cache_service = CacheService()
     allowed_cache_services = [
@@ -21,6 +20,12 @@ class BaseService(object):
         'LocalPlacementScoringService',
         'LocalScoringService',
     ]
+
+    def get_current(self):
+        try:
+            return self.get_all(order_by='-id')[0]
+        except IndexError:
+            return None
 
     def get_by_id(self, obj_id):
         try:
