@@ -29,3 +29,73 @@ class LocalAmountLoansCard(BaseScoringCardModel):
         db_table = 'local_loan_amount_card'
         verbose_name = _(u'Local loan amount card')
         verbose_name_plural = _(u'Local loan amount cards')
+
+
+class LocalPercentRepaymentLoansCard(BaseScoringCardModel):
+    def save(self, *args, **kwargs):
+        from core.scoring.apps.local.scoring_cards.credit_cards.services.LocalPercentRepaymentLoansCardService import \
+            LocalPercentRepaymentLoansCardService
+        service = LocalPercentRepaymentLoansCardService()
+        service.cache_service.delete_pattern(u'%s*' % service.__class__.__name__)
+        return super(self.__class__, self).save(*args, **kwargs)
+
+    class Meta:
+        db_table = 'local_loan_repayment_percent_card'
+        verbose_name = _(u'Local loan repayment % card')
+        verbose_name_plural = _(u'Local loan repayment % cards')
+
+
+class LocalDaysRepaymentLoansCard(BaseScoringCardModel):
+    def save(self, *args, **kwargs):
+        from core.scoring.apps.local.scoring_cards.credit_cards.services.LocalDaysRepaymentLoansCardService import \
+            LocalDaysRepaymentLoansCardService
+        service = LocalDaysRepaymentLoansCardService()
+        service.cache_service.delete_pattern(u'%s*' % service.__class__.__name__)
+        return super(self.__class__, self).save(*args, **kwargs)
+
+    class Meta:
+        db_table = 'local_loan_days_repayment_card'
+        verbose_name = _(u'Local loan days to repayment card')
+        verbose_name_plural = _(u'Local loan days to repayment cards')
+
+
+class LocalMonthlyPaymentLoansCard(BaseScoringCardModel):
+    def save(self, *args, **kwargs):
+        from core.scoring.apps.local.scoring_cards.credit_cards.services.LocalMonthlyPaymentLoansCardService import \
+            LocalMonthlyPaymentLoansCardService
+        service = LocalMonthlyPaymentLoansCardService()
+        service.cache_service.delete_pattern(u'%s*' % service.__class__.__name__)
+        return super(self.__class__, self).save(*args, **kwargs)
+
+    class Meta:
+        db_table = 'local_loan_monthly_payment_card'
+        verbose_name = _(u'Local loan monthly payment card')
+        verbose_name_plural = _(u'Local loan monthly payment cards')
+
+
+class LocalDebtBurdenLoansCard(BaseScoringCardModel):
+    def save(self, *args, **kwargs):
+        from core.scoring.apps.local.scoring_cards.credit_cards.services.LocalDebtBurdenLoansCardService import \
+            LocalDebtBurdenLoansCardService
+        service = LocalDebtBurdenLoansCardService()
+        service.cache_service.delete_pattern(u'%s*' % service.__class__.__name__)
+        return super(self.__class__, self).save(*args, **kwargs)
+
+    class Meta:
+        db_table = 'local_loan_debt_burden_card'
+        verbose_name = _(u'Local loan debt burden card')
+        verbose_name_plural = _(u'Local loan debt burden cards')
+
+
+class LocalDependentsCard(BaseScoringCardModel):
+    def save(self, *args, **kwargs):
+        from core.scoring.apps.local.scoring_cards.credit_cards.services.LocalDependentsCardService import \
+            LocalDependentsCardService
+        service = LocalDependentsCardService()
+        service.cache_service.delete_pattern(u'%s*' % service.__class__.__name__)
+        return super(self.__class__, self).save(*args, **kwargs)
+
+    class Meta:
+        db_table = 'local_dependents_card'
+        verbose_name = _(u'Local dependents card')
+        verbose_name_plural = _(u'Local dependents cards')

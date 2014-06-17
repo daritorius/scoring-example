@@ -9,3 +9,23 @@ class LocalOutstandingLoansCardPlainModel(BaseScoringCardPlainModel):
 
 class LocalAmountLoansCardPlainModel(BaseScoringCardPlainModel):
     pass
+
+
+class LocalPercentRepaymentLoansCardPlainModel(BaseScoringCardPlainModel):
+    pass
+
+
+class LocalDaysRepaymentLoansCardPlainModel(BaseScoringCardPlainModel):
+    pass
+
+
+class LocalMonthlyPaymentLoansCardPlainModel(BaseScoringCardPlainModel):
+    pass
+
+
+class LocalDebtBurdenLoansCardPlainModel(BaseScoringCardPlainModel):
+    pass
+
+
+class LocalDependentsCardPlainModel(BaseScoringCardPlainModel):
+    pass
