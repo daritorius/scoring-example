@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from core.main.base.scoring.cards.BaseScoringCardModel import BaseScoringCardModel
+from django.db import models
 from django.utils.translation import ugettext as _
 
 
@@ -88,6 +89,26 @@ class LocalDebtBurdenLoansCard(BaseScoringCardModel):
 
 
 class LocalDependentsCard(BaseScoringCardModel):
+
+    NO_DEPENDENTS = 0
+    ONE_DEPENDENT = 1
+    TWO_DEPENDENTS = 2
+    THREE_DEPENDENTS = 3
+    FOUR_DEPENDENTS = 4
+    MORE_THAN_4_DEPENDENTS = 5
+
+    COUNT_DEPENDENTS = (
+        (NO_DEPENDENTS, _(u'Ну ваще нету')),
+        (ONE_DEPENDENT, _(u'Один какой-то там был')),
+        (TWO_DEPENDENTS, _(u'Уже два о_О')),
+        (THREE_DEPENDENTS, _(u'Начиная с трех можно дальше не считать')),
+        (FOUR_DEPENDENTS, _(u'Уже четыре')),
+        (MORE_THAN_4_DEPENDENTS, _(u'Пофиг уже, 4 и более')),
+    )
+
+    value = models.IntegerField(_(u'Баллы'), default=NO_DEPENDENTS, choices=COUNT_DEPENDENTS, max_length=255,
+                                blank=True, null=True)
+
     def save(self, *args, **kwargs):
         from core.scoring.apps.local.scoring_cards.credit_cards.services.LocalDependentsCardService import \
             LocalDependentsCardService
