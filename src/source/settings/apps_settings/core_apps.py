@@ -16,6 +16,10 @@ apps = [
     ## scoring cards apps
     'core.scoring.apps.local.scoring_cards.age_cards',
     'core.scoring.apps.local.scoring_cards.assets_cards',
+    'core.scoring.apps.local.scoring_cards.cities_cards',
+    'core.scoring.apps.local.scoring_cards.loan_cards',
+    'core.scoring.apps.local.scoring_cards.personal_cards',
+    'core.scoring.apps.local.scoring_cards.placement_cards',
 
     ## report apps
     'core.main.reports'

@@ -12,7 +12,7 @@ class LocalFlatAreaCardPlainModel(BaseScoringCardPlainModel):
 
 
 class LocalFlatStatusCardPlainModel(BaseScoringCardPlainModel):
-    pass
+    fields = BaseScoringCardPlainModel.fields + ['status']
 
 
 class LocalHouseAreaCardPlainModel(BaseScoringCardPlainModel):
@@ -20,7 +20,7 @@ class LocalHouseAreaCardPlainModel(BaseScoringCardPlainModel):
 
 
 class LocalHouseStatusCardPlainModel(BaseScoringCardPlainModel):
-    pass
+    fields = BaseScoringCardPlainModel.fields + ['status']
 
 
 class LocalCarLifetimeCardPlainModel(BaseScoringCardPlainModel):
@@ -32,7 +32,7 @@ class LocalCarMileageCardPlainModel(BaseScoringCardPlainModel):
 
 
 class LocalCarStatusCardPlainModel(BaseScoringCardPlainModel):
-    pass
+    fields = BaseScoringCardPlainModel.fields + ['status']
 
 
 class LocalDepositMaturityDateCardPlainModel(BaseScoringCardPlainModel):

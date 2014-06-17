@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from core.scoring.apps.local.scoring_cards.credit_cards.models import LocalDependentsCard, LocalDebtBurdenLoansCard, \
+from core.scoring.apps.local.scoring_cards.loan_cards.models import LocalDependentsCard, LocalDebtBurdenLoansCard, \
     LocalMonthlyPaymentLoansCard, LocalDaysRepaymentLoansCard, LocalPercentRepaymentLoansCard, LocalAmountLoansCard, \
     LocalOutstandingLoansCard
 from django.contrib import admin

@@ -4,7 +4,7 @@ from django.db import models
 from django.utils.translation import ugettext as _
 
 
-class BaseLocalMaritalStatusCard(BaseScoringCardModel):
+class BaseLocalPersonalMaritalStatusCard(BaseScoringCardModel):
     FALSE_MARITAL_STATUS = 0
     TRUE_MARITAL_STATUS = 1
     WIDOW_MARITAL_STATUS = 2
@@ -17,8 +17,8 @@ class BaseLocalMaritalStatusCard(BaseScoringCardModel):
         (DIVORCED_MARITAL_STATUS, u'Разведена/Разведен'),
     )
 
-    key = models.IntegerField(_(u'Значение'), default=FALSE_MARITAL_STATUS, choices=MARITAL_STATUSES,
-                              max_length=255, blank=True, null=True)
+    BaseScoringCardModel.key = models.IntegerField(_(u'Значение'), default=FALSE_MARITAL_STATUS,
+                                                   choices=MARITAL_STATUSES, max_length=255, blank=True, null=True)
 
     class Meta:
         abstract = True
@@ -43,8 +43,8 @@ class LocalPersonalEducationCard(BaseScoringCardModel):
         (NOT_FINISHED_MIDDLE_EDUCATION, u'Неоконченное среднее образование'),
     )
 
-    key = models.IntegerField(_(u'Значение'), default=NOT_FINISHED_MIDDLE_EDUCATION, choices=EDUCATION_TYPES,
-                              max_length=255, blank=True, null=True)
+    BaseScoringCardModel.key = models.IntegerField(_(u'Значение'), default=NOT_FINISHED_MIDDLE_EDUCATION,
+                                                   choices=EDUCATION_TYPES, max_length=255, blank=True, null=True)
 
     def save(self, *args, **kwargs):
         from core.scoring.apps.local.scoring_cards.personal_cards.services.LocalPersonalEducationCardService import \
@@ -60,7 +60,7 @@ class LocalPersonalEducationCard(BaseScoringCardModel):
         verbose_name_plural = _(u'Local personal education cards')
 
 
-class LocalMaritalStatusNormalCard(BaseLocalMaritalStatusCard):
+class LocalPersonalMaritalStatusNormalCard(BaseLocalPersonalMaritalStatusCard):
     def save(self, *args, **kwargs):
         from core.scoring.apps.local.scoring_cards.personal_cards.services.LocalMaritalStatusNormalCardService import \
             LocalMaritalStatusNormalCardService
@@ -75,7 +75,7 @@ class LocalMaritalStatusNormalCard(BaseLocalMaritalStatusCard):
         verbose_name_plural = _(u'Local personal marital normal cards')
 
 
-class LocalMaritalStatusBadCard(BaseLocalMaritalStatusCard):
+class LocalPersonalMaritalStatusBadCard(BaseLocalPersonalMaritalStatusCard):
     def save(self, *args, **kwargs):
         from core.scoring.apps.local.scoring_cards.personal_cards.services.LocalMaritalStatusBadCardService import \
             LocalMaritalStatusBadCardService
@@ -90,7 +90,7 @@ class LocalMaritalStatusBadCard(BaseLocalMaritalStatusCard):
         verbose_name_plural = _(u'Local personal marital bad cards')
 
 
-class LocalIdentityAddressesCard(BaseScoringCardModel):
+class LocalPersonalIdentityAddressesCard(BaseScoringCardModel):
     def save(self, *args, **kwargs):
         from core.scoring.apps.local.scoring_cards.personal_cards.services.LocalIdentityAddressesCardService import \
             LocalIdentityAddressesCardService

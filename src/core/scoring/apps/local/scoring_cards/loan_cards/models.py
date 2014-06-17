@@ -6,7 +6,7 @@ from django.utils.translation import ugettext as _
 
 class LocalOutstandingLoansCard(BaseScoringCardModel):
     def save(self, *args, **kwargs):
-        from core.scoring.apps.local.scoring_cards.credit_cards.services.LoanOutstandingLoansCardService import \
+        from core.scoring.apps.local.scoring_cards.loan_cards.services.LoanOutstandingLoansCardService import \
             LoanOutstandingLoansCardService
 
         service = LoanOutstandingLoansCardService()
@@ -21,7 +21,7 @@ class LocalOutstandingLoansCard(BaseScoringCardModel):
 
 class LocalAmountLoansCard(BaseScoringCardModel):
     def save(self, *args, **kwargs):
-        from core.scoring.apps.local.scoring_cards.credit_cards.services.LocalAmountLoansCardService import \
+        from core.scoring.apps.local.scoring_cards.loan_cards.services.LocalAmountLoansCardService import \
             LocalAmountLoansCardService
 
         service = LocalAmountLoansCardService()
@@ -36,7 +36,7 @@ class LocalAmountLoansCard(BaseScoringCardModel):
 
 class LocalPercentRepaymentLoansCard(BaseScoringCardModel):
     def save(self, *args, **kwargs):
-        from core.scoring.apps.local.scoring_cards.credit_cards.services.LocalPercentRepaymentLoansCardService import \
+        from core.scoring.apps.local.scoring_cards.loan_cards.services.LocalPercentRepaymentLoansCardService import \
             LocalPercentRepaymentLoansCardService
 
         service = LocalPercentRepaymentLoansCardService()
@@ -51,7 +51,7 @@ class LocalPercentRepaymentLoansCard(BaseScoringCardModel):
 
 class LocalDaysRepaymentLoansCard(BaseScoringCardModel):
     def save(self, *args, **kwargs):
-        from core.scoring.apps.local.scoring_cards.credit_cards.services.LocalDaysRepaymentLoansCardService import \
+        from core.scoring.apps.local.scoring_cards.loan_cards.services.LocalDaysRepaymentLoansCardService import \
             LocalDaysRepaymentLoansCardService
 
         service = LocalDaysRepaymentLoansCardService()
@@ -66,7 +66,7 @@ class LocalDaysRepaymentLoansCard(BaseScoringCardModel):
 
 class LocalMonthlyPaymentLoansCard(BaseScoringCardModel):
     def save(self, *args, **kwargs):
-        from core.scoring.apps.local.scoring_cards.credit_cards.services.LocalMonthlyPaymentLoansCardService import \
+        from core.scoring.apps.local.scoring_cards.loan_cards.services.LocalMonthlyPaymentLoansCardService import \
             LocalMonthlyPaymentLoansCardService
 
         service = LocalMonthlyPaymentLoansCardService()
@@ -81,7 +81,7 @@ class LocalMonthlyPaymentLoansCard(BaseScoringCardModel):
 
 class LocalDebtBurdenLoansCard(BaseScoringCardModel):
     def save(self, *args, **kwargs):
-        from core.scoring.apps.local.scoring_cards.credit_cards.services.LocalDebtBurdenLoansCardService import \
+        from core.scoring.apps.local.scoring_cards.loan_cards.services.LocalDebtBurdenLoansCardService import \
             LocalDebtBurdenLoansCardService
 
         service = LocalDebtBurdenLoansCardService()
@@ -111,11 +111,11 @@ class LocalDependentsCard(BaseScoringCardModel):
         (MORE_THAN_4_DEPENDENTS, _(u'Пофиг уже, 4 и более')),
     )
 
-    key = models.IntegerField(_(u'Баллы'), default=NO_DEPENDENTS, choices=COUNT_DEPENDENTS, max_length=255,
-                              blank=True, null=True)
+    BaseScoringCardModel.key = models.IntegerField(_(u'Баллы'), default=NO_DEPENDENTS, choices=COUNT_DEPENDENTS,
+                                                   max_length=255, blank=True, null=True)
 
     def save(self, *args, **kwargs):
-        from core.scoring.apps.local.scoring_cards.credit_cards.services.LocalDependentsCardService import \
+        from core.scoring.apps.local.scoring_cards.loan_cards.services.LocalDependentsCardService import \
             LocalDependentsCardService
 
         service = LocalDependentsCardService()
