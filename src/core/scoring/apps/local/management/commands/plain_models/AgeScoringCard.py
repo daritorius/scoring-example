@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-from core.scoring.apps.local.scoring_cards.BaseScoringCards import BaseScoringCards
 from django.utils.translation import ugettext as _
 
 
-class AgeScoringCard(BaseScoringCards):
+class AgeScoringCard(object):
     max_scoring_age = 75
     year_correction = 1
     min_age_score = -200

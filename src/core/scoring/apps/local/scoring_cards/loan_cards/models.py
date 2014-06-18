@@ -15,8 +15,8 @@ class LocalOutstandingLoansCard(BaseScoringCardModel):
 
     class Meta:
         db_table = 'local_loan_available_card'
-        verbose_name = _(u'Local loan available card')
-        verbose_name_plural = _(u'Local loan available cards')
+        verbose_name = _(u'Local loan available')
+        verbose_name_plural = _(u'Local loan available')
 
 
 class LocalAmountLoansCard(BaseScoringCardModel):
@@ -30,8 +30,8 @@ class LocalAmountLoansCard(BaseScoringCardModel):
 
     class Meta:
         db_table = 'local_loan_amount_card'
-        verbose_name = _(u'Local loan amount card')
-        verbose_name_plural = _(u'Local loan amount cards')
+        verbose_name = _(u'Local loan amount')
+        verbose_name_plural = _(u'Local loan amount')
 
 
 class LocalPercentRepaymentLoansCard(BaseScoringCardModel):
@@ -45,8 +45,8 @@ class LocalPercentRepaymentLoansCard(BaseScoringCardModel):
 
     class Meta:
         db_table = 'local_loan_repayment_percent_card'
-        verbose_name = _(u'Local loan repayment % card')
-        verbose_name_plural = _(u'Local loan repayment % cards')
+        verbose_name = _(u'Local loan repayment %')
+        verbose_name_plural = _(u'Local loan repayment %')
 
 
 class LocalDaysRepaymentLoansCard(BaseScoringCardModel):
@@ -60,8 +60,8 @@ class LocalDaysRepaymentLoansCard(BaseScoringCardModel):
 
     class Meta:
         db_table = 'local_loan_days_repayment_card'
-        verbose_name = _(u'Local loan days to repayment card')
-        verbose_name_plural = _(u'Local loan days to repayment cards')
+        verbose_name = _(u'Local loan days to repayment')
+        verbose_name_plural = _(u'Local loan days to repayment')
 
 
 class LocalMonthlyPaymentLoansCard(BaseScoringCardModel):
@@ -75,8 +75,8 @@ class LocalMonthlyPaymentLoansCard(BaseScoringCardModel):
 
     class Meta:
         db_table = 'local_loan_monthly_payment_card'
-        verbose_name = _(u'Local loan monthly payment card')
-        verbose_name_plural = _(u'Local loan monthly payment cards')
+        verbose_name = _(u'Local loan monthly payment')
+        verbose_name_plural = _(u'Local loan monthly payment')
 
 
 class LocalDebtBurdenLoansCard(BaseScoringCardModel):
@@ -90,8 +90,8 @@ class LocalDebtBurdenLoansCard(BaseScoringCardModel):
 
     class Meta:
         db_table = 'local_loan_debt_burden_card'
-        verbose_name = _(u'Local loan debt burden card')
-        verbose_name_plural = _(u'Local loan debt burden cards')
+        verbose_name = _(u'Local loan debt burden')
+        verbose_name_plural = _(u'Local loan debt burden')
 
 
 class LocalDependentsCard(BaseScoringCardModel):
@@ -124,5 +124,5 @@ class LocalDependentsCard(BaseScoringCardModel):
 
     class Meta:
         db_table = 'local_dependents_card'
-        verbose_name = _(u'Local dependents card')
-        verbose_name_plural = _(u'Local dependents cards')
+        verbose_name = _(u'Local dependents')
+        verbose_name_plural = _(u'Local dependents')

@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-from core.scoring.apps.local.scoring_cards.BaseScoringCards import BaseScoringCards
 from django.utils.translation import ugettext as _
 
 
-class MainLocalScoringCard(BaseScoringCards):
+class MainLocalScoringCard(object):
     max_score = 300
     min_score = -300
     max_rate = 'A'

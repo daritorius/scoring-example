@@ -56,8 +56,8 @@ class LocalPersonalEducationCard(BaseScoringCardModel):
 
     class Meta:
         db_table = 'local_personal_education_card'
-        verbose_name = _(u'Local personal education card')
-        verbose_name_plural = _(u'Local personal education cards')
+        verbose_name = _(u'Local personal education')
+        verbose_name_plural = _(u'Local personal education')
 
 
 class LocalPersonalMaritalStatusNormalCard(BaseLocalPersonalMaritalStatusCard):
@@ -71,8 +71,8 @@ class LocalPersonalMaritalStatusNormalCard(BaseLocalPersonalMaritalStatusCard):
 
     class Meta:
         db_table = 'local_personal_marital_normal_card'
-        verbose_name = _(u'Local personal marital normal card')
-        verbose_name_plural = _(u'Local personal marital normal cards')
+        verbose_name = _(u'Local personal marital normal')
+        verbose_name_plural = _(u'Local personal marital normal')
 
 
 class LocalPersonalMaritalStatusBadCard(BaseLocalPersonalMaritalStatusCard):
@@ -86,8 +86,8 @@ class LocalPersonalMaritalStatusBadCard(BaseLocalPersonalMaritalStatusCard):
 
     class Meta:
         db_table = 'local_personal_marital_bad_card'
-        verbose_name = _(u'Local personal marital bad card')
-        verbose_name_plural = _(u'Local personal marital bad cards')
+        verbose_name = _(u'Local personal marital bad')
+        verbose_name_plural = _(u'Local personal marital bad')
 
 
 class LocalPersonalIdentityAddressesCard(BaseScoringCardModel):
@@ -101,5 +101,5 @@ class LocalPersonalIdentityAddressesCard(BaseScoringCardModel):
 
     class Meta:
         db_table = 'local_personal_identity_addresses_card'
-        verbose_name = _(u'Local personal identity addr card')
-        verbose_name_plural = _(u'Local personal identity addr cards')
+        verbose_name = _(u'Local personal identity addr')
+        verbose_name_plural = _(u'Local personal identity addr')

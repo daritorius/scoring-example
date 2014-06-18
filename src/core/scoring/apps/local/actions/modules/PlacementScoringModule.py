@@ -2,12 +2,10 @@
 from core.scoring.apps.local.services.LocalPlacementScoringService import LocalPlacementScoringService
 from django.utils.translation import ugettext as _
 from core.scoring.apps.local.plain_models import ChargesPlainModel, LocalPlacementScoringPlainModel
-from core.scoring.apps.local.scoring_cards.PlacementInformationCards import PlacementInformationCards
 from core.scoring.apps.local.actions.modules.BaseScoringModule import BaseScoringModule
 
 
 class PlacementScoringModule(BaseScoringModule):
-    cards = PlacementInformationCards()
     placement_service = LocalPlacementScoringService()
 
     def calculate_score(self, data):

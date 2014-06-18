@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-from core.scoring.apps.local.scoring_cards.BaseScoringCards import BaseScoringCards
 from django.utils.translation import ugettext_lazy as _
 
 
-class CreditScoringCard(BaseScoringCards):
+class CreditScoringCard(object):
     min_credit_score = 0
     max_credit_amount = 200000
     max_repayment_percent = 50

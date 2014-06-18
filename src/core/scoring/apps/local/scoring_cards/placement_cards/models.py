@@ -37,7 +37,7 @@ class LocalPlacementTypeCard(BaseScoringCardModel):
     class Meta:
         db_table = 'local_placement_type_card'
         verbose_name = _(u'Local placement type card')
-        verbose_name_plural = _(u'Local placement type cards')
+        verbose_name_plural = _(u'Local placement type')
 
 
 class LocalPlacementIncomeCard(BaseScoringCardModel):
@@ -51,8 +51,8 @@ class LocalPlacementIncomeCard(BaseScoringCardModel):
 
     class Meta:
         db_table = 'local_placement_income_card'
-        verbose_name = _(u'Local placement income card')
-        verbose_name_plural = _(u'Local placement income cards')
+        verbose_name = _(u'Local placement income')
+        verbose_name_plural = _(u'Local placement income')
 
 
 class LocalPlacementCleanIncomeCard(BaseScoringCardModel):
@@ -66,8 +66,8 @@ class LocalPlacementCleanIncomeCard(BaseScoringCardModel):
 
     class Meta:
         db_table = 'local_placement_clean_income_card'
-        verbose_name = _(u'Local placement clean income card')
-        verbose_name_plural = _(u'Local placement clean income cards')
+        verbose_name = _(u'Local placement clean inc')
+        verbose_name_plural = _(u'Local placement clean inc')
 
 
 class LocalPlacementWageTermCard(BaseScoringCardModel):
@@ -81,8 +81,8 @@ class LocalPlacementWageTermCard(BaseScoringCardModel):
 
     class Meta:
         db_table = 'local_placement_wage_term_card'
-        verbose_name = _(u'Local placement wage term card')
-        verbose_name_plural = _(u'Local placement wage term cards')
+        verbose_name = _(u'Local placement wage term')
+        verbose_name_plural = _(u'Local placement wage term')
 
 
 class LocalPlacementWageEarnAmountCard(BaseScoringCardModel):
@@ -96,8 +96,8 @@ class LocalPlacementWageEarnAmountCard(BaseScoringCardModel):
 
     class Meta:
         db_table = 'local_placement_wage_amount_card'
-        verbose_name = _(u'Local placement wage amount card')
-        verbose_name_plural = _(u'Local placement wage amount cards')
+        verbose_name = _(u'Local placement wage amount')
+        verbose_name_plural = _(u'Local placement wage amount')
 
 
 class LocalPlacementWageCategoryCard(BaseScoringCardModel):
@@ -127,8 +127,8 @@ class LocalPlacementWageCategoryCard(BaseScoringCardModel):
 
     class Meta:
         db_table = 'local_placement_wage_category_card'
-        verbose_name = _(u'Local placement wage category card')
-        verbose_name_plural = _(u'Local placement wage category cards')
+        verbose_name = _(u'Local placement wage category')
+        verbose_name_plural = _(u'Local placement wage category')
 
 
 class LocalPlacementPeTermCard(BaseScoringCardModel):
@@ -142,8 +142,8 @@ class LocalPlacementPeTermCard(BaseScoringCardModel):
 
     class Meta:
         db_table = 'local_placement_pe_term_card'
-        verbose_name = _(u'Local placement pe term card')
-        verbose_name_plural = _(u'Local placement pe term cards')
+        verbose_name = _(u'Local placement pe term')
+        verbose_name_plural = _(u'Local placement pe term ')
 
 
 class LocalPlacementPeTaxCard(BaseScoringCardModel):
@@ -157,8 +157,8 @@ class LocalPlacementPeTaxCard(BaseScoringCardModel):
 
     class Meta:
         db_table = 'local_placement_pe_tax_card'
-        verbose_name = _(u'Local placement pe tax card')
-        verbose_name_plural = _(u'Local placement pe tax cards')
+        verbose_name = _(u'Local placement pe tax')
+        verbose_name_plural = _(u'Local placement pe tax')
 
 
 class LocalPlacementPeEmployeesCard(BaseScoringCardModel):
@@ -172,5 +172,5 @@ class LocalPlacementPeEmployeesCard(BaseScoringCardModel):
 
     class Meta:
         db_table = 'local_placement_pe_employees_card'
-        verbose_name = _(u'Local placement pe employees card')
-        verbose_name_plural = _(u'Local placement pe employees cards')
+        verbose_name = _(u'Local placement pe employees')
+        verbose_name_plural = _(u'Local placement pe employees')

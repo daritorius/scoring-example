@@ -2,14 +2,12 @@
 import datetime
 from core.scoring.apps.local.actions.modules.BaseScoringModule import BaseScoringModule
 from core.scoring.apps.local.plain_models import LocalAssetsScoringPlainModel
-from core.scoring.apps.local.scoring_cards.AssetScoringCard import AssetScoringCard
 from core.scoring.apps.local.services.LocalAssetsScoringService import LocalAssetsScoringService
 from django.utils.translation import ugettext_lazy as _
 from source.settings.apps_settings import BASE_DATE_FORMAT
 
 
 class AssetScoringModule(BaseScoringModule):
-    cards = AssetScoringCard()
     assets_service = LocalAssetsScoringService()
 
     def calculate_score(self, data):

@@ -2,14 +2,12 @@
 import datetime
 from core.scoring.apps.local.actions.modules.BaseScoringModule import BaseScoringModule
 from core.scoring.apps.local.plain_models import LocalLoanScoringPlainModel
-from core.scoring.apps.local.scoring_cards.CreditScoringCard import CreditScoringCard
 from core.scoring.apps.local.services.LocalLoanScoringService import LocalLoanScoringService
 from django.utils.translation import ugettext_lazy as _
 from source.settings.apps_settings import BASE_DATE_FORMAT
 
 
 class CreditScoringModule(BaseScoringModule):
-    cards = CreditScoringCard()
     loan_service = LocalLoanScoringService()
 
     def calculate_score(self, data):

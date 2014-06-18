@@ -17,7 +17,7 @@ class BaseAssetStatusCard(BaseScoringCardModel):
         (BEST_STATE, _(u'Бест оф зи бест')),
     )
 
-    status = models.IntegerField(max_length=255, choices=STATES, default=REPAIR_STATE)
+    BaseScoringCardModel.key = models.IntegerField(max_length=255, choices=STATES, default=REPAIR_STATE)
 
     class Meta:
         abstract = True
@@ -33,8 +33,8 @@ class LocalAvailableAssetsCard(BaseScoringCardModel):
 
     class Meta:
         db_table = 'local_available_assets_card'
-        verbose_name = _(u'Local available assets card')
-        verbose_name_plural = _(u'Local available assets cards')
+        verbose_name = _(u'Local available assets')
+        verbose_name_plural = _(u'Local available assets')
 
 
 class LocalFlatAreaCard(BaseScoringCardModel):
@@ -47,8 +47,8 @@ class LocalFlatAreaCard(BaseScoringCardModel):
 
     class Meta:
         db_table = 'local_flat_area_card'
-        verbose_name = _(u'Local flat area card')
-        verbose_name_plural = _(u'Local flat area cards')
+        verbose_name = _(u'Local flat area')
+        verbose_name_plural = _(u'Local flat area')
 
 
 class LocalFlatStatusCard(BaseAssetStatusCard):
@@ -61,8 +61,8 @@ class LocalFlatStatusCard(BaseAssetStatusCard):
 
     class Meta:
         db_table = 'local_flat_status_card'
-        verbose_name = _(u'Local flat status card')
-        verbose_name_plural = _(u'Local flat status cards')
+        verbose_name = _(u'Local flat status')
+        verbose_name_plural = _(u'Local flat status')
 
 
 class LocalHouseAreaCard(BaseScoringCardModel):
@@ -75,8 +75,8 @@ class LocalHouseAreaCard(BaseScoringCardModel):
 
     class Meta:
         db_table = 'local_house_area_card'
-        verbose_name = _(u'Local house area card')
-        verbose_name_plural = _(u'Local house area cards')
+        verbose_name = _(u'Local house area')
+        verbose_name_plural = _(u'Local house area')
 
 
 class LocalHouseStatusCard(BaseAssetStatusCard):
@@ -89,8 +89,8 @@ class LocalHouseStatusCard(BaseAssetStatusCard):
 
     class Meta:
         db_table = 'local_house_status_card'
-        verbose_name = _(u'Local house status card')
-        verbose_name_plural = _(u'Local house status cards')
+        verbose_name = _(u'Local house status')
+        verbose_name_plural = _(u'Local house status')
 
 
 class LocalCarLifetimeCard(BaseScoringCardModel):
@@ -103,8 +103,8 @@ class LocalCarLifetimeCard(BaseScoringCardModel):
 
     class Meta:
         db_table = 'local_car_lifetime_card'
-        verbose_name = _(u'Local car lifetime card')
-        verbose_name_plural = _(u'Local car lifetime cards')
+        verbose_name = _(u'Local car lifetime')
+        verbose_name_plural = _(u'Local car lifetime')
 
 
 class LocalCarMileageCard(BaseScoringCardModel):
@@ -117,8 +117,8 @@ class LocalCarMileageCard(BaseScoringCardModel):
 
     class Meta:
         db_table = 'local_car_mileage_card'
-        verbose_name = _(u'Local car mileage card')
-        verbose_name_plural = _(u'Local car mileage cards')
+        verbose_name = _(u'Local car mileage')
+        verbose_name_plural = _(u'Local car mileage')
 
 
 class LocalCarStatusCard(BaseAssetStatusCard):
@@ -131,8 +131,8 @@ class LocalCarStatusCard(BaseAssetStatusCard):
 
     class Meta:
         db_table = 'local_car_status_card'
-        verbose_name = _(u'Local car status card')
-        verbose_name_plural = _(u'Local car status cards')
+        verbose_name = _(u'Local car status')
+        verbose_name_plural = _(u'Local car status')
 
 
 class LocalDepositMaturityDateCard(BaseScoringCardModel):
@@ -145,8 +145,8 @@ class LocalDepositMaturityDateCard(BaseScoringCardModel):
 
     class Meta:
         db_table = 'local_deposit_maturity_card'
-        verbose_name = _(u'Local deposit maturity card')
-        verbose_name_plural = _(u'Local deposit maturity cards')
+        verbose_name = _(u'Local deposit maturity')
+        verbose_name_plural = _(u'Local deposit maturity')
 
 
 class LocalDepositAmountCard(BaseScoringCardModel):
@@ -159,8 +159,8 @@ class LocalDepositAmountCard(BaseScoringCardModel):
 
     class Meta:
         db_table = 'local_deposit_amount_card'
-        verbose_name = _(u'Local deposit amount card')
-        verbose_name_plural = _(u'Local deposit amount cards')
+        verbose_name = _(u'Local deposit amount')
+        verbose_name_plural = _(u'Local deposit amount')
 
 
 class LocalDepositMonthlyPercentsCard(BaseScoringCardModel):
@@ -173,8 +173,8 @@ class LocalDepositMonthlyPercentsCard(BaseScoringCardModel):
 
     class Meta:
         db_table = 'local_deposit_percents_card'
-        verbose_name = _(u'Local deposit percents card')
-        verbose_name_plural = _(u'Local deposit percents cards')
+        verbose_name = _(u'Local deposit percents')
+        verbose_name_plural = _(u'Local deposit percents')
 
 
 class LocalOtherAssetsPriceCard(BaseScoringCardModel):
@@ -187,5 +187,5 @@ class LocalOtherAssetsPriceCard(BaseScoringCardModel):
 
     class Meta:
         db_table = 'local_other_assets_card'
-        verbose_name = _(u'Local other assets card')
-        verbose_name_plural = _(u'Local other assets cards')
+        verbose_name = _(u'Local other assets')
+        verbose_name_plural = _(u'Local other assets')

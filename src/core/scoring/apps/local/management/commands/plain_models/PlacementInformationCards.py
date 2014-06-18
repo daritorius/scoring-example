@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-from core.scoring.apps.local.scoring_cards.BaseScoringCards import BaseScoringCards
 from django.utils.translation import ugettext as _
 
 
-class PlacementInformationCards(BaseScoringCards):
+class PlacementInformationCards(object):
 
     TYPE_UNEMPLOYED = 0
     TYPE_HOUSEWIFE = 1

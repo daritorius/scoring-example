@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-from core.scoring.apps.local.scoring_cards.BaseScoringCards import BaseScoringCards
 from django.utils.translation import ugettext_lazy as _
 
 
-class AssetScoringCard(BaseScoringCards):
+class AssetScoringCard(object):
     min_assets_score = 0
     max_flat_area = 120
     max_house_area = 300

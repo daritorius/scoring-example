@@ -1,15 +1,11 @@
 # -*- coding: utf-8 -*-
 from core.scoring.apps.local.plain_models import LocalPersonalScoringPlainModel
-from core.scoring.apps.local.scoring_cards.CountryMillionCityCards import CountryMillionCityCards
-from core.scoring.apps.local.scoring_cards.PersonalInformationCards import PersonalInformationCards
 from core.scoring.apps.local.services.LocalPersonalScoringService import LocalPersonalScoringService
 from django.utils.translation import ugettext as _
 from core.scoring.apps.local.actions.modules.BaseScoringModule import BaseScoringModule
 
 
 class PersonalScoringModule(BaseScoringModule):
-    cards = PersonalInformationCards()
-    city_card = CountryMillionCityCards()
     personal_service = LocalPersonalScoringService()
 
     def calculate_score(self, data):
