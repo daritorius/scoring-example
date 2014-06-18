@@ -42,10 +42,10 @@ class LocalPlacementTypeCard(BaseScoringCardModel):
 
 class LocalPlacementIncomeCard(BaseScoringCardModel):
     def save(self, *args, **kwargs):
-        from core.scoring.apps.local.scoring_cards.placement_cards.services.LocalPlacementTypeCardService import \
-            LocalPlacementTypeCardService
+        from core.scoring.apps.local.scoring_cards.placement_cards.services.LocalPlacementIncomeCardService import \
+            LocalPlacementIncomeCardService
 
-        service = LocalPlacementTypeCardService()
+        service = LocalPlacementIncomeCardService()
         service.cache_service.delete_pattern(u'%s*' % service.__class__.__name__)
         return super(self.__class__, self).save(*args, **kwargs)
 
@@ -53,3 +53,124 @@ class LocalPlacementIncomeCard(BaseScoringCardModel):
         db_table = 'local_placement_income_card'
         verbose_name = _(u'Local placement income card')
         verbose_name_plural = _(u'Local placement income cards')
+
+
+class LocalPlacementCleanIncomeCard(BaseScoringCardModel):
+    def save(self, *args, **kwargs):
+        from core.scoring.apps.local.scoring_cards.placement_cards.services.LocalPlacementCleanIncomeCardService import \
+            LocalPlacementCleanIncomeCardService
+
+        service = LocalPlacementCleanIncomeCardService()
+        service.cache_service.delete_pattern(u'%s*' % service.__class__.__name__)
+        return super(self.__class__, self).save(*args, **kwargs)
+
+    class Meta:
+        db_table = 'local_placement_clean_income_card'
+        verbose_name = _(u'Local placement clean income card')
+        verbose_name_plural = _(u'Local placement clean income cards')
+
+
+class LocalPlacementWageTermCard(BaseScoringCardModel):
+    def save(self, *args, **kwargs):
+        from core.scoring.apps.local.scoring_cards.placement_cards.services.LocalPlacementWageTermCardService import \
+            LocalPlacementWageTermCardService
+
+        service = LocalPlacementWageTermCardService()
+        service.cache_service.delete_pattern(u'%s*' % service.__class__.__name__)
+        return super(self.__class__, self).save(*args, **kwargs)
+
+    class Meta:
+        db_table = 'local_placement_wage_term_card'
+        verbose_name = _(u'Local placement wage term card')
+        verbose_name_plural = _(u'Local placement wage term cards')
+
+
+class LocalPlacementWageEarnAmountCard(BaseScoringCardModel):
+    def save(self, *args, **kwargs):
+        from core.scoring.apps.local.scoring_cards.placement_cards.services.LocalPlacementWageEarnAmountCardService import \
+            LocalPlacementWageEarnAmountCardService
+
+        service = LocalPlacementWageEarnAmountCardService()
+        service.cache_service.delete_pattern(u'%s*' % service.__class__.__name__)
+        return super(self.__class__, self).save(*args, **kwargs)
+
+    class Meta:
+        db_table = 'local_placement_wage_amount_card'
+        verbose_name = _(u'Local placement wage amount card')
+        verbose_name_plural = _(u'Local placement wage amount cards')
+
+
+class LocalPlacementWageCategoryCard(BaseScoringCardModel):
+    CATEGORY_SENIOR_MANAGER = 0
+    CATEGORY_MIDDLE_MANAGER = 1
+    CATEGORY_SPECIALIST = 2
+    CATEGORY_JUNIOR_SPECIALIST = 3
+
+    CATEGORIES = (
+        (CATEGORY_SENIOR_MANAGER, _(u'Супер менеджер')),
+        (CATEGORY_MIDDLE_MANAGER, _(u'Средний менеджер')),
+        (CATEGORY_SPECIALIST, _(u'Просто менеджер')),
+        (CATEGORY_JUNIOR_SPECIALIST, _(u'Мелкий менеджер')),
+    )
+
+    BaseScoringCardModel.key = models.IntegerField(_(u'Значение'), choices=CATEGORIES,
+                                                   default=CATEGORY_JUNIOR_SPECIALIST, max_length=255, blank=True,
+                                                   null=True)
+
+    def save(self, *args, **kwargs):
+        from core.scoring.apps.local.scoring_cards.placement_cards.services.LocalPlacementWageCategoryCardService import \
+            LocalPlacementWageCategoryCardService
+
+        service = LocalPlacementWageCategoryCardService()
+        service.cache_service.delete_pattern(u'%s*' % service.__class__.__name__)
+        return super(self.__class__, self).save(*args, **kwargs)
+
+    class Meta:
+        db_table = 'local_placement_wage_category_card'
+        verbose_name = _(u'Local placement wage category card')
+        verbose_name_plural = _(u'Local placement wage category cards')
+
+
+class LocalPlacementPeTermCard(BaseScoringCardModel):
+    def save(self, *args, **kwargs):
+        from core.scoring.apps.local.scoring_cards.placement_cards.services.LocalPlacementPeTermCardService import \
+            LocalPlacementPeTermCardService
+
+        service = LocalPlacementPeTermCardService()
+        service.cache_service.delete_pattern(u'%s*' % service.__class__.__name__)
+        return super(self.__class__, self).save(*args, **kwargs)
+
+    class Meta:
+        db_table = 'local_placement_pe_term_card'
+        verbose_name = _(u'Local placement pe term card')
+        verbose_name_plural = _(u'Local placement pe term cards')
+
+
+class LocalPlacementPeTaxCard(BaseScoringCardModel):
+    def save(self, *args, **kwargs):
+        from core.scoring.apps.local.scoring_cards.placement_cards.services.LocalPlacementPeTaxCardService import \
+            LocalPlacementPeTaxCardService
+
+        service = LocalPlacementPeTaxCardService()
+        service.cache_service.delete_pattern(u'%s*' % service.__class__.__name__)
+        return super(self.__class__, self).save(*args, **kwargs)
+
+    class Meta:
+        db_table = 'local_placement_pe_tax_card'
+        verbose_name = _(u'Local placement pe tax card')
+        verbose_name_plural = _(u'Local placement pe tax cards')
+
+
+class LocalPlacementPeEmployeesCard(BaseScoringCardModel):
+    def save(self, *args, **kwargs):
+        from core.scoring.apps.local.scoring_cards.placement_cards.services.LocalPlacementPeEmployeesCardService import \
+            LocalPlacementPeEmployeesCardService
+
+        service = LocalPlacementPeEmployeesCardService()
+        service.cache_service.delete_pattern(u'%s*' % service.__class__.__name__)
+        return super(self.__class__, self).save(*args, **kwargs)
+
+    class Meta:
+        db_table = 'local_placement_pe_employees_card'
+        verbose_name = _(u'Local placement pe employees card')
+        verbose_name_plural = _(u'Local placement pe employees cards')

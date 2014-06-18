@@ -19,6 +19,15 @@ class BaseService(object):
         'LocalPersonalScoringService',
         'LocalPlacementScoringService',
         'LocalScoringService',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
     ]
 
     def get_current(self):
