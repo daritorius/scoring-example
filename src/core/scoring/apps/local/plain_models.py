@@ -210,6 +210,8 @@ class LocalScoringPlainModel(BasePlainModel):
         'loan_score',
         'total_score',
         'rating',
+        'min_value',
+        'max_value',
     ]
 
 
