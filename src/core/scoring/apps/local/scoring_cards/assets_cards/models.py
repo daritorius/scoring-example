@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
+from core.main.base.BaseModel import BaseModel
 from core.main.base.scoring.cards.BaseScoringCardModel import BaseScoringCardModel
 from django.db import models
 from django.utils.translation import ugettext as _
 
 
-class BaseAssetStatusCard(models.Model):
+class BaseAssetStatusCard(BaseModel):
     REPAIR_STATE = 0
     NORMAL_STATE = 1
     GOOD_STATE = 2

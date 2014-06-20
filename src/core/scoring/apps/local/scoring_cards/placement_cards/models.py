@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
+from core.main.base.BaseModel import BaseModel
 from core.main.base.scoring.cards.BaseScoringCardModel import BaseScoringCardModel
 from django.db import models
 from django.utils.translation import ugettext as _
 
 
-class LocalPlacementTypeCard(models.Model):
+class LocalPlacementTypeCard(BaseModel):
     TYPE_UNEMPLOYED = 0
     TYPE_HOUSEWIFE = 1
     TYPE_STUDENT = 2
@@ -105,7 +106,7 @@ class LocalPlacementWageEarnAmountCard(BaseScoringCardModel):
         verbose_name_plural = _(u'Local placement wage amount')
 
 
-class LocalPlacementWageCategoryCard(models.Model):
+class LocalPlacementWageCategoryCard(BaseModel):
     CATEGORY_SENIOR_MANAGER = 0
     CATEGORY_MIDDLE_MANAGER = 1
     CATEGORY_SPECIALIST = 2

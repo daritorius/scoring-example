@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
+from core.main.base.BaseModel import BaseModel
 from core.main.base.scoring.cards.BaseScoringCardModel import BaseScoringCardModel
 from django.db import models
 from django.utils.translation import ugettext as _
 
 
-class BaseLocalPersonalMaritalStatusCard(models.Model):
+class BaseLocalPersonalMaritalStatusCard(BaseModel):
     FALSE_MARITAL_STATUS = 0
     TRUE_MARITAL_STATUS = 1
     WIDOW_MARITAL_STATUS = 2
@@ -29,7 +30,7 @@ class BaseLocalPersonalMaritalStatusCard(models.Model):
         ordering = ['value']
 
 
-class LocalPersonalEducationCard(models.Model):
+class LocalPersonalEducationCard(BaseModel):
     HIGH_EDUCATION = 0
     MIDDLE_EDUCATION = 1
     MIDDLE_TECH_EDUCATION = 2

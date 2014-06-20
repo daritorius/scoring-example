@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from core.main.base.BaseModel import BaseModel
 from core.main.base.scoring.cards.BaseScoringCardModel import BaseScoringCardModel
 from django.db import models
 from django.utils.translation import ugettext as _
@@ -79,7 +80,7 @@ class LocalMonthlyPaymentLoansCard(BaseScoringCardModel):
         verbose_name_plural = _(u'Local loan monthly payment')
 
 
-class LocalDebtBurdenLoansCard(models.Model):
+class LocalDebtBurdenLoansCard(BaseModel):
     key = models.FloatField(_(u'Значение'), max_length=255, blank=True, null=True)
     value = models.IntegerField(_(u'Баллы'), max_length=255, blank=True, null=True)
 
@@ -101,7 +102,7 @@ class LocalDebtBurdenLoansCard(models.Model):
         ordering = ['value']
 
 
-class LocalDependentsCard(models.Model):
+class LocalDependentsCard(BaseModel):
     NO_DEPENDENTS = 0
     ONE_DEPENDENT = 1
     TWO_DEPENDENTS = 2
