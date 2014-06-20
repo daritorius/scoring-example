@@ -4,7 +4,7 @@ from django.db import models
 from django.utils.translation import ugettext as _
 
 
-class LocalPlacementTypeCard(BaseScoringCardModel):
+class LocalPlacementTypeCard(models.Model):
     TYPE_UNEMPLOYED = 0
     TYPE_HOUSEWIFE = 1
     TYPE_STUDENT = 2
@@ -23,8 +23,12 @@ class LocalPlacementTypeCard(BaseScoringCardModel):
         (TYPE_PRIVATE_ENTREPRENEUR, u'Частный предприниматель'),
     )
 
-    BaseScoringCardModel.key = models.IntegerField(_(u'Значение'), default=TYPE_UNEMPLOYED, choices=PLACEMENT_TYPES,
-                                                   max_length=255, blank=True, null=True)
+    key = models.IntegerField(_(u'Значение'), default=TYPE_UNEMPLOYED, choices=PLACEMENT_TYPES, max_length=255,
+                              blank=True, null=True)
+    value = models.IntegerField(_(u'Баллы'), max_length=255, blank=True, null=True)
+
+    def __unicode__(self):
+        return u'%s = %s' % (self.key, self.value)
 
     def save(self, *args, **kwargs):
         from core.scoring.apps.local.scoring_cards.placement_cards.services.LocalPlacementTypeCardService import \
@@ -38,6 +42,7 @@ class LocalPlacementTypeCard(BaseScoringCardModel):
         db_table = 'local_placement_type_card'
         verbose_name = _(u'Local placement type card')
         verbose_name_plural = _(u'Local placement type')
+        ordering = ['value']
 
 
 class LocalPlacementIncomeCard(BaseScoringCardModel):
@@ -100,7 +105,7 @@ class LocalPlacementWageEarnAmountCard(BaseScoringCardModel):
         verbose_name_plural = _(u'Local placement wage amount')
 
 
-class LocalPlacementWageCategoryCard(BaseScoringCardModel):
+class LocalPlacementWageCategoryCard(models.Model):
     CATEGORY_SENIOR_MANAGER = 0
     CATEGORY_MIDDLE_MANAGER = 1
     CATEGORY_SPECIALIST = 2
@@ -113,9 +118,12 @@ class LocalPlacementWageCategoryCard(BaseScoringCardModel):
         (CATEGORY_JUNIOR_SPECIALIST, _(u'Мелкий менеджер')),
     )
 
-    BaseScoringCardModel.key = models.IntegerField(_(u'Значение'), choices=CATEGORIES,
-                                                   default=CATEGORY_JUNIOR_SPECIALIST, max_length=255, blank=True,
-                                                   null=True)
+    key = models.IntegerField(_(u'Значение'), choices=CATEGORIES, default=CATEGORY_JUNIOR_SPECIALIST, max_length=255,
+                              blank=True, null=True)
+    value = models.IntegerField(_(u'Баллы'), max_length=255, blank=True, null=True)
+
+    def __unicode__(self):
+        return u'%s = %s' % (self.key, self.value)
 
     def save(self, *args, **kwargs):
         from core.scoring.apps.local.scoring_cards.placement_cards.services.LocalPlacementWageCategoryCardService import \
@@ -129,6 +137,7 @@ class LocalPlacementWageCategoryCard(BaseScoringCardModel):
         db_table = 'local_placement_wage_category_card'
         verbose_name = _(u'Local placement wage category')
         verbose_name_plural = _(u'Local placement wage category')
+        ordering = ['value']
 
 
 class LocalPlacementPeTermCard(BaseScoringCardModel):

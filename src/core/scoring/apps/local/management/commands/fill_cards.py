@@ -227,7 +227,7 @@ class Command(BaseCommand):
             self.loan_monthly_payment_service.create(data)
         ## loan debt burden
         for key, value in self.loan_card.get_debt_burden_card().iteritems():
-            data = LocalDebtBurdenLoansCardPlainModel(key=int(float(key)), value=value)
+            data = LocalDebtBurdenLoansCardPlainModel(key=float(key), value=value)
             self.loan_debt_burden_service.create(data)
         ## dependents
         for key, value in self.loan_card.get_count_dependents_card().iteritems():

@@ -4,7 +4,7 @@ from django.db import models
 from django.utils.translation import ugettext as _
 
 
-class BaseAssetStatusCard(BaseScoringCardModel):
+class BaseAssetStatusCard(models.Model):
     REPAIR_STATE = 0
     NORMAL_STATE = 1
     GOOD_STATE = 2
@@ -17,10 +17,15 @@ class BaseAssetStatusCard(BaseScoringCardModel):
         (BEST_STATE, _(u'Бест оф зи бест')),
     )
 
-    BaseScoringCardModel.key = models.IntegerField(max_length=255, choices=STATES, default=REPAIR_STATE)
+    key = models.IntegerField(max_length=255, choices=STATES, default=REPAIR_STATE, blank=True, null=True)
+    value = models.IntegerField(_(u'Баллы'), max_length=255, blank=True, null=True)
+
+    def __unicode__(self):
+        return u'%s = %s' % (self.key, self.value)
 
     class Meta:
         abstract = True
+        ordering = ['value']
 
 
 class LocalAvailableAssetsCard(BaseScoringCardModel):

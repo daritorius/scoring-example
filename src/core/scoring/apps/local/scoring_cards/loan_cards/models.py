@@ -79,9 +79,13 @@ class LocalMonthlyPaymentLoansCard(BaseScoringCardModel):
         verbose_name_plural = _(u'Local loan monthly payment')
 
 
-class LocalDebtBurdenLoansCard(BaseScoringCardModel):
-    BaseScoringCardModel.key = models.FloatField(_(u'Значение'), max_length=255, blank=True, null=True)
-    
+class LocalDebtBurdenLoansCard(models.Model):
+    key = models.FloatField(_(u'Значение'), max_length=255, blank=True, null=True)
+    value = models.IntegerField(_(u'Баллы'), max_length=255, blank=True, null=True)
+
+    def __unicode__(self):
+        return u'%s = %s' % (self.key, self.value)
+
     def save(self, *args, **kwargs):
         from core.scoring.apps.local.scoring_cards.loan_cards.services.LocalDebtBurdenLoansCardService import \
             LocalDebtBurdenLoansCardService
@@ -94,9 +98,10 @@ class LocalDebtBurdenLoansCard(BaseScoringCardModel):
         db_table = 'local_loan_debt_burden_card'
         verbose_name = _(u'Local loan debt burden')
         verbose_name_plural = _(u'Local loan debt burden')
+        ordering = ['value']
 
 
-class LocalDependentsCard(BaseScoringCardModel):
+class LocalDependentsCard(models.Model):
     NO_DEPENDENTS = 0
     ONE_DEPENDENT = 1
     TWO_DEPENDENTS = 2
@@ -113,8 +118,12 @@ class LocalDependentsCard(BaseScoringCardModel):
         (MORE_THAN_4_DEPENDENTS, _(u'Пофиг уже, 4 и более')),
     )
 
-    BaseScoringCardModel.key = models.IntegerField(_(u'Баллы'), default=NO_DEPENDENTS, choices=COUNT_DEPENDENTS,
-                                                   max_length=255, blank=True, null=True)
+    key = models.IntegerField(_(u'Баллы'), default=NO_DEPENDENTS, choices=COUNT_DEPENDENTS, max_length=255, blank=True,
+                              null=True)
+    value = models.IntegerField(_(u'Баллы'), max_length=255, blank=True, null=True)
+
+    def __unicode__(self):
+        return u'%s = %s' % (self.key, self.value)
 
     def save(self, *args, **kwargs):
         from core.scoring.apps.local.scoring_cards.loan_cards.services.LocalDependentsCardService import \
@@ -128,3 +137,4 @@ class LocalDependentsCard(BaseScoringCardModel):
         db_table = 'local_dependents_card'
         verbose_name = _(u'Local dependents')
         verbose_name_plural = _(u'Local dependents')
+        ordering = ['value']
