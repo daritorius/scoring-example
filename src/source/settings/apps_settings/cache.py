@@ -14,6 +14,6 @@ CACHES = {
     },
 }
 
-CACHE_SERVICES = True
+CACHE_SERVICES = False
 # SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 # SESSION_CACHE_ALIAS = "session"

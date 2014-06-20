@@ -1,4 +1,24 @@
 # -*- coding: utf-8 -*-
+from core.scoring.apps.local.scoring_cards.placement_cards.actions.LocalPlacementCleanIncomeCardActions import \
+    LocalPlacementCleanIncomeCardActions
+from core.scoring.apps.local.scoring_cards.placement_cards.actions.LocalPlacementIncomeCardActions import \
+    LocalPlacementIncomeCardActions
+from core.scoring.apps.local.scoring_cards.placement_cards.actions.LocalPlacementPeEmployeesCardActions import \
+    LocalPlacementPeEmployeesCardActions
+from core.scoring.apps.local.scoring_cards.placement_cards.actions.LocalPlacementPeTaxCardActions import \
+    LocalPlacementPeTaxCardActions
+from core.scoring.apps.local.scoring_cards.placement_cards.actions.LocalPlacementPeTermCardActions import \
+    LocalPlacementPeTermCardActions
+from core.scoring.apps.local.scoring_cards.placement_cards.actions.LocalPlacementTypeCardActions import \
+    LocalPlacementTypeCardActions
+from core.scoring.apps.local.scoring_cards.placement_cards.actions.LocalPlacementWageCategoryCardActions import \
+    LocalPlacementWageCategoryCardActions
+from core.scoring.apps.local.scoring_cards.placement_cards.actions.LocalPlacementWageEarnAmountCardActions import \
+    LocalPlacementWageEarnAmountCardActions
+from core.scoring.apps.local.scoring_cards.placement_cards.actions.LocalPlacementWageTermCardActions import \
+    LocalPlacementWageTermCardActions
+from core.scoring.apps.local.scoring_cards.placement_cards.plain_models import LocalPlacementWageCategoryCardPlainModel, \
+    LocalPlacementTypeCardPlainModel
 from core.scoring.apps.local.services.LocalPlacementScoringService import LocalPlacementScoringService
 from django.utils.translation import ugettext as _
 from core.scoring.apps.local.plain_models import ChargesPlainModel, LocalPlacementScoringPlainModel
@@ -7,6 +27,15 @@ from core.scoring.apps.local.actions.modules.BaseScoringModule import BaseScorin
 
 class PlacementScoringModule(BaseScoringModule):
     placement_service = LocalPlacementScoringService()
+    type_actions = LocalPlacementTypeCardActions()
+    pe_term_actions = LocalPlacementPeTermCardActions()
+    pe_employees_actions = LocalPlacementPeEmployeesCardActions()
+    pe_tax_actions = LocalPlacementPeTaxCardActions()
+    wage_term_actions = LocalPlacementWageTermCardActions()
+    wage_category_actions = LocalPlacementWageCategoryCardActions()
+    wage_amount_actions = LocalPlacementWageEarnAmountCardActions()
+    income_actions = LocalPlacementIncomeCardActions()
+    clean_income_actions = LocalPlacementCleanIncomeCardActions()
 
     def calculate_score(self, data):
         placement_type_score = self.calculate_type_score(data)
@@ -31,16 +60,16 @@ class PlacementScoringModule(BaseScoringModule):
         work_data = LocalPlacementScoringPlainModel()
         if hasattr(data.profile_placement_information, 'placement_type'):
             if int(getattr(data.profile_placement_information, 'placement_type')) == \
-                    self.cards.TYPE_PRIVATE_ENTREPRENEUR:
+                    self.type_actions.service.model_instance.TYPE_PRIVATE_ENTREPRENEUR:
                 work_data = self.calculate_score_for_pe(data)
             if int(getattr(data.profile_placement_information, 'placement_type')) == \
-                    self.cards.TYPE_WAGE_EARNER:
+                    self.type_actions.service.model_instance.TYPE_WAGE_EARNER:
                 work_data = self.calculate_score_for_employment_user(data)
         score = 0
-        for field in LocalPlacementScoringPlainModel.fields:
+        for field in LocalPlacementScoringPlainModel().fields:
             if hasattr(work_data, field):
                 score += int(getattr(work_data, field))
-        score = self.cards.min_score if not score else score
+        score = self.type_actions.get_min_score() if not score else score
         data = LocalPlacementScoringPlainModel(work_score=score, **work_data.__dict__)
         return data
 
@@ -56,109 +85,105 @@ class PlacementScoringModule(BaseScoringModule):
         return data
 
     def calculate_pe_term_score(self, data):
-        score = self.cards.min_employ_score
+        score = self.pe_term_actions.get_min_score()
         if hasattr(data.profile_placement_information, 'placement_term'):
             term = int(getattr(data.profile_placement_information, 'placement_term'))
-            if term >= self.cards.max_employ_term:
-                score = self.cards.max_employ_score
+            if term >= self.pe_term_actions.get_max_key():
+                score = self.pe_term_actions.get_max_score()
             else:
-                for item in sorted(self.cards.get_pe_term_card(),
-                                   key=lambda key: self.cards.get_pe_term_card()[key]):
-                    if term <= int(item):
-                        score = self.cards.get_pe_term_card()[item]
+                for item in self.pe_term_actions.get_card():
+                    if term <= item.key:
+                        score = item.value
                         break
         return score
 
     def calculate_pe_count_employees_score(self, data):
-        score = self.cards.min_score
+        score = self.pe_employees_actions.get_min_score()
         if hasattr(data.profile_placement_information, 'placement_organisation_count_employees'):
             count = int(getattr(data.profile_placement_information, 'placement_organisation_count_employees'))
-            if count >= self.cards.max_pe_employees_count:
-                score = self.cards.max_score
+            if count >= self.pe_employees_actions.get_max_key():
+                score = self.pe_employees_actions.get_max_score()
             else:
-                for item in sorted(self.cards.get_pe_count_employments_card(),
-                                   key=lambda key: self.cards.get_pe_count_employments_card()[key]):
-                    if count <= int(item):
-                        score = self.cards.get_pe_count_employments_card()[item]
+                for item in self.pe_employees_actions.get_card():
+                    if count <= item.key:
+                        score = item.value
                         break
         return score
 
     def calculate_pe_tax_score(self, data):
-        score = self.cards.min_score
+        score = self.pe_tax_actions.get_min_score()
         if hasattr(data.profile_placement_information, 'placement_tax_quarter'):
             tax = int(getattr(data.profile_placement_information, 'placement_tax_quarter'))
-            if tax >= self.cards.max_pe_tax_amount:
-                score = self.cards.max_score
+            if tax >= self.pe_tax_actions.get_max_key():
+                score = self.pe_tax_actions.get_max_score()
             else:
-                for item in sorted(self.cards.get_pe_tax_card(),
-                                   key=lambda key: self.cards.get_pe_tax_card()[key]):
-                    if tax <= int(item):
-                        score = self.cards.get_pe_tax_card()[item]
+                for item in self.pe_tax_actions.get_card():
+                    if tax <= item.key:
+                        score = item.value
                         break
         return score
 
     def calculate_score_for_employment_user(self, data):
         term_score = self.calculate_employment_term_score(data)
         print 'employment term score: %s' % term_score
-        wage_score = self.calculate_employment_wage_score(data)
-        print 'employment wage score: %s' % wage_score
+        wage_amount_score = self.calculate_employment_wage_amount_score(data)
+        print 'employment wage amount score: %s' % wage_amount_score
         category_position_score = self.calculate_category_position(data)
         print 'category position score: %s' % category_position_score
-        data = LocalPlacementScoringPlainModel(term_score=term_score, wage_score=wage_score,
+        data = LocalPlacementScoringPlainModel(term_score=term_score, wage_score=wage_amount_score,
                                                category_position_score=category_position_score,)
         return data
 
     def calculate_employment_term_score(self, data):
-        score = self.cards.min_employ_score
+        score = self.wage_term_actions.get_min_score()
         if hasattr(data.profile_placement_information, 'placement_term'):
             term = int(getattr(data.profile_placement_information, 'placement_term'))
-            if term >= self.cards.max_employ_term:
-                score = self.cards.max_employ_score
+            if term >= self.wage_term_actions.get_max_key():
+                score = self.wage_term_actions.get_max_score()
             else:
-                for item in sorted(self.cards.get_wage_earner_term_card(),
-                                   key=lambda key: self.cards.get_wage_earner_term_card()[key]):
-                    if term <= int(item):
-                        score = self.cards.get_wage_earner_term_card()[item]
+                for item in self.wage_term_actions.get_card():
+                    if term <= item.key:
+                        score = item.value
                         break
         return score
 
     def calculate_category_position(self, data):
-        score = self.cards.min_score
+        score = self.wage_category_actions.get_min_score()
         if hasattr(data.profile_placement_information, 'placement_category_position'):
             category_position = int(getattr(data.profile_placement_information, 'placement_category_position'))
-            for item in sorted(self.cards.get_wage_earner_category_postition_card(),
-                               key=lambda key: self.cards.get_wage_earner_category_postition_card()[key]):
-                if category_position == int(item):
-                    score = self.cards.get_wage_earner_category_postition_card()[item]
-                    break
+            data = LocalPlacementWageCategoryCardPlainModel(key=category_position)
+            score = self.wage_category_actions.service.get_item(**data.__dict__) if \
+                self.wage_category_actions.service.get_item(**data.__dict__) else \
+                self.wage_category_actions.get_min_score()
         return score
 
-    def calculate_employment_wage_score(self, data):
-        score = self.cards.min_income_score
+    def calculate_employment_wage_amount_score(self, data):
+        score = self.wage_amount_actions.get_min_score()
         income = 0
         if hasattr(data.profile_placement_information, 'placement_income'):
             income = float(data.profile_placement_information.placement_income)
         if hasattr(data.profile_placement_information, 'placement_additional_income'):
             income += float(getattr(data.profile_placement_information, 'placement_additional_income'))
-        if income >= self.cards.max_income_amount:
-            score = self.cards.max_income_score
+        if income >= float(self.wage_amount_actions.get_max_key()):
+            score = self.wage_amount_actions.get_max_score()
         else:
-            for item in sorted(self.cards.get_wage_earner_amount_card(),
-                               key=lambda key: self.cards.get_wage_earner_amount_card()[key]):
-                if income < float(item):
-                    score = self.cards.get_wage_earner_amount_card()[item]
+            for item in self.wage_amount_actions.get_card():
+                if income < float(item.key):
+                    score = item.value
                     break
         return score
 
     def calculate_type_score(self, data):
-        score = self.cards.min_type_score
+        score = self.type_actions.get_min_score()
         if hasattr(data.profile_placement_information, 'placement_type'):
-            score = self.cards.get_placement_type_card()[str(data.profile_placement_information.placement_type)]
+            data = LocalPlacementTypeCardPlainModel(key=int(data.profile_placement_information.placement_type))
+            score = self.type_actions.service.get_item(**data.__dict__).value if \
+                self.type_actions.service.get_item(**data.__dict__) else self.type_actions.get_min_score()
         data = LocalPlacementScoringPlainModel(placement_type_score=score)
         return data
 
     def calculate_income_score(self, data):
-        score = self.cards.min_income_score
+        score = self.income_actions.get_min_score()
         income = 0
         if hasattr(data.profile_placement_information, 'placement_income'):
             income = float(data.profile_placement_information.placement_income) if \
@@ -166,19 +191,18 @@ class PlacementScoringModule(BaseScoringModule):
         if hasattr(data.profile_placement_information, 'placement_additional_income'):
             income += float(getattr(data.profile_placement_information, 'placement_additional_income')) if \
                 getattr(data.profile_placement_information, 'placement_additional_income') else 0
-        if income >= self.cards.max_income_amount:
-            score = self.cards.max_income_score
+        if income >= float(self.income_actions.get_max_key()):
+            score = self.income_actions.get_max_score()
         else:
-            for item in sorted(self.cards.get_placement_income_card(),
-                               key=lambda key: self.cards.get_placement_income_card()[key]):
-                if income < float(item):
-                    score = self.cards.get_placement_income_card()[item]
+            for item in self.income_actions.get_card():
+                if income < float(item.key):
+                    score = item.value
                     break
         data = LocalPlacementScoringPlainModel(placement_income_score=score)
         return data
 
     def calculate_clean_income(self, data):
-        score = self.cards.min_clean_income_score
+        score = self.clean_income_actions.get_min_score()
         charges = income = 0
         if hasattr(data.profile_placement_information, 'placement_income'):
             income = float(data.profile_placement_information.placement_income) if \
@@ -191,13 +215,12 @@ class PlacementScoringModule(BaseScoringModule):
                 charges += float(getattr(data.profile_charges, item)) if \
                     getattr(data.profile_charges, item) else 0
         clean_income = income - charges
-        if clean_income >= self.cards.max_clean_income_amount:
-            score = self.cards.max_clean_income_score
+        if clean_income >= self.clean_income_actions.get_max_key():
+            score = self.clean_income_actions.get_max_score()
         else:
-            for item in sorted(self.cards.get_placement_clean_income_card(),
-                               key=lambda key: self.cards.get_placement_clean_income_card()[key]):
-                if income < float(item):
-                    score = self.cards.get_placement_clean_income_card()[item]
+            for item in self.clean_income_actions.get_card():
+                if income < float(item.key):
+                    score = item.value
                     break
         data = LocalPlacementScoringPlainModel(placement_clean_income=score)
         return data

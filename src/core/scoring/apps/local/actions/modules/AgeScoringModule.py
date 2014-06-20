@@ -17,7 +17,7 @@ class AgeScoringModule(BaseScoringModule):
         score = self.age_card_actions.get_min_score()
         if hasattr(data, 'profile_birthday'):
             age = self.calculate_age(data)
-            age = self.cards.max_scoring_age if age > self.age_card_actions.get_max_age() else age
+            age = self.cards.max_scoring_age if age > self.age_card_actions.get_max_key() else age
             data = LocalAgeScoringCardPlainModel(key=int(age))
             score = self.age_card_actions.service.get_item(**data.__dict__).value
         data = LocalAgeScorePlainModel(total_score=score)
