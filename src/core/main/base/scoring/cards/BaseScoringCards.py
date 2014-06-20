@@ -9,8 +9,8 @@ class BaseScoringCardActions(BaseActions):
     max_score = 300
     min_score = -300
 
-    def get_card(self):
-        return self.service.get_all(order_by='value')
+    def get_card(self, reverse=False):
+        return self.service.get_all(order_by='value') if not reverse else self.service.get_all(order_by='-value')
 
     def get_min_score(self):
         return self.service.get_all(order_by='value')[0].value

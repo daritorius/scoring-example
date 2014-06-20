@@ -2,6 +2,22 @@
 import datetime
 from core.scoring.apps.local.actions.modules.BaseScoringModule import BaseScoringModule
 from core.scoring.apps.local.plain_models import LocalLoanScoringPlainModel
+from core.scoring.apps.local.scoring_cards.loan_cards.actions.LoanOutstandingLoansCardActions import \
+    LoanOutstandingLoansCardActions
+from core.scoring.apps.local.scoring_cards.loan_cards.actions.LocalAmountLoansCardActions import \
+    LocalAmountLoansCardActions
+from core.scoring.apps.local.scoring_cards.loan_cards.actions.LocalDaysRepaymentLoansCardActions import \
+    LocalDaysRepaymentLoansCardActions
+from core.scoring.apps.local.scoring_cards.loan_cards.actions.LocalDebtBurdenLoansCardActions import \
+    LocalDebtBurdenLoansCardActions
+from core.scoring.apps.local.scoring_cards.loan_cards.actions.LocalDependentsCardActions import \
+    LocalDependentsCardActions
+from core.scoring.apps.local.scoring_cards.loan_cards.actions.LocalMonthlyPaymentLoansCardActions import \
+    LocalMonthlyPaymentLoansCardActions
+from core.scoring.apps.local.scoring_cards.loan_cards.actions.LocalPercentRepaymentLoansCardActions import \
+    LocalPercentRepaymentLoansCardActions
+from core.scoring.apps.local.scoring_cards.loan_cards.plain_models import LocalOutstandingLoansCardPlainModel, \
+    LocalDependentsCardPlainModel
 from core.scoring.apps.local.services.LocalLoanScoringService import LocalLoanScoringService
 from django.utils.translation import ugettext_lazy as _
 from source.settings.apps_settings import BASE_DATE_FORMAT
@@ -9,6 +25,13 @@ from source.settings.apps_settings import BASE_DATE_FORMAT
 
 class CreditScoringModule(BaseScoringModule):
     loan_service = LocalLoanScoringService()
+    outstanding_loans_actions = LoanOutstandingLoansCardActions()
+    amount_actions = LocalAmountLoansCardActions()
+    days_repayment_actions = LocalDaysRepaymentLoansCardActions()
+    debt_burden_actions = LocalDebtBurdenLoansCardActions()
+    dependents_actions = LocalDependentsCardActions()
+    monthly_payment_actions = LocalMonthlyPaymentLoansCardActions()
+    percent_repayment_actions = LocalPercentRepaymentLoansCardActions()
 
     def calculate_score(self, data):
         outstanding_loan_score = self._calculate_outstanding_credit_score(data)
@@ -45,28 +68,30 @@ class CreditScoringModule(BaseScoringModule):
         return loan_data
 
     def _calculate_outstanding_credit_score(self, data):
-        score = self.cards.min_score
+        score = self.outstanding_loans_actions.get_min_score()
         if hasattr(data.profile_credit_charges, 'charges_outstanding_loans'):
-            score = self.cards.get_current_credit_card()[
-                str(getattr(data.profile_credit_charges, 'charges_outstanding_loans'))]
+            data = LocalOutstandingLoansCardPlainModel(
+                key=int(getattr(data.profile_credit_charges, 'charges_outstanding_loans')))
+            score = self.outstanding_loans_actions.service.get_item(**data.__dict__).value if \
+                self.outstanding_loans_actions.service.get_item(**data.__dict__) else \
+                self.outstanding_loans_actions.get_min_score()
         return score
 
     def _calculate_amount_credit_score(self, data):
-        score = self.cards.min_score
+        score = self.amount_actions.get_min_score()
         if hasattr(data.profile_credit_charges, 'charges_initial_amount'):
-            amount = int(float(getattr(data.profile_credit_charges, 'charges_initial_amount')))
-            if amount >= self.cards.max_credit_amount:
-                score = self.cards.min_score
+            amount = getattr(data.profile_credit_charges, 'charges_initial_amount')
+            if amount >= float(self.amount_actions.get_max_key()):
+                score = self.amount_actions.get_min_score()
             else:
-                for item in sorted(self.cards.get_credit_amount_card(),
-                                   key=lambda key: self.cards.get_credit_amount_card()[key], reverse=True):
-                    if amount < int(item):
-                        score = self.cards.get_credit_amount_card()[item]
+                for item in self.amount_actions.get_card(reverse=True):
+                    if amount < float(item.key):
+                        score = item.value
                         break
         return score
 
     def _calculate_percent_repayment_score(self, data):
-        score = self.cards.min_score
+        score = self.percent_repayment_actions.get_min_score()
         if hasattr(data.profile_credit_charges, 'charges_initial_amount') and \
                 hasattr(data.profile_credit_charges, 'charges_current_amount'):
             purpose_amount = float(getattr(data.profile_credit_charges, 'charges_initial_amount'))
@@ -75,67 +100,65 @@ class CreditScoringModule(BaseScoringModule):
                 repayment_percent = 100 - ((current_amount / purpose_amount) * 100)
             except ZeroDivisionError:
                 repayment_percent = 0
-            if repayment_percent >= self.cards.max_repayment_percent:
-                score = self.cards.max_score
+            if repayment_percent >= float(self.percent_repayment_actions.get_max_key()):
+                score = self.percent_repayment_actions.get_max_score()
             else:
-                for item in sorted(self.cards.get_percent_repayment_card(),
-                                   key=lambda key: self.cards.get_percent_repayment_card()[key]):
-                    if repayment_percent < float(item):
-                        score = self.cards.get_percent_repayment_card()[item]
+                for item in self.percent_repayment_actions.get_card():
+                    if repayment_percent < float(item.key):
+                        score = item.value
                         break
         return score
 
     def _calculate_maturity_date_score(self, data):
-        score = self.cards.min_score
+        score = self.days_repayment_actions.get_min_score()
         if hasattr(data.profile_credit_charges, 'charges_maturity_date'):
             maturity_date = datetime.datetime.strptime(
                 getattr(data.profile_credit_charges, 'charges_maturity_date'), BASE_DATE_FORMAT)
             current_date = datetime.datetime.now()
             days = abs(maturity_date - current_date).days
-            if days >= self.cards.max_maturity_days:
-                score = self.cards.min_credit_score
+            if days >= self.days_repayment_actions.get_max_key():
+                score = self.days_repayment_actions.get_min_score()
             else:
-                for item in sorted(self.cards.get_days_to_repayment_card(),
-                                   key=lambda key: self.cards.get_days_to_repayment_card()[key]):
-                    if int(days) < int(item):
-                        score = self.cards.get_days_to_repayment_card()[item]
+                for item in self.days_repayment_actions.get_card():
+                    if days < item.key:
+                        score = item.value
                         break
         return score
 
     def _calculate_monthly_payment_score(self, data):
-        score = self.cards.min_score
+        score = self.monthly_payment_actions.get_min_score()
         if hasattr(data.profile_credit_charges, 'charges_monthly_payment'):
-            payment = int(float(getattr(data.profile_credit_charges, 'charges_monthly_payment')))
-            if payment >= self.cards.max_monthly_payment:
-                score = self.cards.min_score
+            payment = float(getattr(data.profile_credit_charges, 'charges_monthly_payment'))
+            if payment >= float(self.monthly_payment_actions.get_max_key()):
+                score = self.monthly_payment_actions.get_min_score()
             else:
-                for item in sorted(self.cards.get_amount_monthly_payment_card(),
-                                   key=lambda key: self.cards.get_amount_monthly_payment_card()[key], reverse=True):
-                    if payment < int(item):
-                        score = self.cards.get_amount_monthly_payment_card()[item]
+                for item in self.monthly_payment_actions.get_card(reverse=True):
+                    if payment < item.key:
+                        score = item.value
                         break
         return score
 
     def _calculate_debt_burden_score(self, data):
-        score = self.cards.min_score
+        score = self.debt_burden_actions.get_min_score()
         if hasattr(data.profile_credit_charges, 'charges_monthly_payment') and \
                 hasattr(data.profile_placement_information, 'placement_income'):
             payment = float(getattr(data.profile_credit_charges, 'charges_monthly_payment'))
             income = float(getattr(data.profile_placement_information, 'placement_income'))
             debt_burden = payment / income
-            if debt_burden >= self.cards.max_debt_burden:
-                score = self.cards.min_score
+            if debt_burden >= float(self.debt_burden_actions.get_max_key()):
+                score = self.debt_burden_actions.get_min_score()
             else:
-                for item in sorted(self.cards.get_debt_burden_card(),
-                                   key=lambda key: self.cards.get_debt_burden_card()[key], reverse=True):
-                    if debt_burden < float(item):
-                        score = self.cards.get_debt_burden_card()[item]
+                for item in self.debt_burden_actions.get_card(reverse=True):
+                    if debt_burden < float(item.key):
+                        score = item.value
                         break
         return score
 
     def _calculate_dependents_score(self, data):
-        score = self.cards.min_score
+        score = self.dependents_actions.get_min_score()
         if hasattr(data.profile_personal_information, 'personal_dependents'):
-            score = self.cards.get_count_dependents_card()[str(getattr(
-                data.profile_personal_information, 'personal_dependents'))]
+            data = LocalDependentsCardPlainModel(
+                key=int(getattr(data.profile_personal_information, 'personal_dependents')))
+            score = self.dependents_actions.service.get_item(**data.__dict__).value if \
+                self.dependents_actions.service.get_item(**data.__dict__) else self.dependents_actions.get_min_score()
         return score
