@@ -80,6 +80,8 @@ class LocalMonthlyPaymentLoansCard(BaseScoringCardModel):
 
 
 class LocalDebtBurdenLoansCard(BaseScoringCardModel):
+    BaseScoringCardModel.key = models.FloatField(_(u'Значение'), max_length=255, blank=True, null=True)
+    
     def save(self, *args, **kwargs):
         from core.scoring.apps.local.scoring_cards.loan_cards.services.LocalDebtBurdenLoansCardService import \
             LocalDebtBurdenLoansCardService
