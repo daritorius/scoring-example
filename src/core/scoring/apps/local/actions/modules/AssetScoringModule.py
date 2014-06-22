@@ -193,7 +193,7 @@ class AssetScoringModule(BaseScoringModule):
             if year >= self.car_lifetime_actions.get_max_key():
                 score = self.car_lifetime_actions.get_max_score()
             else:
-                for item in self.car_lifetime_actions.get_card():
+                for item in self.car_lifetime_actions.get_card(reverse=True):
                     if int(year) < int(item.key):
                         score = item.value
                         break
@@ -206,7 +206,7 @@ class AssetScoringModule(BaseScoringModule):
             if int(mileage) >= self.car_mileage_actions.get_max_key():
                 score = self.car_mileage_actions.get_max_score()
             else:
-                for item in self.car_mileage_actions.get_card():
+                for item in self.car_mileage_actions.get_card(reverse=True):
                     if int(mileage) < int(item.key):
                         score = item.value
                         break
