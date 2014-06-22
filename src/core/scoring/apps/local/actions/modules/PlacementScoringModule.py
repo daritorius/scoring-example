@@ -17,6 +17,7 @@ from core.scoring.apps.local.scoring_cards.placement_cards.actions.LocalPlacemen
     LocalPlacementWageEarnAmountCardActions
 from core.scoring.apps.local.scoring_cards.placement_cards.actions.LocalPlacementWageTermCardActions import \
     LocalPlacementWageTermCardActions
+from core.scoring.apps.local.scoring_cards.placement_cards.models import LocalPlacementWageCategoryCard
 from core.scoring.apps.local.scoring_cards.placement_cards.plain_models import LocalPlacementWageCategoryCardPlainModel, \
     LocalPlacementTypeCardPlainModel
 from core.scoring.apps.local.services.LocalPlacementScoringService import LocalPlacementScoringService
@@ -152,7 +153,7 @@ class PlacementScoringModule(BaseScoringModule):
         if hasattr(data.profile_placement_information, 'placement_category_position'):
             category_position = int(getattr(data.profile_placement_information, 'placement_category_position'))
             data = LocalPlacementWageCategoryCardPlainModel(key=category_position)
-            score = self.wage_category_actions.service.get_item(**data.__dict__) if \
+            score = self.wage_category_actions.service.get_item(**data.__dict__).value if \
                 self.wage_category_actions.service.get_item(**data.__dict__) else \
                 self.wage_category_actions.get_min_score()
         return score
