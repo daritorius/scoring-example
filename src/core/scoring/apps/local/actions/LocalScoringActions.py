@@ -37,12 +37,7 @@ class LocalScoringActions(BaseScoringAction):
         loan_score = self.loan_scoring_module.calculate_score(data)
         print 'Loan score: %s' % loan_score.total_score
         print '--------------------'
-        # total_score = age_score.total_score + \
-        #               placement_score.total_score + \
-        #               personal_score.total_score + \
-        #               assets_score.total_score + \
-        #               loan_score.total_score
-        total_score = self._calculate_total_score(age_score)
+        total_score = self._calculate_total_score(age_score, placement_score, personal_score, loan_score)
         total_rating = self.calculate_rating(total_score)
         print 'Total score: %s' % total_score
         print 'Total rating: "%s"' % total_rating
