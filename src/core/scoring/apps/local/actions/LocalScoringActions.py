@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
+from django.utils.translation import ugettext_lazy as _
 from core.scoring.apps.local.actions.modules.AssetScoringModule import AssetScoringModule
 from core.scoring.apps.local.actions.modules.CreditScoringModule import CreditScoringModule
 from core.scoring.apps.local.plain_models import LocalScoringPlainModel
 from core.scoring.apps.local.services.LocalScoringService import LocalScoringService
 from core.scoring.scoring_cards.MainLocalScoringCard import MainLocalScoringCard
-from django.utils.translation import ugettext_lazy as _
 from core.scoring.apps.local.actions.BaseScoringActions import BaseScoringAction
 from core.scoring.apps.local.actions.modules.AgeScoringModule import AgeScoringModule
 from core.scoring.apps.local.actions.modules.PersonalScoringModule import PersonalScoringModule
