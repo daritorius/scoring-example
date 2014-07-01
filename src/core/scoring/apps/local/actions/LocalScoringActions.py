@@ -73,19 +73,22 @@ class LocalScoringActions(BaseScoringAction):
         total = main + personal + placement + loan
         return total
 
-    def _calculate_main_parameters(self, age_data, placement_data):
+    @staticmethod
+    def _calculate_main_parameters(age_data, placement_data):
         score = (age_data.total_score + placement_data.placement_type_score.placement_type_score +
                  placement_data.placement_clean_income.placement_clean_income +
                  placement_data.placement_income_score.placement_income_score)/4 * 0.65
         return score
 
-    def _calculate_personal_parameters(self, personal_data):
+    @staticmethod
+    def _calculate_personal_parameters(personal_data):
         score = (personal_data.education_score + personal_data.marital_status_score +
                  personal_data.official_address_score + personal_data.real_address_score +
                  personal_data.identity_addresses_score)/5 * 0.05
         return score
 
-    def _calculate_placement_parameters(self, placement_data):
+    @staticmethod
+    def _calculate_placement_parameters(placement_data):
         category = placement_data.placement_income_score.category_position_score if \
             placement_data.placement_income_score.category_position_score else 0
         count = placement_data.placement_income_score.count_employees_score if \
