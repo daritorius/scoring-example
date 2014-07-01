@@ -299,8 +299,8 @@ class Command(BaseCommand):
             income = float(user_data.get('placement_income', 0))
             add_income = float(user_data.get('placement_additional_income', 0))
             charges = 0
-            for item in ChargesPlainModel().fields:
-                charges += float(user_data.get(item, 0))
+            for field in ChargesPlainModel().fields:
+                charges += float(user_data.get(field, 0))
             clean_income = income + add_income - charges
             clean_string = u'( Доход: %s + Доп.доход: %s ) - Расходы: %s = Итого %s' % (income, add_income, charges,
                                                                                         clean_income)
