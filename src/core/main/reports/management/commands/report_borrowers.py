@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 import datetime
 from core.scoring.apps.local.actions.modules.AgeScoringModule import AgeScoringModule
-from core.scoring.apps.local.plain_models import OfficialAddressPlainModel, RealAddressPlainModel
-from core.scoring.apps.local.scoring_cards.PersonalInformationCards import PersonalInformationCards
-from core.scoring.apps.local.scoring_cards.PlacementInformationCards import PlacementInformationCards
+from core.scoring.apps.local.management.commands.plain_models.PersonalInformationCards import PersonalInformationCards
+from core.scoring.apps.local.management.commands.plain_models.PlacementInformationCards import PlacementInformationCards
+from core.scoring.apps.local.plain_models import ChargesPlainModel
 from django.utils.translation import ugettext as _
 from core.scoring.services.ScoringService import ScoringService
 from django.conf.global_settings import DEBUG, DEFAULT_FROM_EMAIL
@@ -216,7 +216,7 @@ class Command(BaseCommand):
             ws.write(number, 9, marital_status)
             ws.write(number, 10, item.local_score.personal_score.marital_status_score)
 
-            dependents = user_data.get('personal_dependents', _(u'Не указано'))
+            dependents = user_data.get('personal_dependents', 0)
             ws.write(number, 12, dependents)
             ws.write(number, 13, item.local_score.loan_score.dependents_score)
 
@@ -238,7 +238,7 @@ class Command(BaseCommand):
             ws.write(number, 24, placement_type)
             ws.write(number, 25, item.local_score.placement_score.placement_type_score)
 
-            placement_term = user_data.get('placement_term', _(u'Не указано'))
+            placement_term = int(user_data.get('placement_term', 0)) * 12
             ws.write(number, 27, placement_term)
             ws.write(number, 28, item.local_score.placement_score.term_score)
 
@@ -255,7 +255,7 @@ class Command(BaseCommand):
                 ws.write(number, 33, position)
                 ws.write(number, 34, item.local_score.placement_score.category_position_score)
             elif int(user_data.get('placement_type', None)) == placement_card.TYPE_PRIVATE_ENTREPRENEUR:
-                ws.write(number, 39, user_data.get('placement_term', u'Не указано'))
+                ws.write(number, 39, int(user_data.get('placement_term', 0)) * 12)
                 ws.write(number, 40, item.local_score.placement_score.term_score)
 
                 ws.write(number, 42, user_data.get('placement_tax_quarter', u'Не указано'))
@@ -274,7 +274,7 @@ class Command(BaseCommand):
             ws.write(number, 51, outstanding_loans)
             ws.write(number, 52, item.local_score.loan_score.outstanding_loan_score)
 
-            ws.write(number, 54, user_data.get('charges_initial_amount', u'Не указано'))
+            ws.write(number, 54, user_data.get('charges_initial_amount', 0))
             ws.write(number, 55, item.local_score.loan_score.amount_loan_score)
 
             ws.write(number, 57, str(user_data.get('charges_initial_amount', 0)) + '/' +
@@ -284,18 +284,27 @@ class Command(BaseCommand):
             ws.write(number, 60, user_data.get('charges_maturity_date', u'Не указано'))
             ws.write(number, 61, item.local_score.loan_score.days_to_repayment_score)
 
-            ws.write(number, 63, user_data.get('charges_monthly_payment', u'Не указано'))
+            ws.write(number, 63, user_data.get('charges_monthly_payment', 0))
             ws.write(number, 64, item.local_score.loan_score.monthly_payment_score)
 
             payment = float(user_data.get('charges_monthly_payment', 0))
             income = float(user_data.get('placement_income', 0))
             try:
-                debt_burden = payment / income
+                debt_burden = round(payment / income, 2)
             except ZeroDivisionError:
                 debt_burden = 1
             ws.write(number, 66, debt_burden)
             ws.write(number, 67, item.local_score.loan_score.debt_burden_score)
 
+            income = float(user_data.get('placement_income', 0))
+            add_income = float(user_data.get('placement_additional_income', 0))
+            charges = 0
+            for item in ChargesPlainModel().fields:
+                charges += float(user_data.get(item, 0))
+            clean_income = income + add_income - charges
+            clean_string = u'( Доход: %s + Доп.доход: %s ) - Расходы: %s = Итого %s' % (income, add_income, charges,
+                                                                                        clean_income)
+            ws.write(number, 69, clean_string)
             ws.write(number, 70, item.local_score.placement_score.placement_clean_income)
 
             ws.write(number, 72, user_data.get('assets_available_assets', u'Не указано'))

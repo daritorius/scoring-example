@@ -211,7 +211,7 @@ class PlacementScoringModule(BaseScoringModule):
         if hasattr(data.profile_placement_information, 'placement_additional_income'):
             income += float(getattr(data.profile_placement_information, 'placement_additional_income')) if \
                 getattr(data.profile_placement_information, 'placement_additional_income') else 0
-        for item in ChargesPlainModel.fields:
+        for item in ChargesPlainModel().fields:
             if hasattr(data.profile_charges, item):
                 charges += float(getattr(data.profile_charges, item)) if \
                     getattr(data.profile_charges, item) else 0
