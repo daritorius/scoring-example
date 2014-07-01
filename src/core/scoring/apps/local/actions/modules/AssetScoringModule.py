@@ -49,27 +49,33 @@ class AssetScoringModule(BaseScoringModule):
 
     def calculate_score(self, data):
         available_assets_score = self.calculate_available_assets_score(data)
-        print 'available assets score: %s' % available_assets_score
-        flat_data = self.calculate_flat_score(data)
-        print 'flat score: %s' % flat_data.flat_score
-        house_data = self.calculate_house_score(data)
-        print 'house score: %s' % house_data.house_score
-        car_data = self.calculate_car_score(data)
-        print 'car score: %s' % car_data.car_score
-        deposit_data = self.calculate_deposit_score(data)
-        print 'deposit score: %s' % deposit_data.deposit_score
-        other_assets_score = self.calculate_other_assets_price_score(data)
-        print 'other assets score: %s' % other_assets_score
-        total_assets_score = available_assets_score + flat_data.flat_score + house_data.house_score + \
-                             car_data.car_score + deposit_data.deposit_score + other_assets_score
-        assets_generated_data = dict(flat_data.__dict__.items() + house_data.__dict__.items() +
-                                     car_data.__dict__.items() + deposit_data.__dict__.items())
-        data = LocalAssetsScoringPlainModel(
-            available_assets_score=available_assets_score,
-            other_assets_score=other_assets_score,
-            total_score=total_assets_score,
-            **assets_generated_data
-        )
+        if available_assets_score == self.available_actions.get_max_score():
+            print 'available assets score: %s' % available_assets_score
+            flat_data = self.calculate_flat_score(data)
+            print 'flat score: %s' % flat_data.flat_score
+            house_data = self.calculate_house_score(data)
+            print 'house score: %s' % house_data.house_score
+            car_data = self.calculate_car_score(data)
+            print 'car score: %s' % car_data.car_score
+            deposit_data = self.calculate_deposit_score(data)
+            print 'deposit score: %s' % deposit_data.deposit_score
+            other_assets_score = self.calculate_other_assets_price_score(data)
+            print 'other assets score: %s' % other_assets_score
+            total_assets_score = available_assets_score + flat_data.flat_score + house_data.house_score + \
+                                 car_data.car_score + deposit_data.deposit_score + other_assets_score
+            assets_generated_data = dict(flat_data.__dict__.items() + house_data.__dict__.items() +
+                                         car_data.__dict__.items() + deposit_data.__dict__.items())
+            data = LocalAssetsScoringPlainModel(
+                available_assets_score=available_assets_score,
+                other_assets_score=other_assets_score,
+                total_score=total_assets_score,
+                **assets_generated_data
+            )
+        else:
+            data = LocalAssetsScoringPlainModel(
+                available_assets_score=available_assets_score,
+                total_score=available_assets_score
+            )
         assets_data = self.assets_service.create(data)
         return assets_data
 
