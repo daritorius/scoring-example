@@ -281,7 +281,7 @@ class Command(BaseCommand):
                      str(user_data.get('charges_current_amount', 0)))
             ws.write(number, 58, item.local_score.loan_score.repayment_percent_score)
 
-            ws.write(number, 60, user_data.get('charges_maturity_date', u'Не указано'))
+            ws.write(number, 60, user_data.get('charges_maturity_date', 0))
             ws.write(number, 61, item.local_score.loan_score.days_to_repayment_score)
 
             ws.write(number, 63, user_data.get('charges_monthly_payment', 0))

@@ -85,8 +85,8 @@ class AssetScoringModule(BaseScoringModule):
     @staticmethod
     def check_available_assets(data):
         result = 0
-        for item in AssetsPlainModel().fields:
-            if hasattr(data.profile_assets, item):
+        for field in AssetsPlainModel().fields:
+            if hasattr(data.profile_assets, field):
                 result += 1
         return True if result else False
 
