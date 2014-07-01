@@ -35,25 +35,26 @@ class CreditScoringModule(BaseScoringModule):
 
     def calculate_score(self, data):
         outstanding_loan_score = self._calculate_outstanding_credit_score(data)
-        print 'outstatnding loan score: %s' % outstanding_loan_score
-        amount_loan_score = self._calculate_amount_credit_score(data)
-        print 'amount loan score: %s' % amount_loan_score
-        repayment_percent_score = self._calculate_percent_repayment_score(data)
-        print 'repayment percent score: %s' % repayment_percent_score
-        days_to_repayment_score = self._calculate_maturity_date_score(data)
-        print 'days to repayment score: %s' % days_to_repayment_score
-        monthly_payment_score = self._calculate_monthly_payment_score(data)
-        print 'monthly payment score: %s' % monthly_payment_score
-        debt_burden_score = self._calculate_debt_burden_score(data)
-        print 'debt burden score: %s' % debt_burden_score
-        dependents_score = self._calculate_dependents_score(data)
-        print 'dependents score: %s' % dependents_score
-        total_score = outstanding_loan_score + \
-                      amount_loan_score + \
-                      repayment_percent_score + \
-                      days_to_repayment_score + \
-                      monthly_payment_score + \
-                      debt_burden_score
+        if outstanding_loan_score != self.outstanding_loans_actions.get_max_score():
+            outstanding_loan_score = self._calculate_outstanding_credit_score(data)
+            print 'outstatnding loan score: %s' % outstanding_loan_score
+            amount_loan_score = self._calculate_amount_credit_score(data)
+            print 'amount loan score: %s' % amount_loan_score
+            repayment_percent_score = self._calculate_percent_repayment_score(data)
+            print 'repayment percent score: %s' % repayment_percent_score
+            days_to_repayment_score = self._calculate_maturity_date_score(data)
+            print 'days to repayment score: %s' % days_to_repayment_score
+            monthly_payment_score = self._calculate_monthly_payment_score(data)
+            print 'monthly payment score: %s' % monthly_payment_score
+            debt_burden_score = self._calculate_debt_burden_score(data)
+            print 'debt burden score: %s' % debt_burden_score
+            dependents_score = self._calculate_dependents_score(data)
+            print 'dependents score: %s' % dependents_score
+        else:
+            amount_loan_score = repayment_percent_score = days_to_repayment_score = \
+                monthly_payment_score = debt_burden_score = dependents_score = 0
+        total_score = outstanding_loan_score + amount_loan_score + repayment_percent_score + \
+                      days_to_repayment_score + monthly_payment_score + debt_burden_score + dependents_score
         data = LocalLoanScoringPlainModel(
             outstanding_loan_score=outstanding_loan_score,
             amount_loan_score=amount_loan_score,
