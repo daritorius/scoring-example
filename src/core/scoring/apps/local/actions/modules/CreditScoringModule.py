@@ -156,7 +156,7 @@ class CreditScoringModule(BaseScoringModule):
         return score
 
     def _calculate_dependents_score(self, data):
-        score = self.dependents_actions.get_min_score()
+        score = 0
         if hasattr(data.profile_personal_information, 'personal_dependents'):
             data = LocalDependentsCardPlainModel(
                 key=int(getattr(data.profile_personal_information, 'personal_dependents')))
