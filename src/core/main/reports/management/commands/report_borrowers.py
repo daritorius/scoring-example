@@ -190,9 +190,9 @@ class Command(BaseCommand):
         # ws.write(0, 111, u'текущая оценочная стоимость активов')
         # ws.write(0, 112, u'Баллы по секции')
 
-        ws.write(0, 113, u'Дата расчета')
-        ws.write(0, 114, u'Итоговый бал')
-        ws.write(0, 115, u'Рейтинг')
+        ws.write(0, 71, u'Дата расчета')
+        ws.write(0, 72, u'Итоговый бал')
+        ws.write(0, 73, u'Рейтинг')
 
         for number, item in enumerate(scorings, start=1):
             user_data = json.loads(item.user_data)
