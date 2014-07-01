@@ -50,7 +50,6 @@ class CreditScoringCard(object):
             '2000': -100,
             '3000': -200,
             '6000': -300,
-            '6001': -9999,
         }
         return card
 
@@ -60,7 +59,6 @@ class CreditScoringCard(object):
             '0.55': -100,
             '0.6': -200,
             '0.7': -300,
-            '0.71': -9999,
         }
         return card
 
