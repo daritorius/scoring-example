@@ -67,42 +67,61 @@ class LocalScoringActions(BaseScoringAction):
 
     def _calculate_total_score(self, age_data, placement_data, personal_data, loan_data):
         main = self._calculate_main_parameters(age_data, placement_data)
+        print 'main parameters score: %s' % main
         personal = self._calculate_personal_parameters(personal_data)
+        print 'personal parameters score: %s' % personal
         placement = self._calculate_placement_parameters(placement_data)
+        print 'placement parameters score: %s' % placement
         loan = self._calculate_debts_parameters(loan_data)
-        total = main + personal + placement + loan
+        print 'loan parameters score: %s' % loan
+        total = int(round(main + personal + placement + loan, 0))
         return total
 
     @staticmethod
     def _calculate_main_parameters(age_data, placement_data):
-        score = (age_data.total_score + placement_data.placement_type_score.placement_type_score +
-                 placement_data.placement_clean_income.placement_clean_income +
-                 placement_data.placement_income_score.placement_income_score)/4 * 0.65
+        score = float((int(age_data.total_score) +
+                       int(placement_data.placement_type_score) +
+                       int(placement_data.placement_clean_income) +
+                       int(placement_data.placement_income_score))) / 4 * 0.65
         return score
 
     @staticmethod
     def _calculate_personal_parameters(personal_data):
-        score = (personal_data.education_score + personal_data.marital_status_score +
-                 personal_data.official_address_score + personal_data.real_address_score +
-                 personal_data.identity_addresses_score)/5 * 0.05
+        score = float((int(personal_data.education_score) +
+                       int(personal_data.marital_status_score) +
+                       int(personal_data.official_address_score) +
+                       int(personal_data.real_address_score) +
+                       int(personal_data.identity_addresses_score))) / 5 * 0.05
         return score
 
     @staticmethod
     def _calculate_placement_parameters(placement_data):
-        category = placement_data.placement_income_score.category_position_score if \
-            placement_data.placement_income_score.category_position_score else 0
-        count = placement_data.placement_income_score.count_employees_score if \
-            placement_data.placement_income_score.count_employees_score else 0
-        tax = placement_data.placement_income_score.tax_score if placement_data.placement_income_score.tax_score else 0
-        score = (placement_data.work_score.term_score +
-                 placement_data.placement_income_score.placement_income_score + category + count + tax)
+        category = placement_data.category_position_score if \
+            placement_data.category_position_score else 0
+        count = placement_data.count_employees_score if \
+            placement_data.count_employees_score else 0
+        tax = placement_data.tax_score if placement_data.tax_score else 0
+        score = 0
+        if placement_data.placement_type_score == 300:
+            score = float((int(placement_data.term_score) +
+                           int(placement_data.wage_score) +
+                           int(category))) / 4 * 0.15
+        elif placement_data.placement_type_score == 200:
+            score = float((int(placement_data.term_score) +
+                           int(tax) +
+                           int(count))) / 3 * 0.15
         return score
 
     def _calculate_debts_parameters(self, loan_data):
         if loan_data.outstanding_loan_score == self.loan_scoring_module.outstanding_loans_actions.get_max_score():
-            score = (loan_data.outstanding_loan_score + loan_data.dependents_score)/2 * 0.15
+            score = float((int(loan_data.outstanding_loan_score) +
+                           int(loan_data.dependents_score))) / 2 * 0.15
         else:
-            score = (loan_data.outstanding_loan_score + loan_data.dependents_score + loan_data.amount_loan_score +
-                     loan_data.repayment_percent_score + loan_data.days_to_repayment_score +
-                     loan_data.monthly_payment_score + loan_data.debt_burden_score)/7 * 0.15
+            score = float((int(loan_data.outstanding_loan_score) +
+                           int(loan_data.dependents_score) +
+                           int(loan_data.amount_loan_score) +
+                           int(loan_data.repayment_percent_score) +
+                           int(loan_data.days_to_repayment_score) +
+                           int(loan_data.monthly_payment_score) +
+                           int(loan_data.debt_burden_score))) / 7 * 0.15
         return score

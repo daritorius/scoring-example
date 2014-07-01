@@ -138,7 +138,7 @@ class PlacementScoringModule(BaseScoringModule):
     def calculate_employment_term_score(self, data):
         score = self.wage_term_actions.get_min_score()
         if hasattr(data.profile_placement_information, 'placement_term'):
-            term = int(getattr(data.profile_placement_information, 'placement_term'))
+            term = int(getattr(data.profile_placement_information, 'placement_term')) * 12
             if term >= self.wage_term_actions.get_max_key():
                 score = self.wage_term_actions.get_max_score()
             else:
