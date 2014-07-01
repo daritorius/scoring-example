@@ -134,61 +134,61 @@ class Command(BaseCommand):
         ws.write(0, 69, u'Среднемесячный остаток свободных денежных средств (доходы минус расходы)')
         ws.write(0, 70, u'Баллы по секции')
 
-        ws.write(0, 71, u'D1')
-        ws.write(0, 72, u'Наличие активов')
-        ws.write(0, 73, u'Баллы по секции')
-
-        ws.write(0, 74, u'D2')
-        ws.write(0, 75, u'общая площадь квартиры')
-        ws.write(0, 76, u'Баллы по секции')
-
-        ws.write(0, 77, u'D3')
-        ws.write(0, 78, u'состояние квартиры')
-        ws.write(0, 79, u'Баллы по секции')
-
-        ws.write(0, 80, u'D4')
-        ws.write(0, 81, u'рейтинг района квартиры')
-        ws.write(0, 82, u'Баллы по секции')
-
-        ws.write(0, 83, u'D5')
-        ws.write(0, 84, u'общая площадь дома')
-        ws.write(0, 85, u'Баллы по секции')
-
-        ws.write(0, 86, u'D6')
-        ws.write(0, 87, u'состояние дома')
-        ws.write(0, 88, u'Баллы по секции')
-
-        ws.write(0, 89, u'D7')
-        ws.write(0, 90, u'рейтинг района дома')
-        ws.write(0, 91, u'Баллы по секции')
-
-        ws.write(0, 92, u'D8')
-        ws.write(0, 93, u'год эксплуатации автомобиля')
-        ws.write(0, 94, u'Баллы по секции')
-
-        ws.write(0, 95, u'D9')
-        ws.write(0, 96, u'пробег автомобиля')
-        ws.write(0, 97, u'Баллы по секции')
-
-        ws.write(0, 98, u'D10')
-        ws.write(0, 99, u'состояние автомобиля')
-        ws.write(0, 100, u'Баллы по секции')
-
-        ws.write(0, 101, u'D11')
-        ws.write(0, 102, u'срок окончания депозита')
-        ws.write(0, 103, u'Баллы по секции')
-
-        ws.write(0, 104, u'D12')
-        ws.write(0, 105, u'сумма депозита')
-        ws.write(0, 106, u'Баллы по секции')
-
-        ws.write(0, 107, u'D13')
-        ws.write(0, 108, u'ежемесячные выплаты процентов')
-        ws.write(0, 109, u'Баллы по секции')
-
-        ws.write(0, 110, u'D14')
-        ws.write(0, 111, u'текущая оценочная стоимость активов')
-        ws.write(0, 112, u'Баллы по секции')
+        # ws.write(0, 71, u'D1')
+        # ws.write(0, 72, u'Наличие активов')
+        # ws.write(0, 73, u'Баллы по секции')
+        #
+        # ws.write(0, 74, u'D2')
+        # ws.write(0, 75, u'общая площадь квартиры')
+        # ws.write(0, 76, u'Баллы по секции')
+        #
+        # ws.write(0, 77, u'D3')
+        # ws.write(0, 78, u'состояние квартиры')
+        # ws.write(0, 79, u'Баллы по секции')
+        #
+        # ws.write(0, 80, u'D4')
+        # ws.write(0, 81, u'рейтинг района квартиры')
+        # ws.write(0, 82, u'Баллы по секции')
+        #
+        # ws.write(0, 83, u'D5')
+        # ws.write(0, 84, u'общая площадь дома')
+        # ws.write(0, 85, u'Баллы по секции')
+        #
+        # ws.write(0, 86, u'D6')
+        # ws.write(0, 87, u'состояние дома')
+        # ws.write(0, 88, u'Баллы по секции')
+        #
+        # ws.write(0, 89, u'D7')
+        # ws.write(0, 90, u'рейтинг района дома')
+        # ws.write(0, 91, u'Баллы по секции')
+        #
+        # ws.write(0, 92, u'D8')
+        # ws.write(0, 93, u'год эксплуатации автомобиля')
+        # ws.write(0, 94, u'Баллы по секции')
+        #
+        # ws.write(0, 95, u'D9')
+        # ws.write(0, 96, u'пробег автомобиля')
+        # ws.write(0, 97, u'Баллы по секции')
+        #
+        # ws.write(0, 98, u'D10')
+        # ws.write(0, 99, u'состояние автомобиля')
+        # ws.write(0, 100, u'Баллы по секции')
+        #
+        # ws.write(0, 101, u'D11')
+        # ws.write(0, 102, u'срок окончания депозита')
+        # ws.write(0, 103, u'Баллы по секции')
+        #
+        # ws.write(0, 104, u'D12')
+        # ws.write(0, 105, u'сумма депозита')
+        # ws.write(0, 106, u'Баллы по секции')
+        #
+        # ws.write(0, 107, u'D13')
+        # ws.write(0, 108, u'ежемесячные выплаты процентов')
+        # ws.write(0, 109, u'Баллы по секции')
+        #
+        # ws.write(0, 110, u'D14')
+        # ws.write(0, 111, u'текущая оценочная стоимость активов')
+        # ws.write(0, 112, u'Баллы по секции')
 
         ws.write(0, 113, u'Дата расчета')
         ws.write(0, 114, u'Итоговый бал')
@@ -307,51 +307,51 @@ class Command(BaseCommand):
             ws.write(number, 69, clean_string)
             ws.write(number, 70, item.local_score.placement_score.placement_clean_income)
 
-            ws.write(number, 72, user_data.get('assets_available_assets', u'Не указано'))
-            ws.write(number, 73, item.local_score.assets_score.available_assets_score)
+            # ws.write(number, 72, user_data.get('assets_available_assets', u'Не указано'))
+            # ws.write(number, 73, item.local_score.assets_score.available_assets_score)
+            #
+            # ws.write(number, 75, user_data.get('assets_flat_area', u'Не указано'))
+            # ws.write(number, 76, item.local_score.assets_score.flat_area_score)
+            #
+            # ws.write(number, 78, user_data.get('assets_flat_state', u'Не указано'))
+            # ws.write(number, 79, item.local_score.assets_score.flat_status_score)
+            #
+            # ws.write(number, 81, u'Не учитывается')
+            # ws.write(number, 82, u'Не учитывается')
+            #
+            # ws.write(number, 84, user_data.get('assets_house_area', u'Не указано'))
+            # ws.write(number, 85, item.local_score.assets_score.house_area_score)
+            #
+            # ws.write(number, 87, user_data.get('assets_house_state', u'Не указано'))
+            # ws.write(number, 88, item.local_score.assets_score.house_status_score)
+            #
+            # ws.write(number, 90, u'Не учитывается')
+            # ws.write(number, 91, u'Не учитывается')
+            #
+            # ws.write(number, 93, user_data.get('assets_car_year_manufacture', u'Не указано'))
+            # ws.write(number, 94, item.local_score.assets_score.car_lifetime_score)
+            #
+            # ws.write(number, 96, user_data.get('assets_car_mileage', u'Не указано'))
+            # ws.write(number, 97, item.local_score.assets_score.car_mileage_car_score)
+            #
+            # ws.write(number, 99, user_data.get('assets_car_state', u'Не указано'))
+            # ws.write(number, 100, item.local_score.assets_score.car_status_score)
+            #
+            # ws.write(number, 102, user_data.get('assets_deposits_maturity_date', u'Не указано'))
+            # ws.write(number, 103, item.local_score.assets_score.deposit_maturity_date_score)
+            #
+            # ws.write(number, 105, user_data.get('assets_deposits_amount', u'Не указано'))
+            # ws.write(number, 106, item.local_score.assets_score.deposit_amount_score)
+            #
+            # ws.write(number, 108, user_data.get('assets_deposits_monthly_percents', u'Не указано'))
+            # ws.write(number, 109, item.local_score.assets_score.deposit_percents_score)
+            #
+            # ws.write(number, 111, user_data.get('assets_other_assets_price', u'Не указано'))
+            # ws.write(number, 112, item.local_score.assets_score.other_assets_score)
 
-            ws.write(number, 75, user_data.get('assets_flat_area', u'Не указано'))
-            ws.write(number, 76, item.local_score.assets_score.flat_area_score)
-
-            ws.write(number, 78, user_data.get('assets_flat_state', u'Не указано'))
-            ws.write(number, 79, item.local_score.assets_score.flat_status_score)
-
-            ws.write(number, 81, u'Не учитывается')
-            ws.write(number, 82, u'Не учитывается')
-
-            ws.write(number, 84, user_data.get('assets_house_area', u'Не указано'))
-            ws.write(number, 85, item.local_score.assets_score.house_area_score)
-
-            ws.write(number, 87, user_data.get('assets_house_state', u'Не указано'))
-            ws.write(number, 88, item.local_score.assets_score.house_status_score)
-
-            ws.write(number, 90, u'Не учитывается')
-            ws.write(number, 91, u'Не учитывается')
-
-            ws.write(number, 93, user_data.get('assets_car_year_manufacture', u'Не указано'))
-            ws.write(number, 94, item.local_score.assets_score.car_lifetime_score)
-
-            ws.write(number, 96, user_data.get('assets_car_mileage', u'Не указано'))
-            ws.write(number, 97, item.local_score.assets_score.car_mileage_car_score)
-
-            ws.write(number, 99, user_data.get('assets_car_state', u'Не указано'))
-            ws.write(number, 100, item.local_score.assets_score.car_status_score)
-
-            ws.write(number, 102, user_data.get('assets_deposits_maturity_date', u'Не указано'))
-            ws.write(number, 103, item.local_score.assets_score.deposit_maturity_date_score)
-
-            ws.write(number, 105, user_data.get('assets_deposits_amount', u'Не указано'))
-            ws.write(number, 106, item.local_score.assets_score.deposit_amount_score)
-
-            ws.write(number, 108, user_data.get('assets_deposits_monthly_percents', u'Не указано'))
-            ws.write(number, 109, item.local_score.assets_score.deposit_percents_score)
-
-            ws.write(number, 111, user_data.get('assets_other_assets_price', u'Не указано'))
-            ws.write(number, 112, item.local_score.assets_score.other_assets_score)
-
-            ws.write(number, 113, item.date_create.strftime(BASE_DATE_FORMAT))
-            ws.write(number, 114, item.local_score.total_score)
-            ws.write(number, 115, item.local_score.rating)
+            ws.write(number, 71, item.date_create.strftime(BASE_DATE_FORMAT))
+            ws.write(number, 72, item.local_score.total_score)
+            ws.write(number, 73, item.local_score.rating)
 
         print u'Сохраняем отчет'
         file_name = '/report_scoring_%s.xls' % datetime.date.today()

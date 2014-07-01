@@ -31,9 +31,9 @@ class LocalScoringActions(BaseScoringAction):
         personal_score = self.personal_scoring_module.calculate_score(data)
         print 'Personal score: %s' % personal_score.total_score
         print '--------------------'
-        assets_score = self.asset_scoring_module.calculate_score(data)
-        print 'Assets score: %s' % assets_score.total_score
-        print '--------------------'
+        # assets_score = self.asset_scoring_module.calculate_score(data)
+        # print 'Assets score: %s' % assets_score.total_score
+        # print '--------------------'
         loan_score = self.loan_scoring_module.calculate_score(data)
         print 'Loan score: %s' % loan_score.total_score
         print '--------------------'
@@ -46,7 +46,7 @@ class LocalScoringActions(BaseScoringAction):
             age_score=age_score,
             placement_score=placement_score,
             personal_score=personal_score,
-            assets_score=assets_score,
+            # assets_score=assets_score,
             loan_score=loan_score,
             total_score=total_score,
             rating=total_rating,
