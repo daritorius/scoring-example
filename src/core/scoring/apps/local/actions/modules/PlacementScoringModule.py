@@ -87,15 +87,15 @@ class PlacementScoringModule(BaseScoringModule):
 
     def calculate_pe_term_score(self, data):
         score = self.pe_term_actions.get_min_score()
-        if hasattr(data.profile_placement_information, 'placement_term'):
-            term = int(getattr(data.profile_placement_information, 'placement_term')) * 12
-            if term >= self.pe_term_actions.get_max_key():
+        term = int(getattr(data.profile_placement_information, 'placement_term')) * 12 if \
+            hasattr(data.profile_placement_information, 'placement_term') else 0
+        if term >= self.pe_term_actions.get_max_key():
                 score = self.pe_term_actions.get_max_score()
-            else:
-                for item in self.pe_term_actions.get_card():
-                    if term <= item.key:
-                        score = item.value
-                        break
+        else:
+            for item in self.pe_term_actions.get_card():
+                if term <= item.key:
+                    score = item.value
+                    break
         return score
 
     def calculate_pe_count_employees_score(self, data):
@@ -137,15 +137,15 @@ class PlacementScoringModule(BaseScoringModule):
 
     def calculate_employment_term_score(self, data):
         score = self.wage_term_actions.get_min_score()
-        if hasattr(data.profile_placement_information, 'placement_term'):
-            term = int(getattr(data.profile_placement_information, 'placement_term')) * 12
-            if term >= self.wage_term_actions.get_max_key():
-                score = self.wage_term_actions.get_max_score()
-            else:
-                for item in self.wage_term_actions.get_card():
-                    if term <= item.key:
-                        score = item.value
-                        break
+        term = int(getattr(data.profile_placement_information, 'placement_term')) * 12 if \
+            hasattr(data.profile_placement_information, 'placement_term') else 0
+        if term >= self.wage_term_actions.get_max_key():
+            score = self.wage_term_actions.get_max_score()
+        else:
+            for item in self.wage_term_actions.get_card():
+                if term <= item.key:
+                    score = item.value
+                    break
         return score
 
     def calculate_category_position(self, data):
