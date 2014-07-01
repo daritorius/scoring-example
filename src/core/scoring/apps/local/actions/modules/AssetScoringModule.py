@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import datetime
 from core.scoring.apps.local.actions.modules.BaseScoringModule import BaseScoringModule
-from core.scoring.apps.local.plain_models import LocalAssetsScoringPlainModel
+from core.scoring.apps.local.plain_models import LocalAssetsScoringPlainModel, AssetsPlainModel
 from core.scoring.apps.local.scoring_cards.assets_cards.actions.LocalAvailableAssetsScoringCardActions import \
     LocalAvailableAssetsScoringCardActions
 from core.scoring.apps.local.scoring_cards.assets_cards.actions.LocalCarLifetimeCardActions import \
@@ -48,8 +48,9 @@ class AssetScoringModule(BaseScoringModule):
     other_assets_actions = LocalOtherAssetsPriceCardActions()
 
     def calculate_score(self, data):
-        available_assets_score = self.calculate_available_assets_score(data)
-        if available_assets_score == self.available_actions.get_max_score():
+        # if available_assets_score == self.available_actions.get_max_score():
+        if self.check_available_assets(data):
+            available_assets_score = self.calculate_available_assets_score(data)
             print 'available assets score: %s' % available_assets_score
             flat_data = self.calculate_flat_score(data)
             print 'flat score: %s' % flat_data.flat_score
@@ -73,11 +74,21 @@ class AssetScoringModule(BaseScoringModule):
             )
         else:
             data = LocalAssetsScoringPlainModel(
-                available_assets_score=available_assets_score,
-                total_score=available_assets_score
+                # available_assets_score=available_assets_score,
+                # total_score=available_assets_score,
+                available_assets_score=0,
+                total_score=0,
             )
         assets_data = self.assets_service.create(data)
         return assets_data
+
+    @staticmethod
+    def check_available_assets(data):
+        result = 0
+        for item in AssetsPlainModel().fields:
+            if hasattr(data.profile_assets, item):
+                result += 1
+        return True if result else False
 
     def calculate_available_assets_score(self, data):
         score = self.available_actions.get_min_score()
