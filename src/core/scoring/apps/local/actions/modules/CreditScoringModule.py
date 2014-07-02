@@ -145,7 +145,10 @@ class CreditScoringModule(BaseScoringModule):
                 hasattr(data.profile_placement_information, 'placement_income'):
             payment = float(getattr(data.profile_credit_charges, 'charges_monthly_payment'))
             income = float(getattr(data.profile_placement_information, 'placement_income'))
-            debt_burden = payment / income
+            try:
+                debt_burden = round(float(payment / income), 2)
+            except ZeroDivisionError:
+                debt_burden = 1
             if debt_burden >= float(self.debt_burden_actions.get_max_key()):
                 score = self.debt_burden_actions.get_min_score()
             else:

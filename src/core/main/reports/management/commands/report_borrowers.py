@@ -238,14 +238,14 @@ class Command(BaseCommand):
             ws.write(number, 24, placement_type)
             ws.write(number, 25, item.local_score.placement_score.placement_type_score)
 
-            placement_term = int(user_data.get('placement_term', 0)) * 12
-            ws.write(number, 27, placement_term)
-            ws.write(number, 28, item.local_score.placement_score.term_score)
-
             ws.write(number, 36, u'Не учитывается')
             ws.write(number, 37, u'Не учитывается')
 
             if int(user_data.get('placement_type', None)) == placement_card.TYPE_WAGE_EARNER:
+                placement_term = int(user_data.get('placement_term', 0)) * 12
+                ws.write(number, 27, placement_term)
+                ws.write(number, 28, item.local_score.placement_score.term_score)
+
                 wage_total = str(user_data.get('placement_income', 0)) + ' + ' + \
                              str(user_data.get('placement_additional_income', 0))
                 ws.write(number, 30, wage_total)
@@ -271,30 +271,32 @@ class Command(BaseCommand):
             outstanding_loans = user_data.get('charges_outstanding_loans', '')
             if outstanding_loans != '':
                 outstanding_loans = _(u'да') if int(outstanding_loans) else _(u'нет')
-            ws.write(number, 51, outstanding_loans)
-            ws.write(number, 52, item.local_score.loan_score.outstanding_loan_score)
 
-            ws.write(number, 54, user_data.get('charges_initial_amount', 0))
-            ws.write(number, 55, item.local_score.loan_score.amount_loan_score)
+            if outstanding_loans != '' and not int(outstanding_loans):
+                ws.write(number, 51, outstanding_loans)
+                ws.write(number, 52, item.local_score.loan_score.outstanding_loan_score)
 
-            ws.write(number, 57, str(user_data.get('charges_initial_amount', 0)) + '/' +
-                     str(user_data.get('charges_current_amount', 0)))
-            ws.write(number, 58, item.local_score.loan_score.repayment_percent_score)
+                ws.write(number, 54, user_data.get('charges_initial_amount', 0))
+                ws.write(number, 55, item.local_score.loan_score.amount_loan_score)
 
-            ws.write(number, 60, user_data.get('charges_maturity_date', 0))
-            ws.write(number, 61, item.local_score.loan_score.days_to_repayment_score)
+                ws.write(number, 57, str(user_data.get('charges_initial_amount', 0)) + '/' +
+                         str(user_data.get('charges_current_amount', 0)))
+                ws.write(number, 58, item.local_score.loan_score.repayment_percent_score)
 
-            ws.write(number, 63, user_data.get('charges_monthly_payment', 0))
-            ws.write(number, 64, item.local_score.loan_score.monthly_payment_score)
+                ws.write(number, 60, user_data.get('charges_maturity_date', 0))
+                ws.write(number, 61, item.local_score.loan_score.days_to_repayment_score)
 
-            payment = float(user_data.get('charges_monthly_payment', 0))
-            income = float(user_data.get('placement_income', 0))
-            try:
-                debt_burden = round(payment / income, 2)
-            except ZeroDivisionError:
-                debt_burden = 1
-            ws.write(number, 66, debt_burden)
-            ws.write(number, 67, item.local_score.loan_score.debt_burden_score)
+                ws.write(number, 63, user_data.get('charges_monthly_payment', 0))
+                ws.write(number, 64, item.local_score.loan_score.monthly_payment_score)
+
+                payment = float(user_data.get('charges_monthly_payment', 0))
+                income = float(user_data.get('placement_income', 0))
+                try:
+                    debt_burden = round(payment / income, 2)
+                except ZeroDivisionError:
+                    debt_burden = 1
+                ws.write(number, 66, debt_burden)
+                ws.write(number, 67, item.local_score.loan_score.debt_burden_score)
 
             income = float(user_data.get('placement_income', 0))
             add_income = float(user_data.get('placement_additional_income', 0))
