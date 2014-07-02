@@ -272,7 +272,7 @@ class Command(BaseCommand):
             if outstanding_loans != '':
                 outstanding_loans = _(u'да') if int(outstanding_loans) else _(u'нет')
 
-            if outstanding_loans != '' and not int(outstanding_loans):
+            if outstanding_loans != '' and outstanding_loans == _(u'да'):
                 ws.write(number, 51, outstanding_loans)
                 ws.write(number, 52, item.local_score.loan_score.outstanding_loan_score)
 
