@@ -18,17 +18,24 @@ class ScoringActions(BaseScoringAction):
             scoring = self.scoring_service.get_item(user_number=getattr(data, 'user_key'))
             if not scoring:
                 local_scoring = self._calculate_local_scoring(data)
-                save_data = ScoringPlainModel(country=self.country_service.get_item(code=getattr(data, 'country')),
-                                              rating=local_scoring.rating, local_score=local_scoring,
-                                              user_data=json.dumps(cleaned_data))
+                save_data = ScoringPlainModel(
+                    country=self.country_service.get_item(code=getattr(data, 'country')),
+                    rating=local_scoring.rating,
+                    local_score=local_scoring,
+                    user_data=json.dumps(cleaned_data)
+                )
                 scoring = self.scoring_service.create(save_data)
         else:
             local_scoring = self._calculate_local_scoring(data)
-            save_data = ScoringPlainModel(country=self.country_service.get_item(code=getattr(data, 'country')),
-                                          rating=local_scoring.rating, local_score=local_scoring,
-                                          user_data=json.dumps(cleaned_data))
+            save_data = ScoringPlainModel(
+                country=self.country_service.get_item(code=getattr(data, 'country')),
+                rating=local_scoring.rating,
+                local_score=local_scoring,
+                user_data=json.dumps(cleaned_data)
+            )
             scoring = self.scoring_service.create(save_data)
-        return {'score': scoring.local_score.total_score, 'rating': scoring.rating,
+        return {'score': scoring.local_score.total_score,
+                'rating': scoring.rating,
                 'user_key': scoring.user_number}
 
     def _calculate_local_scoring(self, data):
