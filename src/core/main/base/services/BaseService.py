@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
+from core.main.base.facades.BaseFacade import Singleton
 from core.main.cache.services.CacheService import CacheService
-from core.main.facades.BaseFacade import Singleton
 from django.db.models import Model
 from django.utils.functional import SimpleLazyObject
 from django.conf import settings
