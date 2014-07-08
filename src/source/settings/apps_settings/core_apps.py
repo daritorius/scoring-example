@@ -21,6 +21,10 @@ apps = [
     'core.scoring.apps.local.scoring_cards.personal_cards',
     'core.scoring.apps.local.scoring_cards.placement_cards',
 
+    ## online scoring apps
+    'core.scoring.apps.online',
+    'core.scoring.apps.online.apps.geo',
+
     ## report apps
     'core.main.reports'
 ]

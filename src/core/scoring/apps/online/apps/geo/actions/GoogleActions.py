@@ -3,5 +3,6 @@ from core.main.base.actions.BaseOnlineScoringActions import BaseOnlineScoringAct
 from django.utils.translation import ugettext_lazy as _
 
 
-class MissedPersonsActions(BaseOnlineScoringActions):
-    url = 'http://mvs.gov.ua/mvs/control/investigation/search/missedPerson'
+class GoogleActions(BaseOnlineScoringActions):
+    url = 'maps.google.com/maps/geo/'
+    query = 'q'

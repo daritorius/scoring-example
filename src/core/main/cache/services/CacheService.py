@@ -8,10 +8,12 @@ class CacheService(object):
     cache_backend = get_cache(backend)
     default_time = None
 
-    def clean_name(self, name):
+    @staticmethod
+    def clean_name(name):
         return str(name).replace(' ', '').replace('\n', '')[:249]
 
-    def get_service_name(self, name):
+    @staticmethod
+    def get_service_name(name):
         return name.split('_')[0]
 
     def create_list_cache(self, name, items, time=default_time):
