@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
+from django.utils.translation import ugettext_lazy as _
 import json
 import urllib
 import urllib2
 from core.main.base.actions.BaseOnlineScoringActions import BaseOnlineScoringActions
-from django.utils.translation import ugettext_lazy as _
 
 
 class YandexActions(BaseOnlineScoringActions):
@@ -28,7 +28,6 @@ class YandexActions(BaseOnlineScoringActions):
                 print 'found in geo yandex: %s' % count
         except Exception as e:
             print e
-            pass
 
     def check_real_address(self, data):
         query = self.make_query(data, address_type='real')
@@ -40,7 +39,6 @@ class YandexActions(BaseOnlineScoringActions):
                 print 'found in geo yandex: %s' % count
         except Exception as e:
             print e
-            pass
 
     def make_connection(self, data):
         try:
