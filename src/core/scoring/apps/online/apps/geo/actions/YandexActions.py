@@ -33,7 +33,6 @@ class YandexActions(BaseOnlineScoringActions):
     def check_real_address(self, data):
         query = self.make_query(data, address_type='real')
         query_data = {'geocode': query, 'format': self.format}
-        print query_data
         geo_data = self.make_connection(query_data)
         try:
             count = geo_data['response']['GeoObjectCollection']['metaDataProperty']['GeocoderResponseMetaData']['found']
