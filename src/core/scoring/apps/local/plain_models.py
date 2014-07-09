@@ -60,6 +60,8 @@ class ProfilePainModel(BasePlainModel):
         'country',
         'key',
         'user_key',
+        'profile_first_name',
+        'profile_second_name',
         'profile_third_name',
         'profile_birthday',
         'profile_gender',

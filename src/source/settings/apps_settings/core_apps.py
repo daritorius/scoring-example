@@ -24,6 +24,9 @@ apps = [
     ## online scoring apps
     'core.scoring.apps.online',
     'core.scoring.apps.online.apps.geo',
+    'core.scoring.apps.online.apps.personal',
+    'core.scoring.apps.online.apps.search_engines',
+    'core.scoring.apps.online.apps.social_networks',
 
     ## report apps
     'core.main.reports'
