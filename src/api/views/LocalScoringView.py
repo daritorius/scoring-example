@@ -15,5 +15,8 @@ class LocalScoringView(View):
         return http.HttpResponse(json.dumps(result), content_type='application/json')
 
     def post(self, request):
-        result = self.local_scoring_facade.process_request(request.POST)
+        try:
+            result = self.local_scoring_facade.process_request(request.POST)
+        except Exception as e:
+            result = {'error': e}
         return http.HttpResponse(json.dumps(result), content_type='application/json')
