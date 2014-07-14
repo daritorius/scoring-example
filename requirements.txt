@@ -24,3 +24,6 @@ flup==1.0.2
 
 ## xlwt for reports
 xlwt==0.7.5
+
+## beautifulsoup4 for parsing html
+beautifulsoup4==4.3.2
