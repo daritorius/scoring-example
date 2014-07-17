@@ -9,6 +9,14 @@ from django.views.generic import View
 class TotalScoringView(View):
     total_scoring_facade = TotalScoringFacade()
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request):
         result = self.total_scoring_facade.process_request(request.GET)
-        return http.HttpResponse(json.dumps({'result': result}), content_type='application/json')
+        # result = {'error': 'accept only post requests'}
+        return http.HttpResponse(json.dumps(result), content_type='application/json')
+
+    def post(self, request):
+        try:
+            result = self.total_scoring_facade.process_request(request.POST)
+        except Exception as e:
+            result = {'error': e}
+        return http.HttpResponse(json.dumps(result), content_type='application/json')

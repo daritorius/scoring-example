@@ -1,10 +1,16 @@
 # -*- coding: utf-8 -*-
 from api.exceptions import ApiExceptions
-from api.forms.LocalScoringForm import CheckUserKeyForm
 from api.forms.MandatoryParametersForm import MandatoryParametersForm
+from api.forms.ScoringForm import CheckUserKeyForm
 from core.main.base.facades.BaseFacade import BaseFacade
+from core.scoring.actions.ScoringActions import ScoringActions
 from core.scoring.apps.country.plain_models import CountryPlainModel
 from core.scoring.apps.country.services.CountryService import CountryService
+from core.scoring.apps.local.plain_models import ProfilePassportPlainModel, OfficialAddressPlainModel, \
+    RealAddressPlainModel, PersonalInformationPlainModel, PlacementPlainModel, AdditionalIncomePlainModel, \
+    ChargesPlainModel, CreditChargesPlainModel, AssetsPlainModel, ProfilePainModel
+from core.scoring.apps.online.actions.OnlinePreventActions import OnlinePreventActions
+from core.scoring.apps.online.actions.OnlineScoringActions import OnlineScoringActions
 from core.scoring.services.ScoringService import ScoringService
 from django.utils.translation import ugettext_lazy as _
 
@@ -13,6 +19,9 @@ class BaseScoringFacade(BaseFacade):
     mandatory_parameters = ['country', 'key']
     country_service = CountryService()
     scoring_service = ScoringService()
+    scoring_actions = ScoringActions()
+    online_prevent_actions = OnlinePreventActions()
+    online_scoring_actions = OnlineScoringActions()
 
     def check_mandatory_parameters(self, data):
         for parameter in self.mandatory_parameters:
@@ -42,3 +51,39 @@ class BaseScoringFacade(BaseFacade):
                     raise ApiExceptions(u"No user with such key")
         else:
             raise ApiExceptions(u"User Key is not valid")
+
+    def generate_user_data(self, data):
+        profile_passport_data = ProfilePassportPlainModel(**data)
+        official_address_data = OfficialAddressPlainModel(**data)
+        real_address_data = RealAddressPlainModel(**data)
+        personal_profile_data = PersonalInformationPlainModel(**data)
+        placement_profile_data = PlacementPlainModel(**data)
+        additional_income_data = AdditionalIncomePlainModel(**data)
+        charges_profile_data = ChargesPlainModel(**data)
+        credit_charges_profile_data = CreditChargesPlainModel(**data)
+        assets_profile_data = AssetsPlainModel(**data)
+        profile_data = ProfilePainModel(
+            profile_passport_information=profile_passport_data,
+            profile_official_address=official_address_data,
+            profile_real_address=real_address_data,
+            profile_personal_information=personal_profile_data,
+            profile_placement_information=placement_profile_data,
+            profile_additional_income=additional_income_data,
+            profile_charges=charges_profile_data,
+            profile_credit_charges=credit_charges_profile_data,
+            profile_assets=assets_profile_data,
+            **data)
+        return profile_data
+
+    def clean_data(self, data):
+        del_keys = []
+        for key, value in data.iteritems():
+            if data[key] is None or data[key] == '':
+                del_keys.append(key)
+        for key in del_keys:
+            del data[key]
+        return data
+
+    def process_prevent_detection(self, data):
+        if self.online_prevent_actions.check_person(data):
+            raise ApiExceptions(u"Error while calculating your score")

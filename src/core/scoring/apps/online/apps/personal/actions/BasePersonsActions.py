@@ -13,7 +13,7 @@ class BasePersonsActions(BaseOnlineScoringActions):
     def check_person(self, data):
         query = self.make_query(data)
         result = self.make_connection(query)
-        print 'person not found' if not len(result) else 'person found'
+        return False if not len(result) else True
 
     @staticmethod
     def make_query(data):

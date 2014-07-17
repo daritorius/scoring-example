@@ -3,11 +3,16 @@ import json
 import urllib
 import urllib2
 from core.main.base.actions.BaseOnlineScoringActions import BaseOnlineScoringActions
+from core.scoring.apps.online.apps.geo.plain_models import GeoYandexPlainModel, GeoGooglePlainModel
+from core.scoring.apps.online.apps.geo.services.GeoGoogleService import GeoGoogleService
+from core.scoring.apps.online.apps.geo.services.GeoYandexService import GeoYandexService
 from django.utils.translation import ugettext_lazy as _
 
 
 class BaseGeoActions(BaseOnlineScoringActions):
     source = 'yandex'
+    geo_google_service = GeoGoogleService()
+    geo_yandex_service = GeoYandexService()
 
     def check_address(self, data):
         self.check_official_address(data)
@@ -15,11 +20,22 @@ class BaseGeoActions(BaseOnlineScoringActions):
 
     def check_official_address(self, data):
         query = self.make_query(data, address_type='official')
-        self.make_request(query)
+        result = self.make_request(query)
+        return self._save_data(query, result)
 
     def check_real_address(self, data):
         query = self.make_query(data, address_type='real')
-        self.make_request(query)
+        result = self.make_request(query)
+        return self._save_data(query, result)
+
+    def _save_data(self, query, result):
+        if self.source == 'yandex':
+            data = GeoYandexPlainModel(query=query, data=result)
+            item = self.geo_yandex_service.create(data)
+        else:
+            data = GeoGooglePlainModel(query=query, data=result)
+            item = self.geo_google_service.create(data)
+        return item
 
     @staticmethod
     def make_query(data, address_type='official'):
@@ -68,14 +84,16 @@ class BaseGeoActions(BaseOnlineScoringActions):
             if self.source == 'google':
                 status = geo_data['status']
                 if status == 'OK':
-                    print 'found in geo google: %s' % status
+                    return geo_data
+                return {}
             else:
                 count = geo_data['response']['GeoObjectCollection']['metaDataProperty'][
                     'GeocoderResponseMetaData']['found']
                 if count:
-                    print 'found in geo yandex: %s' % count
+                    return geo_data
+                return {}
         except Exception as e:
-            print e
+            return {}
 
     def make_connection(self, data):
         try:
@@ -84,5 +102,4 @@ class BaseGeoActions(BaseOnlineScoringActions):
             result = json.loads(urllib2.urlopen(self.url + self.base_path + '?' + data).read())
             return result
         except Exception as e:
-            print 'Error: %s' % e
             return None

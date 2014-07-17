@@ -3,5 +3,5 @@ from core.main.base.actions.BaseActions import BaseActions
 from django.utils.translation import ugettext_lazy as _
 
 
-class GoogleActions(BaseActions):
+class SearchGoogleActions(BaseActions):
     pass

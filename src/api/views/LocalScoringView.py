@@ -10,8 +10,8 @@ class LocalScoringView(View):
     local_scoring_facade = LocalScoringFacade()
 
     def get(self, request):
-        # result = self.local_scoring_facade.process_request(request.GET)
-        result = {'error': 'accept only post requests'}
+        result = self.local_scoring_facade.process_request(request.GET)
+        # result = {'error': 'accept only post requests'}
         return http.HttpResponse(json.dumps(result), content_type='application/json')
 
     def post(self, request):

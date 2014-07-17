@@ -11,9 +11,9 @@ class CheckUserKeyForm(forms.Form):
     user_key = forms.CharField(max_length=255, required=False)
 
 
-class LocalScoringForm(forms.Form):
+class ScoringForm(forms.Form):
     def __init__(self, *args, **kwargs):
-        super(LocalScoringForm, self).__init__(*args, **kwargs)
+        super(ScoringForm, self).__init__(*args, **kwargs)
         fields = ProfilePassportPlainModel.fields + \
                  OfficialAddressPlainModel.fields + \
                  RealAddressPlainModel.fields + \

@@ -9,11 +9,11 @@ from django.utils.translation import ugettext_lazy as _
 from source.settings.apps_settings import BASE_DATE_FORMAT
 
 
-class YandexActions(BaseActions):
+class SearchYandexActions(BaseActions):
     url = 'http://yandex.ru/yandsearch?'
     query = 'text='
 
-    def check_personal_information(self):
+    def check_personal_information(self, data):
         pass
 
     def check_simple_search(self, data):

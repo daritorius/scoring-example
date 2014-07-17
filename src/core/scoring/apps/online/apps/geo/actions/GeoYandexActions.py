@@ -3,7 +3,7 @@ from core.scoring.apps.online.apps.geo.actions.BaseGeoActions import BaseGeoActi
 from django.utils.translation import ugettext_lazy as _
 
 
-class GoogleActions(BaseGeoActions):
-    url = 'https://maps.googleapis.com/maps/api/geocode/%s' % BaseGeoActions.format
-    query = 'address'
-    source = 'google'
+class GeoYandexActions(BaseGeoActions):
+    url = 'http://geocode-maps.yandex.ru/1.x/'
+    base_path = '/'
+    query = 'geocode'
