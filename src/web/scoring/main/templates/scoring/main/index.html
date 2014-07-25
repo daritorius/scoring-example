@@ -1,0 +1,120 @@
+{% load i18n %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>LScore - Посчитай свой скоринг</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="{% static 'scoring/img/favicon.png' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'scoring/css/google-fonts.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'scoring/css/jquery-ui-1.10.4.custom.min.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'scoring/css/bootstrap.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'scoring/css/bootstrap-theme.css' %}">
+    <link type="text/css" rel="stylesheet" href="{% static 'scoring/css/index.css' %}">
+
+    <script type="text/javascript" src="{% static 'scoring/js/jquery-2.1.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'scoring/js/jquery-ui-1.10.4.custom.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'scoring/js/bootstrap.js' %}"></script>
+    <script type="text/javascript" src="{% static 'scoring/js/justgage.1.0.1.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'scoring/js/raphael.2.1.0.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'scoring/js/base.js' %}"></script>
+    <script>
+        Score.data.index.score = "50" ;
+        Score.data.index.scoreUrl = "/" ;
+    </script>
+</head>
+<body>
+<header>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="logo">
+                    <a href="/">
+                        <img src="{% static 'scoring/img/logo.png' %}" width="280" alt=""/>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="slogan">
+                    <h3>Кредитный рейтинг он-лайн</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+<section class="main-content">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 hide-this">
+                <div id="randomGauge"></div>
+            </div>
+            <div class="col-md-12 hide-this">
+                <div class="letters">
+                    <span>G</span>
+                    <span>A</span>
+                </div>
+            </div>
+            <div class="col-md-12 hide-this">
+                <a class="rateme" href="#">Посчитать скоринг</a>
+            </div>
+
+            <div class="col-md-12 show-this ">
+                <div class="rateForm">
+                    <form action="" role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="userName" placeholder="Фамилия">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="userName2" placeholder="Имя">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="userName3" placeholder="Отчество">
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="userBirthday" placeholder="Дата рождения (2000-12-31)">
+                        </div>
+                        <button type="button" class="btn facebook-but">Подключить Facebook</button>
+                        <button type="submit" class="btn rateme2">Старт</button>
+                    </form>
+                    <div class='ui-state-error'>Заполните все поля</div>
+                </div>
+            </div>
+            <div class="ajax">
+                <img src="{% static 'scoring/img/ajax.gif' %}" alt="">
+            </div>
+            <div class="col-md-12 show-this2">
+                <div id="randomGauge2"></div>
+            </div>
+            <div class="col-md-12 show-this2">
+                <div class="letters">
+                    <span>G</span>
+                    <span>A</span>
+                </div>
+            </div>
+            <div class="col-md-12 userRating show-this2 ">
+                Ваш рейтинг E (50)
+            </div>
+        </div>
+    </div>
+</section>
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 copy">LScore &copy; 2014. Все права защищены.</div>
+            <div class="col-md-6">
+                <div class="pull-right shareit">
+                    <script type="text/javascript" src="//yandex.st/share/share.js"
+                            charset="utf-8"></script>
+                    <div class="yashare-auto-init" data-yashareL10n="ru"
+                         data-yashareType="link"
+                         data-yashareQuickServices="vkontakte,facebook,twitter,odnoklassniki,moimir,gplus"
+                            ></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

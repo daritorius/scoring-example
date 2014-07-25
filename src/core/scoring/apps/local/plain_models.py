@@ -282,3 +282,17 @@ class LocalLoanScoringPlainModel(BasePlainModel):
         'dependents_score',
         'total_score',
     ]
+
+
+class LocalStaticDataPlainModel(BasePlainModel):
+    fields = [
+        'country',
+        'region',
+        'wage',
+        'food',
+        'health',
+        'clothes',
+        'utilities',
+        'rent_region_center',
+        'rent_region_all',
+    ]

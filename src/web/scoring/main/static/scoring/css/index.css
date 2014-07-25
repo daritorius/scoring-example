@@ -1,0 +1,202 @@
+/*@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,400italic,700,700italic&subset=latin,cyrillic);*/
+
+body {
+    font-family: 'Roboto', sans-serif;
+    color: #6a6a6c;
+    background: url("../img/body2.png") top left repeat;
+    background-color: #ffffff;
+}
+
+a {
+    outline: none;
+    color: #c81e24;
+    transition: all 0.3s ease 0s;
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+}
+
+a:hover {
+    text-decoration: none;
+    color: #525252;
+}
+
+#randomGauge {
+    width: 400px;
+    height: 320px;
+    display: block;
+    margin: -50px auto 0;
+}
+
+#randomGauge2 {
+    width: 400px;
+    height: 320px;
+    display: block;
+    margin: -50px auto 0;
+}
+
+.userRating {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.ajax {
+    text-align: center
+}
+
+.ajax img {
+    margin-top: 160px
+}
+
+.ajax img,
+.show-this2,
+.ui-state-error,
+.show-this {
+    display: none
+}
+
+.rateForm {
+    padding-top: 50px;
+    width: 324px;
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+}
+
+.rateme {
+    text-decoration: none;
+    background: none repeat scroll 0 0 #e5282f;
+    border: 0 none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+    height: 45px;
+    line-height: 44px;
+
+    width: 324px;
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.rateme2 {
+    text-decoration: none;
+    background: none repeat scroll 0 0 #e5282f;
+    border: 0 none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+    width: 324px;
+    text-align: center;
+    display: block;
+    margin: 0 auto;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.facebook-but {
+    text-decoration: none;
+    background: none repeat scroll 0 0 #3b5998;
+    border: 0 none;
+    color: #fff;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+    width: 324px;
+    text-align: center;
+    display: block;
+    margin: 0 auto 16px;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+
+    -webkit-transition: all 0.3s ease 0s;
+    -moz-transition: all 0.3s ease 0s;
+    -ms-transition: all 0.3s ease 0s;
+    -o-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.letters span:last-child {
+    position: absolute;
+    right: 0;
+}
+
+.letters {
+    top: -27px;
+    z-index: 999;
+    position: relative;
+    font-weight: bold;
+    font-size: 20px;
+    width: 275px;
+    display: block;
+    margin: 0 auto;
+}
+
+.main-content {
+    padding-bottom: 100px;
+}
+
+.facebook-but:focus,
+.rateme2:focus,
+.rateme:focus,
+.facebook-but:hover,
+.rateme2:hover,
+.rateme:hover {
+    color: #fff;
+    text-decoration: none;
+    outline: none;
+    background: none repeat scroll 0 0 #ff8d23;
+}
+
+footer .copy {
+    line-height: 58px;
+}
+
+.logo {
+    text-align: center;
+    padding: 20px 0 0;
+}
+
+.slogan h3 {
+    font-size: 21px !important;
+}
+
+.slogan {
+    text-align: center;
+    padding: 0 0 0;
+    font-weight: bold;
+}
+
+.shareit {
+    padding-top: 15px
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    background: #f7f7f7;
+    clear: both;
+    display: block;
+    height: 58px;
+    width: 100%;
+}

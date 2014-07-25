@@ -153,3 +153,30 @@ class LocalLoanScoring(BaseModel):
         db_table = 'local_loan_scoring'
         verbose_name = _(u'Local loan scoring')
         verbose_name_plural = _(u'Local loan scoring')
+
+
+class LocalStaticData(BaseModel):
+
+    country = models.ForeignKey('country.Country', blank=True, null=True)
+    region = models.CharField(blank=True, null=True, max_length=255)
+    wage = models.IntegerField(blank=True, null=True, default=0)
+    food = models.IntegerField(blank=True, null=True, default=0)
+    health = models.IntegerField(blank=True, null=True, default=0)
+    clothes = models.IntegerField(blank=True, null=True, default=0)
+    utilities = models.IntegerField(blank=True, null=True, default=0)
+    rent_region_center = models.IntegerField(blank=True, null=True, default=0)
+    rent_region_all = models.IntegerField(blank=True, null=True, default=0)
+
+    def __unicode__(self):
+        return u'ID: %s | country: %s | region: %s' % (self.id, self.country.title, self.region)
+
+    def save(self, *args, **kwargs):
+        from core.scoring.apps.local.services.LocalStaticDataService import LocalStaticDataService
+        service = LocalStaticDataService()
+        service.cache_service.delete_pattern(u'%s*' % service.__class__.__name__)
+        return super(self.__class__, self).save(*args, **kwargs)
+
+    class Meta:
+        db_table = 'local_static_data'
+        verbose_name = _(u'Local static data')
+        verbose_name_plural = _(u'Local static data')

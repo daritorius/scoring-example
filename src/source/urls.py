@@ -4,6 +4,7 @@ admin.autodiscover()
 
 urlpatterns = patterns(
     '',
+    url(r'^', include('web.scoring.urls', namespace='api')),
     url(r'^api/', include('api.urls', namespace='api')),
     url(r'^sadmin/', include(admin.site.urls)),
 )
