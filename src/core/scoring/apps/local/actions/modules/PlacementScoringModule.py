@@ -21,8 +21,10 @@ from core.scoring.apps.local.scoring_cards.placement_cards.models import LocalPl
 from core.scoring.apps.local.scoring_cards.placement_cards.plain_models import LocalPlacementWageCategoryCardPlainModel, \
     LocalPlacementTypeCardPlainModel
 from core.scoring.apps.local.services.LocalPlacementScoringService import LocalPlacementScoringService
+from core.scoring.apps.local.services.LocalStaticDataService import LocalStaticDataService
 from django.utils.translation import ugettext as _
-from core.scoring.apps.local.plain_models import ChargesPlainModel, LocalPlacementScoringPlainModel
+from core.scoring.apps.local.plain_models import ChargesPlainModel, LocalPlacementScoringPlainModel, \
+    LocalStaticDataPlainModel
 from core.scoring.apps.local.actions.modules.BaseScoringModule import BaseScoringModule
 
 
@@ -37,6 +39,7 @@ class PlacementScoringModule(BaseScoringModule):
     wage_amount_actions = LocalPlacementWageEarnAmountCardActions()
     income_actions = LocalPlacementIncomeCardActions()
     clean_income_actions = LocalPlacementCleanIncomeCardActions()
+    static_data_service = LocalStaticDataService()
 
     def calculate_score(self, data):
         placement_type_score = self.calculate_type_score(data)
@@ -211,10 +214,20 @@ class PlacementScoringModule(BaseScoringModule):
         if hasattr(data.profile_placement_information, 'placement_additional_income'):
             income += float(getattr(data.profile_placement_information, 'placement_additional_income')) if \
                 getattr(data.profile_placement_information, 'placement_additional_income') else 0
-        for item in ChargesPlainModel().fields:
-            if hasattr(data.profile_charges, item):
-                charges += float(getattr(data.profile_charges, item)) if \
-                    getattr(data.profile_charges, item) else 0
+
+        # for item in ChargesPlainModel().fields:
+        #     if hasattr(data.profile_charges, item):
+        #         charges += float(getattr(data.profile_charges, item)) if \
+        #             getattr(data.profile_charges, item) else 0
+
+        if hasattr(data.profile_official_address, 'official_region'):
+            static = self.static_data_service.get_item(
+                region=getattr(data.profile_official_address, 'official_region'),
+                country__title=getattr(data, 'country'))
+            for key, value in static.__dict__.iteritems():
+                if key in LocalStaticDataPlainModel().fields and isinstance(value, long) and 'wage' not in key:
+                    charges += int(value)
+
         clean_income = income - charges
         if clean_income >= self.clean_income_actions.get_max_key():
             score = self.clean_income_actions.get_max_score()
