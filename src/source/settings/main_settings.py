@@ -4,7 +4,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 SECRET_KEY = 'u6jorx$ldu!ls!mx9c8b4*q74##(@r1pb*5=z+_io23$%44$$+'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['scoring.lendingstar.com', ]
 
 INSTALLED_APPS = []
 
