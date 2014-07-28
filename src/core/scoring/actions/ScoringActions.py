@@ -40,3 +40,7 @@ class ScoringActions(BaseScoringAction):
 
     def _calculate_local_scoring(self, data):
         return self.local_scoring_action.generate_score(data)
+
+    def calculate_web_scoring(self, data):
+        scoring = self.local_scoring_action.generate_short_score(data)
+        return {'score': scoring.total_score, 'rating': scoring.rating}

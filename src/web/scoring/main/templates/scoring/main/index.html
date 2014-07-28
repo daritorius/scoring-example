@@ -19,10 +19,10 @@
     <script type="text/javascript" src="{% static 'scoring/js/bootstrap.js' %}"></script>
     <script type="text/javascript" src="{% static 'scoring/js/justgage.1.0.1.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'scoring/js/raphael.2.1.0.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'scoring/js/jquery.maskedinput.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'scoring/js/base.js' %}"></script>
     <script>
-        Score.data.index.score = "50" ;
-        Score.data.index.scoreUrl = "/" ;
+        Score.data.index.scoreUrl = "{% url 'main:index_page' %}" ;
     </script>
 </head>
 <body>
@@ -62,21 +62,23 @@
 
             <div class="col-md-12 show-this ">
                 <div class="rateForm">
-                    <form action="" role="form">
+                    <form action="" role="form" class="fill-scoring-data">
                         <div class="form-group">
-                            <input type="text" class="form-control" id="userName" placeholder="Фамилия">
+                            <input type="text" class="form-control" id="id_profile_third_name" placeholder="{{ form.profile_third_name.label }}" name="profile_third_name">
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" id="userName2" placeholder="Имя">
+                            <input type="text" class="form-control" id="id_profile_first_name" placeholder="{{ form.profile_first_name.label }}" name="profile_first_name">
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" id="userName3" placeholder="Отчество">
+                            <input type="text" class="form-control" id="id_profile_second_name" placeholder="{{ form.profile_second_name.label }}" name="profile_second_name">
                         </div>
                         <div class="form-group">
-                            <input type="text" class="form-control" id="userBirthday" placeholder="Дата рождения (2000-12-31)">
+                            <input type="text" class="form-control" id="id_profile_birthday" placeholder="{{ form.profile_birthday.label }}" name="profile_birthday">
                         </div>
-                        <button type="button" class="btn facebook-but">Подключить Facebook</button>
+                        {% csrf_token %}
+{#                        <button type="button" class="btn facebook-but">Подключить Facebook</button>#}
                         <button type="submit" class="btn rateme2">Старт</button>
+                        <ul class="list-errors"></ul>
                     </form>
                     <div class='ui-state-error'>Заполните все поля</div>
                 </div>
@@ -94,7 +96,7 @@
                 </div>
             </div>
             <div class="col-md-12 userRating show-this2 ">
-                Ваш рейтинг E (50)
+                Ваш рейтинг <span class="user-rating"></span> (<span class="user-score">50</span>)
             </div>
         </div>
     </div>
@@ -102,7 +104,7 @@
 <footer>
     <div class="container">
         <div class="row">
-            <div class="col-md-6 copy">LScore &copy; 2014. Все права защищены.</div>
+            <div class="col-md-6 copy">LScore &copy; {% now 'Y' %}. Все права защищены.</div>
             <div class="col-md-6">
                 <div class="pull-right shareit">
                     <script type="text/javascript" src="//yandex.st/share/share.js"

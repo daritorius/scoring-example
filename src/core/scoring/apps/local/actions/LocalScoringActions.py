@@ -20,6 +20,23 @@ class LocalScoringActions(BaseScoringAction):
     loan_scoring_module = CreditScoringModule()
     local_scoring_service = LocalScoringService()
 
+    def generate_short_score(self, data):
+        print '--------------------'
+        age_score = self.age_scoring_module.calculate_score(data)
+        print 'Age score: %s' % age_score.total_score
+        print '--------------------'
+        total_score = self._calculate_total_short_score(age_score)
+        total_rating = self.calculate_rating(total_score)
+        print 'Total score: %s' % total_score
+        print 'Total rating: "%s"' % total_rating
+        print '--------------------'
+        data = LocalScoringPlainModel(
+            age_score=age_score,
+            total_score=total_score,
+            rating=total_rating,
+        )
+        return data
+
     def generate_score(self, data):
         print '--------------------'
         age_score = self.age_scoring_module.calculate_score(data)
@@ -65,6 +82,9 @@ class LocalScoringActions(BaseScoringAction):
                 break
         return rating
 
+    def _calculate_total_short_score(self, age_data):
+        return int(round(self._calculate_short_main_parameters(age_data), 0))
+
     def _calculate_total_score(self, age_data, placement_data, personal_data, loan_data):
         main = self._calculate_main_parameters(age_data, placement_data)
         print 'main parameters score: %s' % main
@@ -76,6 +96,10 @@ class LocalScoringActions(BaseScoringAction):
         print 'loan parameters score: %s' % loan
         total = int(round(main + personal + placement + loan, 0))
         return total
+
+    @staticmethod
+    def _calculate_short_main_parameters(age_data):
+        return float(int(age_data.total_score))
 
     @staticmethod
     def _calculate_main_parameters(age_data, placement_data):
