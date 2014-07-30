@@ -10,7 +10,7 @@ class LocalScoringFacade(BaseScoringFacade):
 
     def process_request(self, data):
         self.check_mandatory_parameters(data)
-        self.process_prevent_detection(data)
+        # self.process_prevent_detection(data)
         form = ScoringForm(data)
         if form.is_valid():
             user_data = self.generate_user_data(self.clean_data(form.cleaned_data))
